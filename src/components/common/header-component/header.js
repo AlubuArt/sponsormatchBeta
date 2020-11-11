@@ -25,16 +25,6 @@ const Header = () => {
     }
   }
 
-  function showRightSidebar() {
-    if (rightSidebar) {
-      setRightSidebar(!rightSidebar)
-      document.querySelector(".right-sidebar").classList.add('show');
-    } else {
-      setRightSidebar(!rightSidebar)
-      document.querySelector(".right-sidebar").classList.remove('show');
-    }
-  }
-
   //full screen function
   function goFull() {
     if ((document.fullScreenElement && document.fullScreenElement !== null) ||
@@ -79,31 +69,13 @@ const Header = () => {
           </div>
           <div className="nav-right col p-0">
             <ul className={`nav-menus ${headerbar ? '' : 'open'}`}>
-              <li>
-                <SearchHeader />
-              </li>
+              
               <li>
                 <a onClick={goFull} className="text-dark" href="#!">
                   <Maximize />
                 </a>
               </li>
-              <li className="onhover-dropdown">
-                <a className="txt-dark" href="#javascript">
-                  <h6>{EN}</h6></a>
-                <Language />
-              </li>
-              <li className="onhover-dropdown">
-                <Notification />
-                <Bell />
-                <span className="dot"></span>
-                <Notification />
-              </li>
-              <li>
-                <a href="#javascript" onClick={showRightSidebar}>
-                  <MessageCircle />
-                  <span className="dot"></span>
-                </a>
-              </li>
+            
               <UserMenu />
             </ul>
             <div className="d-lg-none mobile-toggle pull-right" onClick={() => setHeaderbar(!headerbar)}><MoreHorizontal/></div>
