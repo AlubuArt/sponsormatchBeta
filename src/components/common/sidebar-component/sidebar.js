@@ -1,6 +1,6 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import logo from '../../../assets/images/endless-logo.png';
+import sponsormatchLogo from '../../../assets/images/logo_med_tekst_hvid_200px.png';
 import logo_compact from '../../../assets/images/logo/compact-logo.png';
 import UserPanel from './userPanel';
 import { MENUITEMS } from '../../../components/common/sidebar-component/menu';
@@ -184,7 +184,7 @@ const Sidebar = (props) => {
                     <div className="logo-wrapper compactLogo">
                         <Link to={`${process.env.PUBLIC_URL}/dashboard/default`}>
                             <img className="blur-up lazyloaded" src={logo_compact} alt="" />
-                            <img className="blur-up lazyloaded" src={logo} alt="" />
+                            <img className="blur-up lazyloaded" src={sponsormatchLogo} alt="" />
                         </Link>
                     </div>
                 </div>

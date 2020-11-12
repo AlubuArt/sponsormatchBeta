@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import logo from '../assets/images/endless-logo.png';
+import sponsormatchLogo from '../assets/images/sponsormatch-logo_farver_login.png';
 import { Login,LOGIN,YourName,Password,RememberMe } from '../constant';
 
 const LoginWithBgImg = () => {
@@ -8,7 +8,7 @@ const LoginWithBgImg = () => {
             <div className="page-wrapper">
                 <div className="auth-bg">
                     <div className="authentication-box">
-                        <div className="text-center"><img src={logo} alt="" /></div>
+                        <div className="text-center"><img src={sponsormatchLogo} alt="" /></div>
                         <div className="card mt-4">
                             <div className="card-body">
                                 <div className="text-center">

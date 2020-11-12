@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import logo from '../assets/images/endless-logo.png';
+import sponsormatchLogo from '../assets/images/sponsormatch-logo_farver_login.png';
 import { FirstName, LastName, Username,Login,Password,SignUp,BOD } from '../constant';
 
 const Signup = () => {
@@ -13,7 +13,7 @@ const Signup = () => {
                             <div className="col-sm-12 p-0">
                                 <div className="auth-innerright">
                                     <div className="authentication-box">
-                                        <div className="text-center"><img src={logo} alt="" /></div>
+                                        <div className="text-center"><img src={sponsormatchLogo} alt="" /></div>
                                         <div className="card mt-4 p-4">
                                             <h4 className="text-center">{"NEW USER"}</h4>
                                             <h6 className="text-center">{"Enter your Username and Password For Signup"}</h6>

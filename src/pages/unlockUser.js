@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import logo from '../assets/images/endless-logo.png';
+import sponsormatchLogo from '../assets/images/logo_med_tekst_hvid_200px.png';
 import { EnterPassword,Unlock} from "../constant";
 const UnlockUser = () => {
     return (
@@ -12,7 +12,7 @@ const UnlockUser = () => {
                             <div className="col-md-12 p-0">
                                 <div className="auth-innerright">
                                     <div className="authentication-box">
-                                        <div className="text-center"><img src={logo} alt="" /></div>
+                                        <div className="text-center"><img src={sponsormatchLogo} alt="" /></div>
                                         <div className="card mt-4 p-4 mb-0">
                                             <form className="theme-form">
                                                 <div className="form-group">

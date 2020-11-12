@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import comingsoon from '../assets/images/other-images/coming-soon-bg.jpg';
 import authVideo from '../assets/video/auth-bg.mp4';
-import logo from '../assets/images/endless-logo.png';
+import sponsormatchLogo from '../assets/images/logo_med_tekst_hvid_200px.png';
 import { Login,LOGIN,YourName,Password,RememberMe } from '../constant';
 const LoginWithVideo = () => {
     return (
@@ -14,7 +14,7 @@ const LoginWithVideo = () => {
                             <source src={authVideo} type="video/mp4" />
                         </video>
                         <div className="authentication-box">
-                            <div className="text-center"><img src={logo} alt="" /></div>
+                            <div className="text-center"><img src={sponsormatchLogo} alt="" /></div>
                             <div className="card mt-4">
                                 <div className="card-body">
                                     <div className="text-center">

@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import comingsoon from '../assets/images/other-images/coming-soon-bg.jpg';
-import logo from '../assets/images/endless-logo.png';
+import sponsormatchLogo from '../assets/images/logo_med_tekst_hvid_200px.png';
 import authVideo from '../assets/video/auth-bg.mp4';
 import { FirstName, LastName, Username,Login,Password,SignUp,BOD } from '../constant';
 
@@ -15,7 +15,7 @@ const SignupWithVideo = () => {
                             <source src={authVideo} type="video/mp4" />
                         </video>
                         <div className="authentication-box">
-                            <div className="text-center"><img src={logo} alt="" /></div>
+                            <div className="text-center"><img src={sponsormatchLogo} alt="" /></div>
                             <div className="card mt-4 p-4">
                                 <h4 className="text-center">{"NEW USER"}</h4>
                                 <h6 className="text-center">{"Enter your Username and Password For Signup"}</h6>

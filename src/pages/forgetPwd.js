@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import logo from '../assets/images/endless-logo.png'
+import sponsormatchLogo from '../assets/images/logo_med_tekst_hvid_200px.png'
 import { CREATEPASSWORD,NewPassword,RetypePassword,Done,EnterMobileNumber,EnterOTP,Resend,ResetPassword,Send} from "../constant";
 const ForgetPwd = () => {
     return (
@@ -11,7 +11,7 @@ const ForgetPwd = () => {
                             <div className="col-md-12 p-0">
                                 <div className="auth-innerright">
                                     <div className="reset-password-box">
-                                        <div className="text-center"><img src={logo} alt="" /></div>
+                                        <div className="text-center"><img src={sponsormatchLogo} alt="" /></div>
                                         <div className="card mt-4 mb-0">
                                             <h4>{ResetPassword}</h4>
                                             <form className="theme-form">

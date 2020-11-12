@@ -1,5 +1,5 @@
 import React from 'react';
-import logo from '../assets/images/endless-logo.png';
+import sponsormatchLogoFarver from '../assets/images/sponsormatch-logo_farver_login.png';
 import { withRouter } from "react-router";
 import { Login,LOGIN,YourName,Password,RememberMe } from '../constant';
 
@@ -19,7 +19,8 @@ const Logins = ({history}) => {
                             <div className="col-md-12">
                                 <div className="auth-innerright">
                                     <div className="authentication-box">
-                                        <div className="text-center"><img src={logo} alt="" /></div>
+                                        <div className="text-center">
+                                            <img src={sponsormatchLogoFarver} alt="" /></div>
                                         <div className="card mt-4">
                                             <div className="card-body">
                                                 <div className="text-center">

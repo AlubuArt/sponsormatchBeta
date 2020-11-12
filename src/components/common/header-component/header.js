@@ -1,5 +1,5 @@
 import React, { useState ,Fragment } from 'react';
-import logo from '../../../assets/images/endless-logo.png';
+import sponsormatchLogo from '../../../assets/images/logo_med_tekst_hvid_200px.png';
 import UserMenu from './userMenu';
 import { Link } from 'react-router-dom';
 import { AlignLeft, Maximize,  MoreHorizontal } from 'react-feather';
@@ -49,7 +49,7 @@ const Header = () => {
           <div className="main-header-left d-lg-none">
             <div className="logo-wrapper">
               <Link to={`${process.env.PUBLIC_URL}/dashboard/default`}>
-                <img className="img-fluid" src={logo} alt="" />
+                <img className="img-fluid" src={sponsormatchLogo} alt="" />
               </Link>
             </div>
           </div>
