@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import sponsormatchLogo from '../assets/images/logo_med_tekst_hvid_200px.png';
+import sponsormatchLogo from '../assets/images/sponsormatch-logo_farver_login.png';
 import man from '../assets/images/dashboard/user.png';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -137,7 +137,7 @@ const Signin = ({ history }) => {
                                             <div className="card-body">
                                                 <div className="text-center">
                                                     <h4>{LOGIN}</h4>
-                                                    <h6>{"Enter your Username and Password"} </h6>
+                                                    <h6>{"Indtast brugernavn og password"} </h6>
                                                 </div>
                                                 <form className="theme-form" >
                                                     <div className="form-group">
@@ -170,16 +170,7 @@ const Signin = ({ history }) => {
                                                         <div className="col-md-6">
                                                             <button className="btn btn-success btn-block" type="button" onClick={loginWithRedirect} >{LoginWithAuth0}</button>
                                                         </div>
-                                                    </div>
-                                                    <div className="login-divider"></div>
-                                                    <div className="social mt-3">
-                                                        <div className="form-group btn-showcase d-flex">
-                                                            <button className="btn social-btn btn-fb d-inline-block" type="button" onClick={facebookAuth}> <i className="fa fa-facebook"></i></button>
-                                                            <button className="btn social-btn btn-twitter d-inline-block" type="button" onClick={googleAuth}><i className="fa fa-google"></i></button>
-                                                            <button className="btn social-btn btn-google d-inline-block" type="button" onClick={twitterAuth}><i className="fa fa-twitter"></i></button>
-                                                            <button className="btn social-btn btn-github d-inline-block" type="button" onClick={githubAuth}><i className="fa fa-github"></i></button>
-                                                        </div>
-                                                    </div>
+                                                    </div>   
                                                 </form>
                                             </div>
                                         </div>
