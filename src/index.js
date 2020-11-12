@@ -60,6 +60,7 @@ const Root = () => {
     const [currentUser, setCurrentUser] = useState(false);
     const [authenticated,setAuthenticated] = useState(false)
     const jwt_token = localStorage.getItem('token');
+    const [userID, setUserID] = useState('user1')
 
     useEffect(() => {
 
@@ -113,11 +114,11 @@ const Root = () => {
                                     <Route exact path={`${process.env.PUBLIC_URL}/`} render={() => {
                                         return (<Redirect to={`${process.env.PUBLIC_URL}/dashboard/default`} />)
                                     }} />
-                                    <Route path={`${process.env.PUBLIC_URL}/dashboard/default`} component={Default} />
+                                    <Route path={`${process.env.PUBLIC_URL}/dashboard/default`} component={Default} userID={userID}/>
 
                                     {/* Users */}
-                                    <Route path={`${process.env.PUBLIC_URL}/users/userProfile`} component={UserProfile} />
-                                    <Route path={`${process.env.PUBLIC_URL}/users/userEdit`} component={UserEdit} />
+                                    <Route path={`${process.env.PUBLIC_URL}/users/userProfile`} component={UserProfile} userID={userID}/>
+                                    <Route path={`${process.env.PUBLIC_URL}/users/userEdit`} component={UserEdit} userID={userID} />
                                     
                                     {/* Learning App */}
                                     <Route path={`${process.env.PUBLIC_URL}/learning/learning-list`} component={LearningList} />

@@ -18,7 +18,7 @@ const LearningList = (props) => {
 
     return (
         <Fragment>
-            <Breadcrumb title="Learning List" parent="Learning" />
+            <Breadcrumb title="Kursus samling" parent="Learning" />
             <div className="container-fluid">
                 <div className="row">
                     <div className="col-xl-9 xl-60">

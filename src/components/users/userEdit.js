@@ -2,18 +2,23 @@ import React, { Fragment,useState,useEffect } from 'react';
 import Breadcrumb from '../common/breadcrumb';
 import seven from '../../assets/images/user/7.jpg';
 import axios from 'axios'
-import { MyProfile,Bio,MarkJecno,Designer,Password,Website,Save,EditProfile,Company,Username,UsersCountryMenu,AboutMe,UpdateProfile,UsersTableTitle,FirstName,LastName,Address,EmailAddress,PostalCode,Country, UsersTableHeader,City,Edit,Update,Delete} from '../../constant'
-const UserEdit = () => {
+import { MyProfile,Bio,MarkJecno,Designer,Password,Website,Save,EditProfile,Forening,Username,UsersCountryMenu,AboutMe,UpdateProfile,UsersTableTitle,FirstName,LastName,Address,EmailAddress,PostalCode,Country, UsersTableHeader,City,Edit,Update,Delete} from '../../constant'
 
-    const [data,setData] = useState([])
+const UserEdit = (props) => {
+
+    const [data,setData] = useState([]);
+    const [userName, setUsername] = useState('JanFrost');
+    
 
     useEffect(() => {
         axios.get(`${process.env.PUBLIC_URL}/api/user-edit-table.json`).then(res => setData(res.data))
+        
     },[])
 
+    
     return (
         <Fragment>
-            <Breadcrumb parent="User" title="Edit Profile" />
+            <Breadcrumb parent="Klub profil" title="Redigér profil" />
             <div className="container-fluid">
                 <div className="edit-profile">
                     <div className="row">
@@ -66,14 +71,14 @@ const UserEdit = () => {
                                     <div className="row">
                                         <div className="col-md-5">
                                             <div className="form-group">
-                                                <label className="form-label">{Company}</label>
-                                                <input className="form-control" type="text" placeholder="Company" />
+                                                <label className="form-label">{Forening}</label>
+                                                <input className="form-control" type="text" placeholder="Navn på forening" />
                                             </div>
                                         </div>
                                         <div className="col-sm-6 col-md-3">
                                             <div className="form-group">
                                                 <label className="form-label">{Username}</label>
-                                                <input className="form-control" type="text" placeholder="Username" />
+                                                <input className="form-control" type="text" placeholder={userName} />
                                             </div>
                                         </div>
                                         <div className="col-sm-6 col-md-4">
@@ -85,47 +90,37 @@ const UserEdit = () => {
                                         <div className="col-sm-6 col-md-6">
                                             <div className="form-group">
                                                 <label className="form-label">{FirstName}</label>
-                                                <input className="form-control" type="text" placeholder="Company" />
+                                                <input className="form-control" type="text" placeholder="Navn på sponsoransvarlig" />
                                             </div>
                                         </div>
                                         <div className="col-sm-6 col-md-6">
                                             <div className="form-group">
                                                 <label className="form-label">{LastName}</label>
-                                                <input className="form-control" type="text" placeholder="Last Name" />
+                                                <input className="form-control" type="text" placeholder="Efternavn" />
                                             </div>
                                         </div>
                                         <div className="col-md-12">
                                             <div className="form-group">
                                                 <label className="form-label">{Address}</label>
-                                                <input className="form-control" type="text" placeholder="Home Address" />
+                                                <input className="form-control" type="text" placeholder="Forenings adresse" />
                                             </div>
                                         </div>
                                         <div className="col-sm-6 col-md-4">
                                             <div className="form-group">
                                                 <label className="form-label">{City}</label>
-                                                <input className="form-control" type="text" placeholder="City" />
+                                                <input className="form-control" type="text" placeholder="By" />
                                             </div>
                                         </div>
                                         <div className="col-sm-6 col-md-3">
                                             <div className="form-group">
                                                 <label className="form-label">{PostalCode}</label>
-                                                <input className="form-control" type="number" placeholder="ZIP Code" />
-                                            </div>
-                                        </div>
-                                        <div className="col-md-5">
-                                            <div className="form-group">
-                                                <label className="form-label">{Country}</label>
-                                                <select className="form-control btn-square">
-                                                    {UsersCountryMenu.map((items,i) => 
-                                                        <option key={i}>{items}</option>
-                                                    )}
-                                                </select>
+                                                <input className="form-control" type="number" placeholder="Postnr." />
                                             </div>
                                         </div>
                                         <div className="col-md-12">
                                             <div className="form-group mb-0">
                                                 <label className="form-label">{AboutMe}</label>
-                                                <textarea className="form-control" rows="5" placeholder="Enter About your description"></textarea>
+                                                <textarea className="form-control" rows="5" placeholder="En kort beskrvielse af foreningen"></textarea>
                                             </div>
                                         </div>
                                     </div>

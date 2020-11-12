@@ -13,8 +13,8 @@ export const MENUITEMS = [
     
     {
         title: 'Profil', icon: Users, type: 'sub', active: false, children: [
-            { path: '/users/userProfile', type: 'link', title: 'Users Profile ' },
-            { path: '/users/userEdit', type: 'link', title: 'Users Edit' },
+            { path: '/users/userProfile', type: 'link', title: 'Klub profil' },
+            { path: '/users/userEdit', type: 'link', title: 'Redigér profil' },
             
         ]
     },
@@ -25,7 +25,7 @@ export const MENUITEMS = [
 
     {
         title: 'Kurser', icon: Layers, type: 'sub', active: false, children: [
-            { path: '/learning/learning-list', title: 'Learning List', type: 'link' },
+            { path: '/learning/learning-list', title: 'Kursus samling', type: 'link' },
             { path: '/learning/learning-detail', title: 'Detail Course', type: 'link' },
         ]
     },
