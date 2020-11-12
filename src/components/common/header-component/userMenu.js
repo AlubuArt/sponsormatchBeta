@@ -1,11 +1,11 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import man from '../../../assets/images/dashboard/user.png';
-import { User, Mail, Lock, Settings, LogOut } from 'react-feather';
+import { User, LogOut } from 'react-feather';
 import {firebase_app} from "../../../data/config";
 import { Link } from 'react-router-dom';
 import { withRouter } from 'react-router';
 import {useAuth0} from '@auth0/auth0-react'
-import {EditProfile,Inbox,LockScreen} from '../../../constant'
+import {EditProfile} from '../../../constant'
 
 const UserMenu = ({ history }) => {
 

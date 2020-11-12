@@ -114,7 +114,7 @@
       }
     ],
     "reportUnusedDisableDirectives": true,
-    "noInlineConfig": true
+    "noInlineConfig": false
   },
   "browserslist": {
     "production": [

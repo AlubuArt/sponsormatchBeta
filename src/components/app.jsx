@@ -20,6 +20,7 @@ const AppLayout = (props) => {
                             { props.children }
                         </div>
                         <Footer />
+                        
                         <ThemeCustomizer />
                     </div>
                 </div>

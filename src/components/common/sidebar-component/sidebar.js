@@ -68,6 +68,7 @@ const Sidebar = (props) => {
             clearTimeout(timeout)
         }
         
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const handleResize = () => {
@@ -78,7 +79,7 @@ const Sidebar = (props) => {
         
         MENUITEMS.filter(menuItem => {
             
-            if (menuItem != item)
+            if (menuItem !== item)
                 menuItem.active = false
             if (menuItem.children && menuItem.children.includes(item))
                 menuItem.active = true

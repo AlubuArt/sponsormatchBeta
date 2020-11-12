@@ -1,15 +1,9 @@
 import {
     Home,
-    Box,
-    DollarSign,
     UserPlus,
     Users,
-    Chrome,
-    Settings,
-    Airplay,
-    FolderPlus,
     File,
-    Command, Cloud, Book, FileText, Server, Image, Sliders, Map, GitPullRequest, Calendar, Edit, Mail, MessageSquare, UserCheck, Layers, HelpCircle, Database, Headphones, Mic, ShoppingBag, Search, AlertOctagon, Lock, Briefcase, BarChart,Target, List, Package
+     Layers,
 } from 'react-feather';
 
 export const MENUITEMS = [

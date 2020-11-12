@@ -1,16 +1,11 @@
 import React, { useState ,Fragment } from 'react';
 import logo from '../../../assets/images/endless-logo.png';
-import Language from './language';
 import UserMenu from './userMenu';
-import Notification from './notification';
-import SearchHeader from './searchHeader';
 import { Link } from 'react-router-dom';
-import { AlignLeft, Maximize, Bell, MessageCircle, MoreHorizontal } from 'react-feather';
-import {EN} from '../../../constant'
+import { AlignLeft, Maximize,  MoreHorizontal } from 'react-feather';
 
 const Header = () => {
   const [sidebar, setSidebar] = useState(false);
-  const [rightSidebar, setRightSidebar] = useState(true);
   const [headerbar, setHeaderbar] = useState(true);
 
  const openCloseSidebar = () => {
