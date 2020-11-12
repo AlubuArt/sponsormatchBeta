@@ -168,8 +168,8 @@ const ThemeCustomizer = () => {
         } if (value === 'light-2') {
             localStorage.setItem('color', 'color-2');
             localStorage.setItem('layout_version', 'light');
-            localStorage.setItem('primary_color', '#0288d1');
-            localStorage.setItem('secondary_color', '#26c6da');
+            localStorage.setItem('primary_color', '#006699');
+            localStorage.setItem('secondary_color', '#268af5');
         } if (value === 'light-3') {
             localStorage.setItem('color', 'color-3');
             localStorage.setItem('layout_version', 'light');
