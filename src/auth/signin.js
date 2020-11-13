@@ -12,14 +12,16 @@ import { Login,LOGIN,YourName,Password,RememberMe,LoginWithAuth0,LoginWithJWT } 
 const Signin = ({ history }) => {
 
     const {loginWithRedirect} = useAuth0()
-    const [email, setEmail] = useState("test@gmail.com");
-    const [password, setPassword] = useState("test123");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    
 
     const [value, setValue] = useState(
         localStorage.getItem('profileURL' || man)
     );
 
     useEffect(() => {
+
         if (value !== null)
             localStorage.setItem('profileURL', value);
         else

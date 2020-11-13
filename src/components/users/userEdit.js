@@ -3,11 +3,19 @@ import Breadcrumb from '../common/breadcrumb';
 import seven from '../../assets/images/user/7.jpg';
 import axios from 'axios'
 import { MyProfile,Bio,MarkJecno,Designer,Password,Website,Save,EditProfile,Forening,Username,UsersCountryMenu,AboutMe,UpdateProfile,UsersTableTitle,FirstName,LastName,Address,EmailAddress,PostalCode,Country, UsersTableHeader,City,Edit,Update,Delete} from '../../constant'
-
+import { firebase_app } from '../../data/config';
 const UserEdit = (props) => {
 
     const [data,setData] = useState([]);
-    const [userName, setUsername] = useState('JanFrost');
+    const [currentUser, setCurrentUser] =  useState('');
+    
+    useEffect(() => {
+        firebase_app.auth().onAuthStateChanged(setCurrentUser);
+        
+    }, [])
+
+    console.log(currentUser.uid)
+    
     
 
     useEffect(() => {
@@ -78,7 +86,7 @@ const UserEdit = (props) => {
                                         <div className="col-sm-6 col-md-3">
                                             <div className="form-group">
                                                 <label className="form-label">{Username}</label>
-                                                <input className="form-control" type="text" placeholder={userName} />
+                                                <input className="form-control" type="text" placeholder='' />
                                             </div>
                                         </div>
                                         <div className="col-sm-6 col-md-4">

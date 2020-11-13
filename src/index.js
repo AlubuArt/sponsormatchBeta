@@ -1,4 +1,4 @@
-import React, { useEffect,useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 import './index.scss';
 import {firebase_app,auth0} from './data/config';
@@ -60,16 +60,16 @@ const Root = () => {
     const [currentUser, setCurrentUser] = useState(false);
     const [authenticated,setAuthenticated] = useState(false)
     const jwt_token = localStorage.getItem('token');
-    const [userID, setUserID] = useState('user1')
 
     useEffect(() => {
+
 
         const abortController = new AbortController();
         const requestOptions = { method: 'GET', headers: authHeader() };
         fetch('/users', requestOptions).then(handleResponse)
         const color = localStorage.getItem('color')
         console.log(color);
-        const layout = localStorage.getItem('layout_version') || configDB.data.color.layout_version
+        const layout = configDB.data.color.layout_version
         firebase_app.auth().onAuthStateChanged(setCurrentUser);
         setAuthenticated(JSON.parse(localStorage.getItem("authenticated")))
         document.body.classList.add(layout);
@@ -82,6 +82,8 @@ const Root = () => {
         }
          
     }, []);
+
+    
 
     return (
         <div className="App">
@@ -114,11 +116,11 @@ const Root = () => {
                                     <Route exact path={`${process.env.PUBLIC_URL}/`} render={() => {
                                         return (<Redirect to={`${process.env.PUBLIC_URL}/dashboard/default`} />)
                                     }} />
-                                    <Route path={`${process.env.PUBLIC_URL}/dashboard/default`} component={Default} userID={userID}/>
+                                    <Route path={`${process.env.PUBLIC_URL}/dashboard/default`} component={Default} />
 
                                     {/* Users */}
-                                    <Route path={`${process.env.PUBLIC_URL}/users/userProfile`} component={UserProfile} userID={userID}/>
-                                    <Route path={`${process.env.PUBLIC_URL}/users/userEdit`} component={UserEdit} userID={userID} />
+                                    <Route path={`${process.env.PUBLIC_URL}/users/userProfile`} component={UserProfile} />
+                                    <Route path={`${process.env.PUBLIC_URL}/users/userEdit`} component={UserEdit}  />
                                     
                                     {/* Learning App */}
                                     <Route path={`${process.env.PUBLIC_URL}/learning/learning-list`} component={LearningList} />

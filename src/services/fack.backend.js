@@ -1,5 +1,6 @@
 import {Jwt_token} from '../data/config'
 export const configureFakeBackend = () => {
+    
     let users = [{ email: 'test@gmail.com', password: 'test123'}];
     let realFetch = window.fetch;
     window.fetch = function (url, opts) {

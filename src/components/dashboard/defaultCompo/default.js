@@ -1,10 +1,11 @@
-import React ,{useEffect , Fragment} from 'react';
+import React ,{useEffect , Fragment, useState} from 'react';
 import Breadcrumb from '../../common/breadcrumb';
 import { DollarSign, Tag, ShoppingBag, MessageCircle, MinusCircle, ThumbsUp, MessageSquare, Briefcase, MoreHorizontal, Send, Activity, Anchor, Compass, Cpu, Slack, Umbrella, Box, Book } from 'react-feather';
 import { calcultionOptions, calcultionData } from '../../../data/default'
 import ChartistGraph from 'react-chartist';
 import EventCharts from './eventCharts';
 import configDB from '../../../data/customizer/config';
+import { firebase_app } from '../../../data/config';
 import {New,NewSale,NewMessage,NewVisits,TotalProfit,AllCustomIncome,All,TotalInvestment,TotalReview,CustomerReview,Change,Online,MarshiKisteen,Dashboard,Ui,Xi,Message,Portfolio,NewUser,Month,Today,NickStone,Follow,WiltorNoice,NewReport,TotalFeedback,MilanoEsco,AnnaStrong,RecentNotification,Order,Download, Trash,ByKan,ByKaint,ByTailer,ByWaiter,ByComman,Calculation,TotalIncome,TotalLoss,Conversations,View,Media,Search,SellingUpdate,Shipping,Purchase,TotalSell,Feedback,ByCall,Activitys} from '../../../constant'
 
 var Knob = require('knob')// browserify require
@@ -12,7 +13,13 @@ var primary = localStorage.getItem('primary_color') || configDB.data.color.prima
 
 const Default = () => {
 
-    useEffect(() => {
+    const [currentUser, setCurrentUser] =  useState('');
+
+    useEffect( () => {
+
+        firebase_app.auth().onAuthStateChanged(setCurrentUser);
+        
+
         var profit = Knob({
             value: 35,
             left: 1,
@@ -27,10 +34,16 @@ const Default = () => {
             tickColorizeValues: true,
             bgColor: '#f6f7fb',
             lineCap: 'round',
-            displayPrevious:true
+            displayPrevious:true,
+            
         })
+
+        
         document.getElementById('profit').appendChild(profit);
     },[]);
+    
+    console.log(currentUser.uid)
+
     return (
         <Fragment>
             <Breadcrumb   parent = "Dashboard" title = "Default" />
