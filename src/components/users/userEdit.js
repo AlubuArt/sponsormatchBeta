@@ -1,29 +1,105 @@
 import React, { Fragment,useState,useEffect } from 'react';
 import Breadcrumb from '../common/breadcrumb';
 import seven from '../../assets/images/user/7.jpg';
-import axios from 'axios'
 import { MyProfile,Bio,MarkJecno,Designer,Password,Website,Save,EditProfile,Forening,Username,UsersCountryMenu,AboutMe,UpdateProfile,UsersTableTitle,FirstName,LastName,Address,EmailAddress,PostalCode,Country, UsersTableHeader,City,Edit,Update,Delete} from '../../constant'
-import { firebase_app } from '../../data/config';
-const UserEdit = (props) => {
+import { firebase_app, dbRef } from '../../data/config';
 
-    const [data,setData] = useState([]);
+
+const UserEdit = () => {
+    
+    const [data, setData] = useState([]);
     const [currentUser, setCurrentUser] =  useState('');
+    const [state, setState] = useState({
+        foreningName: ' ',
+        userName: '',
+        fname: '',
+        lname: '',
+        telephonenr: '',
+        adresse: '',
+        city: '',
+        postnr: '',
+        email: '',
+        clubDescription: ''
+
+     })
+    firebase_app.auth().onAuthStateChanged(setCurrentUser);
     
     useEffect(() => {
-        firebase_app.auth().onAuthStateChanged(setCurrentUser);
+        const getUserData = () => {
+        dbRef.ref('/sponsormatchUsers/' +  currentUser.uid + '/profil/forening/foreningName' ).once('value',  snapshot =>  {
+            const val =  snapshot.val();
+            setState({foreningName: val})    
+        })
         
-    }, [])
-
-    console.log(currentUser.uid)
-    
-    
-
-    useEffect(() => {
-        axios.get(`${process.env.PUBLIC_URL}/api/user-edit-table.json`).then(res => setData(res.data))
+        dbRef.ref('/sponsormatchUsers/' + currentUser.uid + '/profil/forening/adresse' ).once('value', snapshot => {
+            const val = snapshot.val();
+            setState({adresse: val})
+        })
         
-    },[])
+        dbRef.ref('/sponsormatchUsers/' + currentUser.uid + '/profil/forening/city' ).once('value', snapshot => {
+            const val = snapshot.val();
+            setState({city: val})
+        })
+        dbRef.ref('/sponsormatchUsers/' + currentUser.uid + '/profil/forening/postnr' ).once('value', snapshot => {
+            const val = snapshot.val();
+            setState({postnr: val})
+        })
+        dbRef.ref('/sponsormatchUsers/' + currentUser.uid + '/profil/forening/fname' ).once('value', snapshot => {
+            const val = snapshot.val();
+            setState({fname: val})
+        }) 
+        dbRef.ref('/sponsormatchUsers/' + currentUser.uid + '/profil/forening/lname' ).once('value', snapshot => {
+            const val = snapshot.val();
+            setState({lname: val})
+        })
+        dbRef.ref('/sponsormatchUsers/' + currentUser.uid + '/profil/forening/email' ).once('value', snapshot => {
+            const val = snapshot.val();
+            setState({email: val})
+        }) 
+         dbRef.ref('/sponsormatchUsers/' + currentUser.uid + '/profil/forening/userName' ).once('value', snapshot => {
+            const val = snapshot.val();
+            setState({userName: val})
+        }) 
+        dbRef.ref('/sponsormatchUsers/' + currentUser.uid + '/profil/forening/telefonnr' ).once('value', snapshot => {
+            const val = snapshot.val();
+            setState({telephonenr: val})
+        }) 
+        dbRef.ref('/sponsormatchUsers/' + currentUser.uid + '/profil/forening/clubDescription' ).once('value', snapshot => {
+            const val = snapshot.val();
+            setState({clubDescription: val})
+        })
+        }
+        getUserData()
+        
+    }, [currentUser])
 
+    const handleInput = (event) => {
+        setState (
+            {...state, [event.target.name]: event.target.value}
+        )
+    }
+
+    const updateUserData = () => {
+        const dataToupdate = state;
+        dbRef.ref('/sponsormatchUsers/' + currentUser.uid + '/profil/forening/').update(dataToupdate, function(error)  {
+            if(error) {
+                console.log("update failed")
+            } else {
+                alert("Profil blev opdateret")  
+            }
+        })
+        
+    }
+
+    const handleClick = (e) => {
+        e.preventDefault();
+        updateUserData()
+    }
+
+  
     
+    
+
     return (
         <Fragment>
             <Breadcrumb parent="Klub profil" title="Redigér profil" />
@@ -63,7 +139,7 @@ const UserEdit = (props) => {
                                             <input className="form-control" placeholder="http://Uplor .com" />
                                         </div>
                                         <div className="form-footer">
-                                            <button className="btn btn-primary btn-block">{Save}</button>
+                                            <button className="btn btn-primary btn-block" onClick={handleClick}>{Save}</button>
                                         </div>
                                     </form>
                                 </div>
@@ -80,61 +156,61 @@ const UserEdit = (props) => {
                                         <div className="col-md-5">
                                             <div className="form-group">
                                                 <label className="form-label">{Forening}</label>
-                                                <input className="form-control" type="text" placeholder="Navn på forening" />
+                                                <input className="form-control" type="text" name="foreningName" value={state.foreningName} onChange={handleInput}/>
                                             </div>
                                         </div>
                                         <div className="col-sm-6 col-md-3">
                                             <div className="form-group">
                                                 <label className="form-label">{Username}</label>
-                                                <input className="form-control" type="text" placeholder='' />
+                                                <input className="form-control" type="text" name="userName" value={state.userName} onChange={handleInput}/>
                                             </div>
                                         </div>
                                         <div className="col-sm-6 col-md-4">
                                             <div className="form-group">
                                                 <label className="form-label">{EmailAddress}</label>
-                                                <input className="form-control" type="email" placeholder="Email" />
+                                                <input className="form-control" type="email" name="email" value={state.email} onChange={handleInput}/>
                                             </div>
                                         </div>
                                         <div className="col-sm-6 col-md-6">
                                             <div className="form-group">
                                                 <label className="form-label">{FirstName}</label>
-                                                <input className="form-control" type="text" placeholder="Navn på sponsoransvarlig" />
+                                                <input className="form-control" type="text" name="fname" value={state.fname} onChange={handleInput} />
                                             </div>
                                         </div>
                                         <div className="col-sm-6 col-md-6">
                                             <div className="form-group">
                                                 <label className="form-label">{LastName}</label>
-                                                <input className="form-control" type="text" placeholder="Efternavn" />
+                                                <input className="form-control" type="text" name="lname" value={state.lname} onChange={handleInput} />
                                             </div>
                                         </div>
                                         <div className="col-md-12">
                                             <div className="form-group">
                                                 <label className="form-label">{Address}</label>
-                                                <input className="form-control" type="text" placeholder="Forenings adresse" />
+                                                <input className="form-control" type="text" name="adresse" value={state.adresse} onChange={handleInput} />
                                             </div>
                                         </div>
                                         <div className="col-sm-6 col-md-4">
                                             <div className="form-group">
                                                 <label className="form-label">{City}</label>
-                                                <input className="form-control" type="text" placeholder="By" />
+                                                <input className="form-control" type="text" name="city" value={state.city} onChange={handleInput} />
                                             </div>
                                         </div>
                                         <div className="col-sm-6 col-md-3">
                                             <div className="form-group">
                                                 <label className="form-label">{PostalCode}</label>
-                                                <input className="form-control" type="number" placeholder="Postnr." />
+                                                <input className="form-control" type="number" name="postnr" value={state.postnr} onChange={handleInput} />
                                             </div>
                                         </div>
                                         <div className="col-md-12">
                                             <div className="form-group mb-0">
                                                 <label className="form-label">{AboutMe}</label>
-                                                <textarea className="form-control" rows="5" placeholder="En kort beskrvielse af foreningen"></textarea>
+                                                <textarea className="form-control" rows="5" name="clubDescription" value={state.clubDescription} onChange={handleInput}></textarea>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                                 <div className="card-footer text-right">
-                                    <button className="btn btn-primary" type="submit">{UpdateProfile}</button>
+                                    <button className="btn btn-primary" type="button" onClick={handleClick}>{UpdateProfile}</button>
                                 </div>
                             </form>
                         </div>

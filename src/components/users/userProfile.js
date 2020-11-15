@@ -12,28 +12,24 @@ const UserProfile = () => {
     const [email, setEmail] = useState('');
     const [currentUser, setCurrentUser] =  useState('');
     const [foreningName, setForeningName] = useState()
-    const [name, setName] = useState('');
     const [sponsoransvarlig, setSponsoransvarlig] = useState('')
     const [telefon, setTelefon] = useState('')
     const [adresse, setAdresse] = useState('')
     const [by, setBy] = useState('')
     const [postnr, setPostnr] = useState('')
     const [logo, setLogo] = useState('');
+    firebase_app.auth().onAuthStateChanged(setCurrentUser);
     
     
     useEffect(() => {
-            setUser();
-    }, [])
-
-    const setUser = () => {
-        firebase_app.auth().onAuthStateChanged(setCurrentUser);
-    }
-
+            
+        }, [])
+    
    function getUserData() {
         
-            dbRef.ref('/sponsormatchUsers/' + currentUser.uid + '/profil/forening/foreningsnavn' ).once('value', snapshot => {
+            dbRef.ref('/sponsormatchUsers/' + currentUser.uid + '/profil/forening/foreningName' ).once('value', snapshot => {
                 const value = snapshot.val();
-                setName(value)
+                setForeningName(value)
             })
             dbRef.ref('/sponsormatchUsers/' + currentUser.uid + '/profil/forening/adresse' ).once('value', snapshot => {
                 const value = snapshot.val();
@@ -43,7 +39,7 @@ const UserProfile = () => {
                 const value = snapshot.val();
                 setLogo(value)
             })
-            dbRef.ref('/sponsormatchUsers/' + currentUser.uid + '/profil/forening/by' ).once('value', snapshot => {
+            dbRef.ref('/sponsormatchUsers/' + currentUser.uid + '/profil/forening/city' ).once('value', snapshot => {
                 const val = snapshot.val();
                 setBy(val)
             })
@@ -51,16 +47,16 @@ const UserProfile = () => {
                 const val = snapshot.val();
                 setPostnr(val)
             })
-            dbRef.ref('/sponsormatchUsers/' + currentUser.uid + '/profil/forening/sponsoransvarlig' ).once('value', snapshot => {
+            dbRef.ref('/sponsormatchUsers/' + currentUser.uid + '/profil/forening/fname' ).once('value', snapshot => {
                 const value = snapshot.val();
                 setSponsoransvarlig(value)
             }) 
-            dbRef.ref('/sponsormatchUsers/' + currentUser.uid + '/profil/kontaktperson/email' ).once('value', snapshot => {
+            dbRef.ref('/sponsormatchUsers/' + currentUser.uid + '/profil/forening/email' ).once('value', snapshot => {
                 const email = snapshot.val();
                 setEmail(email)
                 }) 
              
-            dbRef.ref('/sponsormatchUsers/' + currentUser.uid + '/profil/kontaktperson/telefonnr' ).once('value', snapshot => {
+            dbRef.ref('/sponsormatchUsers/' + currentUser.uid + '/profil/forening/telephonenr' ).once('value', snapshot => {
                 const value = snapshot.val();
                 setTelefon(value)
                 }) 
@@ -124,7 +120,7 @@ const UserProfile = () => {
                                         </div>
                                         <div className="col-sm-12 col-lg-4 order-sm-0 order-xl-1">
                                             <div className="user-designation">
-                                                <div className="title"><a target="_blank" href="javascript">{name}</a></div>
+                                                <div className="title"><a target="_blank" href="javascript">{foreningName}</a></div>
                                                 <div className="desc mt-2">Sponsoransvarlig</div>
                                                 <div className="sponsoransvarlig-navn">{sponsoransvarlig}</div>
                                             </div>
