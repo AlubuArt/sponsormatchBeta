@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 import './index.scss';
-import {firebase_app,auth0} from './data/config';
+import {firebase_app,auth0, Jwt_token} from './data/config';
 import { configureFakeBackend ,authHeader, handleResponse } from "./services/fack.backend";
 import { BrowserRouter, Switch, Route,Redirect } from 'react-router-dom';
 import * as serviceWorker from './serviceWorker';
@@ -56,7 +56,7 @@ import Callback from './auth/callback'
 configureFakeBackend();
 
 const Root = () => {
-
+    
     const [currentUser, setCurrentUser] = useState(false);
     const [authenticated,setAuthenticated] = useState(false)
     const jwt_token = localStorage.getItem('token');
@@ -116,7 +116,7 @@ const Root = () => {
                                     <Route exact path={`${process.env.PUBLIC_URL}/`} render={() => {
                                         return (<Redirect to={`${process.env.PUBLIC_URL}/dashboard/default`} />)
                                     }} />
-                                    <Route path={`${process.env.PUBLIC_URL}/dashboard/default`} component={Default} />
+                                    <Route path={`${process.env.PUBLIC_URL}/dashboard/default`} render={() => <Default us={currentUser}/>} />
 
                                     {/* Users */}
                                     <Route path={`${process.env.PUBLIC_URL}/users/userProfile`} component={UserProfile} />

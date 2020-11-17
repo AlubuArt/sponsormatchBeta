@@ -1,4 +1,4 @@
-import React,{Fragment, useEffect} from 'react';
+import React,{Fragment, useEffect, useState} from 'react';
 import Header from './common/header-component/header';
 import Sidebar from './common/sidebar-component/sidebar';
 import RightSidebar from './common/right-sidebar';
@@ -7,9 +7,8 @@ import Footer from './common/footer';
 import { ToastContainer } from 'react-toastify';
 import Loader from './common/loader';
 
-const AppLayout = (props) => {
 
-       
+const AppLayout = (props) => {
 
         return (
             <Fragment>

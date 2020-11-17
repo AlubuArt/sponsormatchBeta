@@ -228,7 +228,7 @@ export const SocialWorker = "Social Worker"
 export const Donec = "Donec"
 export const SystemsEngineer = "Systems Engineer"
 export const Etiam = "Etiam"
-export const Save =  "Save"
+export const Save =  "Opdatér loginoplysninger"
 
 
 // widgets
@@ -1175,7 +1175,7 @@ export const WishlistTableHeader = ["Prdouct","Prdouct Name","Price","Availabili
 export const FirstName = "Fornavn"
 export const LastName = "Efternavn"
 export const Phone = "Telefonnr."
-export const EmailAddress = "Email Addressee"
+export const EmailAddress = "Email Addresse"
 export const Country = "Land"
 
 export const CountryMenu = ["India","South Africa","United State","Australia"]
@@ -1330,7 +1330,7 @@ export const JasonBorne = "Jason Borne"
 export const AlexendraDhadio = "Alexendra Dhadio"
 export const OliviaJon = "Olivia Jon"
 export const IssaBell = "Issa Bell"
-export const MyProfile =  "Klub profil"
+export const MyProfile =  "Sponsoransvarlig login"
 export const AboutMe =  "Om foreningen"
 export const SocialNetworks = "Social Networks"
 export const ProfileIntro = "Profile Intro"
@@ -1410,8 +1410,8 @@ export const  Close  = "Close"
 export const MarekjecnoMailId =  "Marekjecno@yahoo.com"
 export const Bio =  "Bio"
 export const City =  "By"
-export const Website =  "Website"
-export const EditProfile =  "Min profil"
+export const Website =  "Hjemmeside"
+export const EditProfile =  "Redigér profil"
 export const Forening =  "Forening"
 export const Username =  "Brugernavn"
 export const UsersCountryMenu = ["--Select--","Germany","Canada","Usa","Aus"]

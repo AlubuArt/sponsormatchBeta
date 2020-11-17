@@ -7,8 +7,11 @@ import { MENUITEMS } from '../../../components/common/sidebar-component/menu';
 import { Link } from 'react-router-dom';
 import { translate } from 'react-switch-lang';
 import configDB from '../../../data/customizer/config';
+import { firebase_app, dbRef } from '../../../data/config';
 
 const Sidebar = (props) => {
+
+    
     const [margin, setMargin] = useState(0);
     const [width, setWidth] = useState(0);
     const [hideLeftArrowRTL, setHideLeftArrowRTL] = useState(true);
@@ -18,13 +21,16 @@ const Sidebar = (props) => {
     const [mainmenu, setMainMenu] = useState(MENUITEMS);
     const wrapper = configDB.data.settings.sidebar.wrapper;
     const layout = useSelector(content => content.Customizer.layout);
+    const [currentUser, setCurrentUser] =  useState('');
+    const [logo, setLogo] = useState('')
+    const [foreningName, setForeningName] = useState('')
 
     useEffect(() => {
+        
         window.addEventListener('resize', handleResize)
         handleResize();
 
         var currentUrl = window.location.pathname;
-
        
         mainmenu.filter(items => {
             if (items.path === currentUrl)
@@ -50,6 +56,8 @@ const Sidebar = (props) => {
             return items
         })
 
+        
+
         const timeout = setTimeout(() => {
             const elmnt = document.getElementById("myDIV");
             const menuWidth = elmnt.offsetWidth;
@@ -60,6 +68,9 @@ const Sidebar = (props) => {
                 setHideRightArrow(true);
                 setHideLeftArrowRTL(true);
             }
+            getCurrentUser()
+            
+
         }, 500)
 
         return () => {
@@ -68,8 +79,20 @@ const Sidebar = (props) => {
             clearTimeout(timeout)
         }
         
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    
+    }, [currentUser]);
+
+    const getCurrentUser = () => {
+            firebase_app.auth().onAuthStateChanged(setCurrentUser);
+            dbRef.ref('/sponsormatchUsers/' +  currentUser.uid + '/profil/forening/foreningName' ).once('value', snapshot =>  {
+            const val =  snapshot.val();
+            setForeningName(val)
+            })
+            dbRef.ref('/sponsormatchUsers/' +  currentUser.uid + '/profil/forening/logo' ).once('value', snapshot =>  {
+            const val =  snapshot.val();
+            setLogo(val)
+            })
+    }
 
     const handleResize = () => {
         setWidth(window.innerWidth - 310);
@@ -189,7 +212,7 @@ const Sidebar = (props) => {
                     </div>
                 </div>
                 <div className="sidebar custom-scrollbar">
-                    <UserPanel />
+                    <UserPanel logo={logo} foreningName={foreningName}/>
                     <ul
                         className="sidebar-menu"
                         id="myDIV"

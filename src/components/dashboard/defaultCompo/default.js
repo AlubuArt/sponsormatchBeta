@@ -11,7 +11,7 @@ import {New,NewSale,NewMessage,NewVisits,TotalProfit,AllCustomIncome,All,TotalIn
 var Knob = require('knob')// browserify require
 var primary = localStorage.getItem('primary_color') || configDB.data.color.primary_color;
 
-const Default = () => {
+const Default = (props) => {
 
     const [currentUser, setCurrentUser] =  useState('');
 
@@ -42,7 +42,7 @@ const Default = () => {
         document.getElementById('profit').appendChild(profit);
     },[]);
     
-    console.log(currentUser.uid)
+    console.log(props.us.uid)
 
     return (
         <Fragment>

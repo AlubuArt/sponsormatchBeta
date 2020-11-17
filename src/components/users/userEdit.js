@@ -1,4 +1,4 @@
-import React, { Fragment,useState,useEffect } from 'react';
+import React, { Fragment,useState,useEffect, useReducer } from 'react';
 import Breadcrumb from '../common/breadcrumb';
 import seven from '../../assets/images/user/7.jpg';
 import { MyProfile,Bio,MarkJecno,Designer,Password,Website,Save,EditProfile,Forening,Username,UsersCountryMenu,AboutMe,UpdateProfile,UsersTableTitle,FirstName,LastName,Address,EmailAddress,PostalCode,Country, UsersTableHeader,City,Edit,Update,Delete} from '../../constant'
@@ -9,7 +9,7 @@ const UserEdit = () => {
     
     const [data, setData] = useState([]);
     const [currentUser, setCurrentUser] =  useState('');
-    const [state, setState] = useState({
+    const [value, setValue] = useReducer((value, newValue) => ({...value, ...newValue}), {
         foreningName: ' ',
         userName: '',
         fname: '',
@@ -19,68 +19,61 @@ const UserEdit = () => {
         city: '',
         postnr: '',
         email: '',
-        clubDescription: ''
+        clubDescription: '',
+        password: ''
 
-     })
-    firebase_app.auth().onAuthStateChanged(setCurrentUser);
+    })
     
+    firebase_app.auth().onAuthStateChanged(setCurrentUser);
+
     useEffect(() => {
-        const getUserData = () => {
-        dbRef.ref('/sponsormatchUsers/' +  currentUser.uid + '/profil/forening/foreningName' ).once('value',  snapshot =>  {
+    
+       dbRef.ref('/sponsormatchUsers/' +  currentUser.uid + '/profil/forening/foreningName' ).once('value',  async snapshot =>  {
             const val =  snapshot.val();
-            setState({foreningName: val})    
+            setValue({foreningName: val})    
         })
         
-        dbRef.ref('/sponsormatchUsers/' + currentUser.uid + '/profil/forening/adresse' ).once('value', snapshot => {
+        dbRef.ref('/sponsormatchUsers/' + currentUser.uid + '/profil/forening/adresse' ).once('value',async snapshot => {
             const val = snapshot.val();
-            setState({adresse: val})
+            setValue({adresse: val})
         })
         
-        dbRef.ref('/sponsormatchUsers/' + currentUser.uid + '/profil/forening/city' ).once('value', snapshot => {
+        dbRef.ref('/sponsormatchUsers/' + currentUser.uid + '/profil/forening/city' ).once('value', async  snapshot => {
             const val = snapshot.val();
-            setState({city: val})
+            setValue({city: val})
         })
-        dbRef.ref('/sponsormatchUsers/' + currentUser.uid + '/profil/forening/postnr' ).once('value', snapshot => {
+        dbRef.ref('/sponsormatchUsers/' + currentUser.uid + '/profil/forening/postnr' ).once('value', async snapshot => {
             const val = snapshot.val();
-            setState({postnr: val})
+            setValue({postnr: val})
         })
-        dbRef.ref('/sponsormatchUsers/' + currentUser.uid + '/profil/forening/fname' ).once('value', snapshot => {
+        dbRef.ref('/sponsormatchUsers/' + currentUser.uid + '/profil/forening/fname' ).once('value', async snapshot => {
             const val = snapshot.val();
-            setState({fname: val})
+            setValue({fname: val})
+            
         }) 
-        dbRef.ref('/sponsormatchUsers/' + currentUser.uid + '/profil/forening/lname' ).once('value', snapshot => {
+        dbRef.ref('/sponsormatchUsers/' + currentUser.uid + '/profil/forening/lname' ).once('value', async snapshot => {
             const val = snapshot.val();
-            setState({lname: val})
+            setValue({lname: val})
         })
-        dbRef.ref('/sponsormatchUsers/' + currentUser.uid + '/profil/forening/email' ).once('value', snapshot => {
-            const val = snapshot.val();
-            setState({email: val})
-        }) 
-         dbRef.ref('/sponsormatchUsers/' + currentUser.uid + '/profil/forening/userName' ).once('value', snapshot => {
-            const val = snapshot.val();
-            setState({userName: val})
-        }) 
-        dbRef.ref('/sponsormatchUsers/' + currentUser.uid + '/profil/forening/telefonnr' ).once('value', snapshot => {
-            const val = snapshot.val();
-            setState({telephonenr: val})
-        }) 
-        dbRef.ref('/sponsormatchUsers/' + currentUser.uid + '/profil/forening/clubDescription' ).once('value', snapshot => {
-            const val = snapshot.val();
-            setState({clubDescription: val})
-        })
-        }
-        getUserData()
         
+         dbRef.ref('/sponsormatchUsers/' + currentUser.uid + '/profil/forening/email' ).once('value', async snapshot => {
+            const val = snapshot.val();
+            setValue({email: val})
+        })
+        dbRef.ref('/sponsormatchUsers/' + currentUser.uid + '/profil/forening/telefonnr' ).once('value', async snapshot => {
+            const val = snapshot.val();
+            setValue({telephonenr: val})
+        }) 
+        
+        dbRef.ref('/sponsormatchUsers/' + currentUser.uid + '/profil/forening/clubDescription' ).once('value', async snapshot => {
+            const val = snapshot.val();
+            setValue({clubDescription: val})
+        })
+
     }, [currentUser])
 
-    const handleInput = (event) => {
-        setState (
-            {...state, [event.target.name]: event.target.value}
-        )
-    }
-
     const updateUserData = () => {
-        const dataToupdate = state;
+        const dataToupdate = value;
         dbRef.ref('/sponsormatchUsers/' + currentUser.uid + '/profil/forening/').update(dataToupdate, function(error)  {
             if(error) {
                 console.log("update failed")
@@ -91,8 +84,11 @@ const UserEdit = () => {
         
     }
 
+    
+
     const handleClick = (e) => {
-        e.preventDefault();
+        
+        console.log(value)
         updateUserData()
     }
 
@@ -118,28 +114,21 @@ const UserEdit = () => {
                                         <div className="row mb-2">
                                             <div className="col-auto"><img className="img-70 rounded-circle" alt="" src={seven} /></div>
                                             <div className="col">
-                                                <h3 className="mb-1">{MarkJecno}</h3>
-                                                <p className="mb-4">{Designer}</p>
+                                                <h3 className="mb-1">{value.fname}</h3>
+                                                
                                             </div>
                                         </div>
                                         <div className="form-group">
-                                            <h6 className="form-label">{Bio}</h6>
-                                            <textarea className="form-control" rows="5" defaultValue="On the other hand, we denounce with righteous indignation" />
-                                        </div>
-                                        <div className="form-group">
                                             <label className="form-label">{EmailAddress}</label>
-                                            <input className="form-control" placeholder="your-email@domain.com" />
+                                            <input className="form-control"  value={value.email} onChange={((e) => setValue({email: e.target.value}))}/>
                                         </div>
                                         <div className="form-group">
                                             <label className="form-label">{Password}</label>
-                                            <input className="form-control" type="password" defaultValue="password" readOnly />
+                                            <input className="form-control" type="password" defaultValue="password" onChange={((e) => setValue({password: e.target.value}))} readOnly />
                                         </div>
-                                        <div className="form-group">
-                                            <label className="form-label">{Website}</label>
-                                            <input className="form-control" placeholder="http://Uplor .com" />
-                                        </div>
+                                        
                                         <div className="form-footer">
-                                            <button className="btn btn-primary btn-block" onClick={handleClick}>{Save}</button>
+                                            <button className="btn btn-primary btn-block" type="button" onClick={handleClick}>{Save}</button>
                                         </div>
                                     </form>
                                 </div>
@@ -156,55 +145,48 @@ const UserEdit = () => {
                                         <div className="col-md-5">
                                             <div className="form-group">
                                                 <label className="form-label">{Forening}</label>
-                                                <input className="form-control" type="text" name="foreningName" value={state.foreningName} onChange={handleInput}/>
+                                                <input className="form-control" type="text" name="foreningName" value={value.foreningName} onChange={((e) => setValue({foreningName: e.target.value}))}/>
                                             </div>
                                         </div>
-                                        <div className="col-sm-6 col-md-3">
-                                            <div className="form-group">
-                                                <label className="form-label">{Username}</label>
-                                                <input className="form-control" type="text" name="userName" value={state.userName} onChange={handleInput}/>
-                                            </div>
-                                        </div>
-                                        <div className="col-sm-6 col-md-4">
-                                            <div className="form-group">
-                                                <label className="form-label">{EmailAddress}</label>
-                                                <input className="form-control" type="email" name="email" value={state.email} onChange={handleInput}/>
-                                            </div>
+                                        
+                                        <div className="form-group">
+                                            <label className="form-label">{Website}</label>
+                                            <input className="form-control" placeholder="http://Uplor .com" />
                                         </div>
                                         <div className="col-sm-6 col-md-6">
                                             <div className="form-group">
                                                 <label className="form-label">{FirstName}</label>
-                                                <input className="form-control" type="text" name="fname" value={state.fname} onChange={handleInput} />
+                                                <input className="form-control" type="text" name="fname" value={value.fname} onChange={((e) => setValue({fname: e.target.value}))} />
                                             </div>
                                         </div>
                                         <div className="col-sm-6 col-md-6">
                                             <div className="form-group">
                                                 <label className="form-label">{LastName}</label>
-                                                <input className="form-control" type="text" name="lname" value={state.lname} onChange={handleInput} />
+                                                <input className="form-control" type="text" name="lname" value={value.lname} onChange={((e) => setValue({lname: e.target.value}))} />
                                             </div>
                                         </div>
                                         <div className="col-md-12">
                                             <div className="form-group">
                                                 <label className="form-label">{Address}</label>
-                                                <input className="form-control" type="text" name="adresse" value={state.adresse} onChange={handleInput} />
+                                                <input className="form-control" type="text" name="adresse" value={value.adresse} onChange={((e) => setValue({adresse: e.target.value}))} />
                                             </div>
                                         </div>
                                         <div className="col-sm-6 col-md-4">
                                             <div className="form-group">
                                                 <label className="form-label">{City}</label>
-                                                <input className="form-control" type="text" name="city" value={state.city} onChange={handleInput} />
+                                                <input className="form-control" type="text" name="city" value={value.city} onChange={((e) => setValue({city: e.target.value}))} />
                                             </div>
                                         </div>
                                         <div className="col-sm-6 col-md-3">
                                             <div className="form-group">
                                                 <label className="form-label">{PostalCode}</label>
-                                                <input className="form-control" type="number" name="postnr" value={state.postnr} onChange={handleInput} />
+                                                <input className="form-control" type="number" name="postnr" value={value.postnr} onChange={((e) => setValue({postnr: e.target.value}))} />
                                             </div>
                                         </div>
                                         <div className="col-md-12">
                                             <div className="form-group mb-0">
                                                 <label className="form-label">{AboutMe}</label>
-                                                <textarea className="form-control" rows="5" name="clubDescription" value={state.clubDescription} onChange={handleInput}></textarea>
+                                                <textarea className="form-control" rows="5" name="clubDescription" value={value.clubDescription} onChange={((e) => setValue({clubDescription: e.target.value}))}></textarea>
                                             </div>
                                         </div>
                                     </div>
