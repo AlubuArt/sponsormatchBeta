@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 import './index.scss';
-import {firebase_app,auth0, Jwt_token} from './data/config';
+import {firebase_app,auth0} from './data/config';
 import { configureFakeBackend ,authHeader, handleResponse } from "./services/fack.backend";
 import { BrowserRouter, Switch, Route,Redirect } from 'react-router-dom';
 import * as serviceWorker from './serviceWorker';
@@ -39,8 +39,6 @@ import Error403 from './pages/errors/error403';
 import Error404 from './pages/errors/error404';
 import Error500 from './pages/errors/error500';
 import Error503 from './pages/errors/error503';
-
-
 import Signin from './auth/signin';
 import ContactApp from './components/applications/contact-app/contactApp';
 
@@ -68,7 +66,6 @@ const Root = () => {
         const requestOptions = { method: 'GET', headers: authHeader() };
         fetch('/users', requestOptions).then(handleResponse)
         const color = localStorage.getItem('color')
-        console.log(color);
         const layout = configDB.data.color.layout_version
         firebase_app.auth().onAuthStateChanged(setCurrentUser);
         setAuthenticated(JSON.parse(localStorage.getItem("authenticated")))

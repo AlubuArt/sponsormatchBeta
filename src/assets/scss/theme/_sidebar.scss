@@ -123,12 +123,14 @@
               position: relative;
               img {
                 box-shadow: none;
+                
+
               }
               &:before {
                 position: absolute;
                 content: "";
-                width: 63px;
-                height: 63px;
+                width: 80px;
+                height: 80px;
                 background-color: $dark-body-background;
                 top: -1px;
                 left: 0;
@@ -756,7 +758,7 @@
         }
         .sidebar-user {
           .img-60 {
-            width: 54px !important;
+            width: 90px !important;
           }
         }
         &:hover {
@@ -772,7 +774,7 @@
           .sidebar-user {
             text-align: center !important;
             .img-60 {
-              width: 60px !important;
+              width: 90px !important;
             }
           }
           .sidebar-header {

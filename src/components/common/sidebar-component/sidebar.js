@@ -25,7 +25,21 @@ const Sidebar = (props) => {
     const [logo, setLogo] = useState('')
     const [foreningName, setForeningName] = useState('')
 
+   
+
     useEffect(() => {
+
+        const getCurrentUser = () => {
+            firebase_app.auth().onAuthStateChanged(setCurrentUser);
+            dbRef.ref('/sponsormatchUsers/' +  currentUser.uid + '/profil/forening/foreningName' ).once('value', snapshot =>  {
+            const val =  snapshot.val();
+            setForeningName(val)
+            })
+            dbRef.ref('/sponsormatchUsers/' +  currentUser.uid + '/profil/forening/logo' ).once('value', snapshot =>  {
+            const val =  snapshot.val();
+            setLogo(val)
+            })
+        }
         
         window.addEventListener('resize', handleResize)
         handleResize();
@@ -56,8 +70,6 @@ const Sidebar = (props) => {
             return items
         })
 
-        
-
         const timeout = setTimeout(() => {
             const elmnt = document.getElementById("myDIV");
             const menuWidth = elmnt.offsetWidth;
@@ -69,30 +81,16 @@ const Sidebar = (props) => {
                 setHideLeftArrowRTL(true);
             }
             getCurrentUser()
-            
-
         }, 500)
 
         return () => {
-            
             window.removeEventListener('resize', handleResize)
             clearTimeout(timeout)
         }
         
-    
     }, [currentUser]);
 
-    const getCurrentUser = () => {
-            firebase_app.auth().onAuthStateChanged(setCurrentUser);
-            dbRef.ref('/sponsormatchUsers/' +  currentUser.uid + '/profil/forening/foreningName' ).once('value', snapshot =>  {
-            const val =  snapshot.val();
-            setForeningName(val)
-            })
-            dbRef.ref('/sponsormatchUsers/' +  currentUser.uid + '/profil/forening/logo' ).once('value', snapshot =>  {
-            const val =  snapshot.val();
-            setLogo(val)
-            })
-    }
+    
 
     const handleResize = () => {
         setWidth(window.innerWidth - 310);

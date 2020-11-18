@@ -1,7 +1,7 @@
 import React, { Fragment,useState,useEffect, useReducer } from 'react';
 import Breadcrumb from '../common/breadcrumb';
 import seven from '../../assets/images/user/7.jpg';
-import { MyProfile,Bio,MarkJecno,Designer,Password,Website,Save,EditProfile,Forening,Username,UsersCountryMenu,AboutMe,UpdateProfile,UsersTableTitle,FirstName,LastName,Address,EmailAddress,PostalCode,Country, UsersTableHeader,City,Edit,Update,Delete} from '../../constant'
+import { MyProfile,Phone,Website,Save,EditProfile,Forening,AboutMe,UpdateProfile,UsersTableTitle,FirstName,LastName,Address,EmailAddress,PostalCode, UsersTableHeader,City,Edit,Update,Delete} from '../../constant'
 import { firebase_app, dbRef } from '../../data/config';
 
 
@@ -11,7 +11,6 @@ const UserEdit = () => {
     const [currentUser, setCurrentUser] =  useState('');
     const [value, setValue] = useReducer((value, newValue) => ({...value, ...newValue}), {
         foreningName: ' ',
-        userName: '',
         fname: '',
         lname: '',
         telephonenr: '',
@@ -20,8 +19,7 @@ const UserEdit = () => {
         postnr: '',
         email: '',
         clubDescription: '',
-        password: ''
-
+        website: ''
     })
     
     firebase_app.auth().onAuthStateChanged(setCurrentUser);
@@ -118,15 +116,28 @@ const UserEdit = () => {
                                                 
                                             </div>
                                         </div>
+                                        
+                                            <div className="form-group">
+                                                <label className="form-label">{FirstName}</label>
+                                                <input className="form-control" type="text" name="fname" value={value.fname} onChange={((e) => setValue({fname: e.target.value}))} />
+                                            </div>
+                                    
+                                       
+                                            <div className="form-group">
+                                                <label className="form-label">{LastName}</label>
+                                                <input className="form-control" type="text" name="lname" value={value.lname} onChange={((e) => setValue({lname: e.target.value}))} />
+                                            </div>
+                                        
                                         <div className="form-group">
                                             <label className="form-label">{EmailAddress}</label>
                                             <input className="form-control"  value={value.email} onChange={((e) => setValue({email: e.target.value}))}/>
                                         </div>
                                         <div className="form-group">
-                                            <label className="form-label">{Password}</label>
-                                            <input className="form-control" type="password" defaultValue="password" onChange={((e) => setValue({password: e.target.value}))} readOnly />
+                                            <label className="form-label">{Phone}</label>
+                                            <input className="form-control"  value={value.telephonenr} onChange={((e) => setValue({telephonenr: e.target.value}))}/>
                                         </div>
-                                        
+                                       
+                        
                                         <div className="form-footer">
                                             <button className="btn btn-primary btn-block" type="button" onClick={handleClick}>{Save}</button>
                                         </div>
@@ -151,20 +162,9 @@ const UserEdit = () => {
                                         
                                         <div className="form-group">
                                             <label className="form-label">{Website}</label>
-                                            <input className="form-control" placeholder="http://Uplor .com" />
+                                            <input className="form-control" type="text" value={value.website} onChange={((e) => setValue({website: e.target.value}))} />
                                         </div>
-                                        <div className="col-sm-6 col-md-6">
-                                            <div className="form-group">
-                                                <label className="form-label">{FirstName}</label>
-                                                <input className="form-control" type="text" name="fname" value={value.fname} onChange={((e) => setValue({fname: e.target.value}))} />
-                                            </div>
-                                        </div>
-                                        <div className="col-sm-6 col-md-6">
-                                            <div className="form-group">
-                                                <label className="form-label">{LastName}</label>
-                                                <input className="form-control" type="text" name="lname" value={value.lname} onChange={((e) => setValue({lname: e.target.value}))} />
-                                            </div>
-                                        </div>
+                                        
                                         <div className="col-md-12">
                                             <div className="form-group">
                                                 <label className="form-label">{Address}</label>
