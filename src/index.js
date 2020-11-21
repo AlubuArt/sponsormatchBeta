@@ -40,7 +40,8 @@ import Error404 from './pages/errors/error404';
 import Error500 from './pages/errors/error500';
 import Error503 from './pages/errors/error503';
 import Signin from './auth/signin';
-import ContactApp from './components/applications/contact-app/contactApp';
+import SponsorContacts from './components/applications/sponsorer/sponsorContacts';
+import Sponsorater from './components/applications/sponsorer/sponsorater';
 
 // sample page
 import Samplepage from './components/sample/samplepage';
@@ -124,7 +125,8 @@ const Root = () => {
                                     <Route path={`${process.env.PUBLIC_URL}/learning/learning-detail`} component={LearningDeatil} />
 
                                     {/* CONTACT APP */}
-                                    <Route path={`${process.env.PUBLIC_URL}/contact-app/contact`} component={ContactApp} />
+                                    <Route path={`${process.env.PUBLIC_URL}/sponsorer/vores-sponsorer`} component={SponsorContacts} />
+                                    <Route path={`${process.env.PUBLIC_URL}/sponsorer/sponsorater`} component={Sponsorater} />
 
                                     {/* Sample page */}
                                     <Route path={`${process.env.PUBLIC_URL}/sample/samplepage`} component={Samplepage} />

@@ -1374,8 +1374,8 @@ export const  Gender  = "Gender"
 export const  Male  = "Male"
 export const  Female  = "Female"
 export const  PrintViews  = "Print previe"
-export const  Delete  = "Delete"
-export const  Edit  = "Edit"
+export const  Delete  = "Slet"
+export const  Edit  = "Redigér"
 
 // Project 
 export const ProjectTitle =  "Project Title"
@@ -1416,9 +1416,10 @@ export const Forening =  "Forening"
 export const Username =  "Brugernavn"
 export const UsersCountryMenu = ["--Select--","Germany","Canada","Usa","Aus"]
 export const UpdateProfile =  "Opdatér profil"
-export const UsersTableTitle =  "Add projects And Upload"
-export const UsersTableHeader =  ["Project Name","Date","Status","Price",""]
+export const UsersTableTitle =  "Se, tilføj og ændre sponsorater"
+export const UsersTableHeader =  ["Sponsornavn", "Start dato", "Slut Dato", "Beløb", "Status"]
 export const Update =  "Update"
+export const SeSponsorat = "Se"
 
 // Calendar
 export const BasicCalendars =  "Basic Calendar"

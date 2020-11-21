@@ -13,7 +13,7 @@
 
 // primary Color
 $m-val:13;
-$or: $primary-color ;
+$or: #37ff00;
 @while $m-val >=1 {
   .primary-color ul li {
     &:nth-child(#{$m-val}) {
@@ -163,7 +163,7 @@ $or:$danger-color;
 
 //Pink Color
 $m-val:13;
-$or:#e6155e;
+$or:#15c7e6;
 @while $m-val >=1 {
   .pink-color ul li {
     &:nth-child(#{$m-val}) {

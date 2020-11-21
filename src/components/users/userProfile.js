@@ -1,9 +1,8 @@
-import React, { Fragment, useState, useEffect } from 'react';
+import React, { Fragment, useState, } from 'react';
 import Breadcrumb from '../common/breadcrumb';
-import seven from '../../assets/images/user/7.jpg';
-import {Email,ContactUs,MarkJecno,Location, TotalFeedback, Uses} from '../../constant'
+import {Email,ContactUs,Location} from '../../constant'
 import { firebase_app, dbRef } from '../../data/config';
-import { clearAllBodyScrollLocks } from 'body-scroll-lock';
+
 
 
 
@@ -19,11 +18,6 @@ const UserProfile = () => {
     const [postnr, setPostnr] = useState('')
     const [logo, setLogo] = useState('');
     firebase_app.auth().onAuthStateChanged(setCurrentUser);
-    
-    
-    useEffect(() => {
-            
-        }, [])
     
    function getUserData() {
         
@@ -59,9 +53,7 @@ const UserProfile = () => {
             dbRef.ref('/sponsormatchUsers/' + currentUser.uid + '/profil/forening/telephonenr' ).once('value', snapshot => {
                 const value = snapshot.val();
                 setTelefon(value)
-                }) 
-            
-            
+                })     
     }
 
     getUserData()

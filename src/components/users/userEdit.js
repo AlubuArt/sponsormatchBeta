@@ -7,7 +7,7 @@ import { firebase_app, dbRef } from '../../data/config';
 
 const UserEdit = () => {
     
-    const [data, setData] = useState([]);
+    const [data, setData] = useState([{price: 23}]);
     const [currentUser, setCurrentUser] =  useState('');
     const [value, setValue] = useReducer((value, newValue) => ({...value, ...newValue}), {
         foreningName: ' ',
