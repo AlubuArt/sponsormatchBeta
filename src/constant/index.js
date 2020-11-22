@@ -1417,6 +1417,7 @@ export const Username =  "Brugernavn"
 export const UsersCountryMenu = ["--Select--","Germany","Canada","Usa","Aus"]
 export const UpdateProfile =  "Opdatér profil"
 export const UsersTableTitle =  "Se, tilføj og ændre sponsorater"
+export const SponsorSearchTitle = "Dine sponsorMatch"
 export const UsersTableHeader =  ["Sponsornavn", "Start dato", "Slut Dato", "Beløb", "Status"]
 export const Update =  "Update"
 export const SeSponsorat = "Se"

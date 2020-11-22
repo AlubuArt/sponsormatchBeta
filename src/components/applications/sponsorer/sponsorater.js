@@ -30,7 +30,7 @@ useEffect(() => {
 
 }, [currentUser])
 
-
+console.log(sponsors)
   
   return (
     <Fragment>

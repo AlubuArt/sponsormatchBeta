@@ -40,8 +40,11 @@ import Error404 from './pages/errors/error404';
 import Error500 from './pages/errors/error500';
 import Error503 from './pages/errors/error503';
 import Signin from './auth/signin';
+
+//sponsor page
 import SponsorContacts from './components/applications/sponsorer/sponsorContacts';
 import Sponsorater from './components/applications/sponsorer/sponsorater';
+import SponsorSearch from './components/applications/sponsorer/sponsorSearch';
 
 // sample page
 import Samplepage from './components/sample/samplepage';
@@ -124,9 +127,10 @@ const Root = () => {
                                     <Route path={`${process.env.PUBLIC_URL}/learning/learning-list`} component={LearningList} />
                                     <Route path={`${process.env.PUBLIC_URL}/learning/learning-detail`} component={LearningDeatil} />
 
-                                    {/* CONTACT APP */}
+                                    {/* Sponsor page */}
                                     <Route path={`${process.env.PUBLIC_URL}/sponsorer/vores-sponsorer`} component={SponsorContacts} />
                                     <Route path={`${process.env.PUBLIC_URL}/sponsorer/sponsorater`} component={Sponsorater} />
+                                    <Route path={`${process.env.PUBLIC_URL}/sponsorer/soeg-sponsor`} component={SponsorSearch} />
 
                                     {/* Sample page */}
                                     <Route path={`${process.env.PUBLIC_URL}/sample/samplepage`} component={Samplepage} />
