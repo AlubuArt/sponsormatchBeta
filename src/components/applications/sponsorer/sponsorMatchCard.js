@@ -1,9 +1,14 @@
 import React, { Fragment, useState, useEffect, useReducer } from "react";
+import {
+    Edit,
+    GemSponsor, 
+    OpretSponsorTilbud 
+
+    
+  } from "../../../constant";
 
 
 const SponsorMatchCard = (props) => {
-
-
 
     return (
         <Fragment>
@@ -71,7 +76,18 @@ const SponsorMatchCard = (props) => {
                                     </div>
                                     </div>
                                     <div className="col-sm-4">
-                                        <button>some button</button>
+                                        <div className="row">
+                                            <button className="btn btn-primary btn-custom" href="javascript" onClick={props.onClickAddToList}>
+                                                <i className="fa fa-plus"></i> {GemSponsor}
+                                            </button>
+                                        </div>
+                                        <br>
+                                        </br>
+                                            <div className="row">
+                                            <button className="btn btn-sponsormatchGreen btn-custom" href="javascript" onClick={props.onClickMakeSponsorDeal}>
+                                                <i className="fa fa-pencil"></i> {OpretSponsorTilbud}
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

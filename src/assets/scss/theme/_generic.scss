@@ -424,7 +424,8 @@ $fb;
         (info, $info-color),
         (light, $light-color),
         (dark, $dark-color),
-        (warning, $warning-color) {
+        (warning, $warning-color),
+        (sponsormatchGreen, $sponsormatchGreen-color) {
   .btn-#{$btn-name}{
     background-color: $btn-color !important;
     border-color: $btn-color !important;
@@ -456,7 +457,8 @@ $fb;
         (info, $info-color),
         (light, $light-color),
         (dark, $dark-color),
-        (warning, $warning-color) {
+        (warning, $warning-color),
+        (sponsormatchGreen, $sponsormatchGreen-color) {
   .btn-outline-#{$btn-name}-2x{
     border-width: 2px;
     border-color:$btn-color;
@@ -479,7 +481,8 @@ $fb;
         (info, $info-color),
         (light, $light-color),
         (dark, $dark-color),
-        (warning, $warning-color) {
+        (warning, $warning-color),
+        (sponsormatchGreen, $sponsormatchGreen-color) {
   .btn-outline-#{$btn-name}{
     border-color:$btn-color;
     color: $btn-color;
@@ -507,7 +510,8 @@ $fb;
         (info, $info-color),
         (light, $light-color),
         (dark, $dark-color),
-        (warning, $warning-color) {
+        (warning, $warning-color),
+        (sponsormatchGreen, $sponsormatchGreen-color) {
   .btn-#{$btn-name}:not([disabled]):not(.disabled).active{
     background-color:darken($btn-color,10%);
     border-color:darken($btn-color,10%);
@@ -529,7 +533,8 @@ $fb;
         (info, $info-color),
         (light, $light-color),
         (dark, $dark-color),
-        (warning, $warning-color) {
+        (warning, $warning-color),
+        (sponsormatchGreen, $sponsormatchGreen-color) {
 
   .btn-outline-#{$btn-name}-2x:not([disabled]):not(.disabled).active{
     background-color:$btn-color;

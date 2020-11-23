@@ -6,6 +6,7 @@ SponsorSearchTitle
   
 } from "../../../constant";
 import SponsorMatchCard from "./sponsorMatchCard";
+import { Input } from "reactstrap";
 
 const SponsorSearch = () => {
 
@@ -38,9 +39,17 @@ const SponsorSearch = () => {
  
 })
 
+const addSponsorToList = (input) => {
+    alert(input + ' blev tilføjet listen over mulige sponsorer')
+  }
 
+  const makeSponsorDeal = (input) => {
+      alert('Et nyt sponsortilbud til ' + input + ' blev oprettet')
+  }
 
   
+
+
   return (
     <Fragment>
       <Breadcrumb title="Søg Sponsorer" parent="Sponsorer" />
@@ -67,8 +76,11 @@ const SponsorSearch = () => {
                                 postnr={matches.postnr}
                                 city={matches.city}
                                 cvrnr={matches.cvrnr}
-                                />  
-                            
+                                onClickAddToList={() => addSponsorToList(matches.sponsorname)}
+                                onClickMakeSponsorDeal={() => makeSponsorDeal(matches.sponsorname)}
+                                
+                               
+                />  
                         </div>
                         
                     </div>

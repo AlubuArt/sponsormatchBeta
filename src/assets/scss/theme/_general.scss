@@ -8,7 +8,7 @@ body {
     background-color: $body-bg-color;
     font-size: $body-font-size;
     overflow-x: hidden;
-    font-family: $font-work-sans, $font-serif;
+    font-family: $font-open-sans, $font-serif;
     color: $theme-body-font-color;
 }
 ul {
@@ -19,7 +19,7 @@ ul {
 }
 * a {
     color: $primary-color ;
-    &.btn-primary, &.btn-secondary, &.btn-success, &.btn-info, &.btn-warning, &.btn-danger {
+    &.btn-primary, &.btn-secondary, &.btn-success, &.btn-info, &.btn-warning, &.btn-danger, &.btn-sponsormatchGreen {
         color: $white;
     }
 }

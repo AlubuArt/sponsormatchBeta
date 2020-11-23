@@ -35,12 +35,14 @@
   font-size: $btn-font-size;
   padding: $btn-padding;
   letter-spacing: 0.7px;
+  
 }
 .btn-lg{
   font-size: $btn-lg-font-size;
 }
 .btn-sm{
   font-size: $btn-sm-font-size;
+  
 }
 .btn-xs {
   padding: $btn-xs-padding;
@@ -52,6 +54,13 @@
     margin-bottom: 15px;
   }
   margin-bottom: -20px;
+  
+}
+.btn-custom{
+  font-size: $btn-sm-font-size;
+  width: 180px;
+  color: white;
+  box-shadow: 0 5px 10px 2px rgba(88,103,221,.19)!important;
 }
 // outline buttons//
 @each $btn-name, $btn-color in (primary, $primary-color ),
@@ -61,7 +70,8 @@
         (info, $info-color),
         (light, $light-color),
         (dark, $dark-color),
-        (warning, $warning-color) {
+        (warning, $warning-color),
+        (sponsormatchGreen, $sponsormatchGreen-color) {
   .btn-air-#{$btn-name}{
     box-shadow: 0 5px 10px 2px rgba(88,103,221,.19)!important;
     &:hover,&:active,&:not([disabled]):not(.disabled):active{
@@ -80,7 +90,8 @@
         (info, $info-color),
         (light, $light-color),
         (dark, $dark-color),
-        (warning, $warning-color) {
+        (warning, $warning-color),
+        (sponsormatchGreen, $sponsormatchGreen-color) {
   .input-air-#{$btn-name}{
     box-shadow: 0 3px 5px 1px rgba(88,103,221,.15)!important;
     &:focus{
