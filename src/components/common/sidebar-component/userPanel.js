@@ -8,7 +8,7 @@ const UserPanel = (props) => {
         <Fragment>
             <div className="sidebar-user text-center">
                 <div>
-                    <img className="img-60 rounded-circle lazyloaded blur-up" src={props.logo} alt="#" />
+                    <img className="img-100 rounded-circle lazyloaded blur-up" src={props.logo} alt="#" />
                     <div className="profile-edit">
                         <Link to={`${process.env.PUBLIC_URL}/users/userEdit`}>
                             <Edit />

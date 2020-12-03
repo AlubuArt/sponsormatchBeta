@@ -1,19 +1,19 @@
+
 import React, { Fragment, useState, useEffect,useRef } from 'react';
 import Breadcrumb from '../../common/breadcrumb'
 import {firebase_app} from '../../../data/config';
 import { Container, Row, Col, Card, CardHeader, CardBody, Nav, NavItem, NavLink, TabContent, TabPane, Modal, ModalHeader, ModalBody, Label, Input, FormGroup, Form, Button } from 'reactstrap'
 import defaultuser from '../../../assets/images/user/user.png';
-import { createUser, deletedUser, editUser } from '../../../services/contact.service'
+import { createSponsor, deletedUser, editUser } from '../../../services/contact.service'
 import search from '../../../assets/images/search-not-found.png';
 import { useForm } from 'react-hook-form';
 import SweetAlert from 'sweetalert2'
 import ReactToPrint from "react-to-print";
 import PrintPreview from './printpreview'
-import {UsersTableTitle, UsersTableHeader, Update, MarkJecno,MARKJENCOEMAIL,NewContacts,AddContacts,Views,Name,Age,Mobile,MobileNo,EmailAddress,Gender,Male,Female,FollowUp,Orgenization,Favourites,History,ContactHistory,AddCategory,Ideas,SarahLoren,AndewJon,JasonBorne,Business,Holidays, Important,Personal,Edit,Delete,Print,General,Save,Cancel,NoDataFound,PrintViews, ContactCreated} from '../../../constant'
+import {MarkJecno,Sponsordatabase,NewContacts,AddContacts,Views,Name,Age,Mobile,MobileNo,EmailAddress,Gender,Male,Female,FollowUp,Orgenization,Favourites,History,ContactHistory,AddCategory,Ideas,SarahLoren,AndewJon,JasonBorne,Business,Holidays, Important,Personal,Edit,Delete,Print,General,Save,Cancel,NoDataFound,PrintViews, ContactCreated, Virksomhed, Email, CVR} from '../../../constant'
 
-const SponsorContacts = (props) => {
+const Newcontact = (props) => {
 
-  const [data, setData] = useState([]);
   const [addurl,setAddurl] = useState(defaultuser)
   const [editurl,setEditurl] = useState()
   const [activeTab, setActiveTab] = useState('1');
@@ -32,9 +32,25 @@ const SponsorContacts = (props) => {
   const categoryToggle = () => setCategoryModal(!categoryModal);
   const printModalToggle = () => setprintModal(!printmodal);
   const componentRef = useRef();
+  const [currentUser, setCurrentUser] =  useState('');
+
+  firebase_app.auth().onAuthStateChanged(setCurrentUser);
+  /* useEffect(() => {
+    firebase_app.auth().onAuthStateChanged(setCurrentUser);
+    const getCurrentUserSponsorDatabase = () => {
+    const userContacts =  db.collection('sponsorDatabase').doc(currentUser.uid).get();
+    
+    }
+
+    const timeout = setTimeout(() => {
+      getCurrentUserSponsorDatabase()
+    }, 100) 
+    
+
+  }, [db, currentUser]); */
 
   useEffect(() => {
-    const unsubscribe = db.collection('contactApp').onSnapshot((snapshot) => {
+    const unsubscribe = db.collection('sponsorDatabase/Nshqes1lY7c1VcamCqX1KmF0kz52/newSponsor' ).onSnapshot((snapshot) => {
       const getUser = snapshot.docs.map((doc) => ({
         id: doc.id,
         ...doc.data()
@@ -45,10 +61,27 @@ const SponsorContacts = (props) => {
     return () => unsubscribe();
   }, [db]);
 
+
   const AddContact = data => {
+    
+    var setToList;
+    // eslint-disable-next-line default-case
+    switch (activeTab) {
+      case '1': 
+       setToList = 'newSponsor';
+       break;
+      case '2': 
+       setToList = 'diverse';
+       break;
+      case '3': 
+       setToList = 'followUp';
+       break;
+    }
+      
     if (data !== '') {
-      createUser(data, addurl);
+      createSponsor(data, setToList, currentUser.uid);
       setModal(false)
+      alert('sponsor added to ' + setToList )
 
     } else {
       errors.showMessages();
@@ -108,25 +141,25 @@ const SponsorContacts = (props) => {
   const deleteUser = (userId) => {
 
     SweetAlert.fire({
-      title: 'Are you sure?',
-      text: "Once deleted, you will not be able to recover this imaginary file!",
+      title: 'Er du sikker?',
+    text: "Hvis du sletter denne kontakt, er det ikke muligt at få den tilbage!",
       icon: 'warning',
       showCancelButton: true,
       confirmButtonText: 'Ok',
-      cancelButtonText: 'cancel',
+      cancelButtonText: 'fortryd',
       reverseButtons: true
     }).then((result) => {
       if (result.value) {
         deletedUser(userId);
         SweetAlert.fire(
-          'Deleted!',
-          'Your file has been deleted.',
+          'Slettet!',
+          'Dine filer er blvet slettet',
           'success'
         )
       }
       else {
         SweetAlert.fire(
-          'Your imaginary file is safe!'
+          'Din fil er ikke blevet slettet'
         )
       }
     })
@@ -146,9 +179,8 @@ const SponsorContacts = (props) => {
   
   return (
     <Fragment>
-      <Breadcrumb parent="Apps" title="Cotacts" />
+      <Breadcrumb parent="Sponsorer" title="Vores Sponsorer" />
       <Container fluid={true}>
-      
         <div className="email-wrap bookmark-wrap">
           <Row>
 
@@ -158,18 +190,12 @@ const SponsorContacts = (props) => {
                 <Card>
                   <CardBody>
                     <div className="email-app-sidebar left-bookmark">
-                      <div className="media">
-                        <div className="media-size-email"><img className="mr-3 rounded-circle" src={require("../../../assets/images/user/user.png")} alt="" /></div>
-                        <div className="media-body">
-                          <h6 className="f-w-600">{MarkJecno}</h6>
-                          <p>{MARKJENCOEMAIL}</p>
-                        </div>
-                      </div>
+                      
                       <Nav className="main-menu contact-options" role="tablist">
                         <NavItem>
                           <Button color="primary" className="btn-block btn-mail badge-light-primary" onClick={toggle}>
                             <i className="mr-2" data-feather="users"></i>
-                                {SponsorContacts}
+                                {NewContacts}
                               </Button>
                           <Modal isOpen={modal} toggle={toggle} size="lg">
                             <ModalHeader toggle={toggle}>{AddContacts}</ModalHeader>
@@ -189,23 +215,34 @@ const SponsorContacts = (props) => {
                                     <Row>
                                       <Col sm="6">
                                         <Input className="form-control" name="name" type="text" innerRef={register({ required: true })} />
-                                        <span style={{ color: "red" }}>{errors.name && 'First name is required'}</span>
+                                        <span style={{ color: "red" }}>{errors.name && 'Venligst indtast et fornavn'}</span>
                                       </Col>
                                       <Col sm="6">
                                         <Input className="form-control" name="surname" type="text" innerRef={register({ required: true })} />
-                                        <span style={{ color: "red" }}>{errors.surname && 'Last name is required'}</span>
+                                        <span style={{ color: "red" }}></span>
                                       </Col>
                                     </Row>
                                   </FormGroup>
-                                  <FormGroup className="col-md-12">
-                                    <Label>{Age}</Label>
-                                    <Input className="form-control" name="age" type="text" innerRef={register({ required: true, pattern: /\d+/, min: 18, max: 70 })} />
-                                    <span style={{ color: "red" }}>{errors.age && 'Please enter age between 18 to 70 year.'}</span>
+                                  <FormGroup className="col-md-12 ">
+                                    <Label>{Virksomhed}</Label>
+                                    <Input className="form-control" name="virksomhed" type="text" innerRef={register({ required: true })} />
+                                    <span style={{ color: "red" }}>{errors.virksomhed&& '<Venligst indtast et virksomhedsnavn'}</span>
                                   </FormGroup>
+                                  
                                   <FormGroup className="col-md-12 ">
                                     <Label>{Mobile}</Label>
                                     <Input className="form-control" name="mobile" type="number" innerRef={register({ pattern: /\d+/, minlength: 0, maxlength: 9 })} />
-                                    <span style={{ color: "red" }}>{errors.mobile && 'Please enter number max 9 digit'}</span>
+                                    <span style={{ color: "red" }}>{errors.mobile && 'Venligst indtast et nummer mellem 8 og 11 tal'}</span>
+                                  </FormGroup>
+                                  <FormGroup className="col-md-12 ">
+                                    <Label>{Email}</Label>
+                                    <Input className="form-control" name="email" type="email" innerRef={register({ required: true })} />
+                                    <span style={{ color: "red" }}>{errors.email&& 'Venligst indtast en gyldig email adresse'}</span>
+                                  </FormGroup>
+                                  <FormGroup className="col-md-12 ">
+                                    <Label>{CVR}</Label>
+                                    <Input className="form-control" name="cvrnr" type="number" innerRef={register({ required: true })} />
+                                    <span style={{ color: "red" }}></span>
                                   </FormGroup>
                                 </div>
                                 <Button color="secondary" className="mr-1">{Save}</Button>
@@ -215,31 +252,10 @@ const SponsorContacts = (props) => {
                           </Modal>
                         </NavItem>
                         <NavItem><span className="main-title"> {Views}</span></NavItem>
-                        <NavItem><a href="#javascript" className={activeTab === '1' ? 'active' : ''} onClick={() => setActiveTab('1')}><span className="title"> {Personal}</span></a></NavItem>
-                        <li>
-                            <button className="btn btn-category" onClick={categoryToggle}><span className="title"> + {AddCategory}</span></button>
-                            <Modal isOpen={categoryModal} toggle={categoryToggle}>
-                            <ModalHeader toggle={categoryToggle}>{AddCategory}</ModalHeader>
-                              <ModalBody>
-                                    <Form className="form-bookmark">
-                                      <div className="form-row">
-                                        <FormGroup className="mb-3 col-md-12 my-0">
-                                          <Input className="form-control" type="text" required="" placeholder="Enter category name" autoComplete="off"/>
-                                        </FormGroup>
-                                      </div>
-                                      <Button color="secondary" onClick={categoryToggle} >{Save}</Button>
-                                      <Button color="primary" className="ml-1" onClick={categoryToggle}>{Cancel}</Button>
-                                    </Form>
-                              </ModalBody>
-                            </Modal>
-                        </li>
+                        <NavItem><a href="#javascript" className={activeTab === '1' ? 'active' : ''} onClick={() => setActiveTab('1')}><span className="title"> {Sponsordatabase}</span></a></NavItem>
                         <NavItem><a href="#javascript" className={activeTab === '2' ? 'active' : ''} onClick={() => setActiveTab('2')}><span className="title"> {Orgenization}</span></a></NavItem>
                         <NavItem><a href="#javascript" className={activeTab === '3' ? 'active' : ''} onClick={() => setActiveTab('3')}><span className="title">{FollowUp}</span></a></NavItem>
-                        <NavItem><a href="#javascript" className={activeTab === '4' ? 'active' : ''} onClick={() => setActiveTab('4')}><span className="title">{Favourites}</span></a></NavItem>
-                        <NavItem><a href="#javascript" className={activeTab === '5' ? 'active' : ''} onClick={() => setActiveTab('5')}><span className="title">{Ideas}</span></a></NavItem>
-                        <NavItem><a href="#javascript" className={activeTab === '6' ? 'active' : ''} onClick={() => setActiveTab('6')}><span className="title">{Important}</span></a></NavItem>
-                        <NavItem><a href="#javascript" className={activeTab === '7' ? 'active' : ''} onClick={() => setActiveTab('7')}><span className="title">{Business}</span></a></NavItem>
-                        <NavItem><a href="#javascript" className={activeTab === '8' ? 'active' : ''} onClick={() => setActiveTab('8')}><span className="title">{Holidays}</span></a></NavItem>
+                        
                       </Nav>
                     </div>
                   </CardBody>
@@ -257,7 +273,7 @@ const SponsorContacts = (props) => {
                       <TabPane tabId="1">
                         <Card className="mb-0">
                           <CardHeader className="d-flex">
-                            <h5>{Personal}</h5><span className="f-14 pull-right mt-0">{"5 Contacts"}</span>
+                            <h5>{Sponsordatabase}</h5>
                           </CardHeader>
                           <CardBody className="p-0">
                             <Row className="list-persons" id="addcon">
@@ -269,13 +285,14 @@ const SponsorContacts = (props) => {
                                     return (
                                         <NavLink className={dynamictab === index ? "active" : ""} onClick={() => setDynamicTab(index)} key={index}>
                                         <div className="media"  onClick={() => ContactDetails(user)}>
-                                          <img className="img-50 img-fluid m-r-20 rounded-circle update_img_0" src={user.avatar} alt="" />
+                                          
                                           <div className="media-body">
                                             <h6>
-                                              <span className="first_name_0">{user.name}</span>
-                                              <span className="last_name_0">{user.surname}</span>
+                                              <span className="first_name_0">{user.name} {user.surname}</span>
+                                              
                                             </h6>
-                                            <p className="email_add_0">{user.name}{"@gmail.com"}</p>
+                                            <span className="first_name_0">{user.virksomhed}</span>
+                                            <p className="email_add_0">{user.email}</p>
                                           </div>
                                         </div>
                                         </NavLink>
@@ -325,8 +342,8 @@ const SponsorContacts = (props) => {
                                           </Row>
                                         </FormGroup>
                                         <FormGroup className="col-md-12">
-                                          <Label>{Age}</Label>
-                                          <Input className="form-control" type="text" name="age" defaultValue={editdata.age} innerRef={register({ required: true, pattern: /\d+/, min: 18, max: 70 })} />
+                                          <Label>{Virksomhed}</Label>
+                                          <Input className="form-control" type="text" name="virksomhed" defaultValue={editdata.virksomhed} innerRef={register({ required: true, pattern: /\d+/, min: 18, max: 70 })} />
                                           <span style={{ color: "red" }}>{errors.age && 'Please enter age between 18 to 70 year.'}</span>
                                         </FormGroup>
                                         <FormGroup className="col-md-12">
@@ -344,25 +361,27 @@ const SponsorContacts = (props) => {
                                     <TabPane tabId={dynamictab}>
                                     {selectedUser ?
                                       <div className="profile-mail">
-                                        <div className="media"><img className="img-100 img-fluid m-r-20 rounded-circle update_img_0" src={selectedUser.avatar} alt="" />
+                                        <div className="media">
                                           <div className="media-body mt-0">
                                             <h5><span className="first_name_0">{selectedUser.name}</span><span className="last_name_0">{selectedUser.surname}</span></h5>
-                                            <p className="email_add_0">{selectedUser.name}{"@gmail.com"}</p>
+                                            <span className="first_name_0">{selectedUser.virksomhed}</span>
+                                            
                                             <ul>
                                               <li><a href="#javaScript" onClick={() => EditUSers(selectedUser)}>{Edit}</a></li>
                                               <li><a href="#javaScript" onClick={() => deleteUser(selectedUser.id)}>{Delete}</a></li>
                                               <li><a href="#javaScript" onClick={() => history()}>{History}</a></li>
-                                              <li><a href="#javaScript" onClick={() => printModalToggle()} data-toggle="modal" data-target="#printModal">{Print}</a></li>
+                                             
                                             </ul>
                                           </div>
                                         </div>
                                         <div className="email-general">
-                                          <h6 className="mb-3">{General}</h6>
+                                          <h6 className="mb-3">Informationer</h6>
                                           <ul>
-                                            <li>{Name} <span className="font-primary first_name_0">{selectedUser.name}</span></li>
-                                            <li>{Age} <span className="font-primary">{selectedUser.age}</span></li>
-                                            <li>{MobileNo}<span className="font-primary mobile_num_0">{selectedUser.mobile}</span></li>
-                                            <li>{EmailAddress} <span className="font-primary email_add_0">{`${selectedUser.name}@gmail.com`} </span></li>
+                                            <li>{Name} <span className="font-primary first_name_0">{selectedUser.name} {selectedUser.surname}</span></li>
+                                            <li>{Virksomhed} <span className="font-primary">{selectedUser.virksomhed}</span></li>
+                                            <li>{Mobile}<span className="font-primary mobile_num_0">{selectedUser.mobile}</span></li>
+                                            <li>{EmailAddress} <span className="font-primary email_add_0">{selectedUser.email} </span></li>
+                                            <li>{CVR} <span className="font-primary email_add_0">{selectedUser.cvrnr} </span></li>
                                           </ul>
                                         </div>
                                       </div>
@@ -389,7 +408,7 @@ const SponsorContacts = (props) => {
                       <TabPane tabId="2">
                         <Card className="mb-0">
                           <CardHeader className="d-flex">
-                            <h5>{Orgenization}</h5><span className="f-14 pull-right mt-0">{"10 Contacts"}</span>
+                            <h5>{Orgenization}</h5>
                           </CardHeader>
                           <CardBody className="p-0">
                             <Row className="list-persons">
@@ -534,7 +553,7 @@ const SponsorContacts = (props) => {
                       <TabPane tabId="3">
                         <Card className="mb-0">
                           <CardHeader className="d-flex">
-                            <h5>{FollowUp}</h5><span className="f-14 pull-right mt-0">{"10 Contacts"}</span>
+                            <h5>{FollowUp}</h5>
                           </CardHeader>
                           <CardBody>
                             <p>{NoDataFound} </p>
@@ -545,7 +564,7 @@ const SponsorContacts = (props) => {
                       <TabPane tabId="4">
                         <Card className="mb-0">
                           <CardHeader className="d-flex">
-                            <h5>{Favourites}</h5><span className="f-14 pull-right mt-0">{"10 Contacts"}</span>
+                            <h5>{Favourites}</h5>
                           </CardHeader>
                           <CardBody>
                             <p>{NoDataFound} </p>
@@ -556,7 +575,7 @@ const SponsorContacts = (props) => {
                       <TabPane tabId="5">
                         <Card className="mb-0">
                           <CardHeader className="d-flex">
-                            <h5>{Ideas}</h5><span className="f-14 pull-right mt-0">{"10 Contacts"}</span>
+                            <h5>{Ideas}</h5>
                           </CardHeader>
                           <CardBody>
                             <p>{NoDataFound} </p>
@@ -567,7 +586,7 @@ const SponsorContacts = (props) => {
                       <TabPane tabId="6">
                         <Card className="mb-0">
                           <CardHeader className="d-flex">
-                            <h5>{Important}</h5><span className="f-14 pull-right mt-0">{"10 Contacts"}</span>
+                            <h5>{Important}</h5>
                           </CardHeader>
                           <CardBody>
                             <p>{NoDataFound} </p>
@@ -578,7 +597,7 @@ const SponsorContacts = (props) => {
                       <TabPane tabId="7">
                         <Card className="mb-0">
                           <CardHeader className="d-flex">
-                            <h5>{Business}</h5><span className="f-14 pull-right mt-0">{"10 Contacts"}</span>
+                            <h5>{Business}</h5>
                           </CardHeader>
                           <CardBody>
                             <p>{NoDataFound} </p>
@@ -589,7 +608,7 @@ const SponsorContacts = (props) => {
                       <TabPane tabId="8">
                         <Card className="mb-0">
                           <CardHeader className="d-flex">
-                            <h5>{Holidays}</h5><span className="f-14 pull-right mt-0">{"10 Contacts"}</span>
+                            <h5>{Holidays}</h5>
                           </CardHeader>
                           <CardBody>
                             <p>{NoDataFound} </p>
@@ -643,9 +662,8 @@ const SponsorContacts = (props) => {
 
           </Row>
         </div>
-        
       </Container>
     </Fragment>
   );
 }
-export default SponsorContacts;
+export default Newcontact;

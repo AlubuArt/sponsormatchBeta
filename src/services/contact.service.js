@@ -1,16 +1,20 @@
-import {firebase_app} from '../data/config';
+import {firebase_app,} from '../data/config';
 import user from '../assets/images/user/user.png';
 
 const db = firebase_app.firestore();
 
-export const createUser = (value, avatar) => {
-    db.collection('contactApp').add({
-        avatar: avatar ? avatar : user,
+
+export const createSponsor= (value, list, userID) => {
+    db.collection('sponsorDatabase/' + userID + '/' + list).add({
+        
         name: value.name,
         surname: value.surname,
         mobile: value.mobile,
-        age: value.age,
-        nameToSearch: value.name.toLowerCase()
+        virksomhed: value.virksomhed,
+        email: value.email,
+        cvrnr: value.cvrnr,
+        nameToSearch: value.name.toLowerCase(),
+        
     })
 }
 
@@ -20,11 +24,12 @@ export const deletedUser = (userId) => {
 
 export const editUser = (value, url, userId) => {
     db.collection('contactApp').doc(userId).set({
-        avatar: url ? url : null,
         name: value.name,
         surname: value.surname,
         mobile: value.mobile,
-        age: value.age,
+        virksomhed: value.virksomhed,
+        email: value.email,
+        cvrnr: value.cvrnr,
         nameToSearch: value.name.toLowerCase()
     })
 }
