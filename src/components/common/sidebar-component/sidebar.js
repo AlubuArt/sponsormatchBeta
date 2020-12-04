@@ -18,7 +18,7 @@ const Sidebar = (props) => {
     const [hideRightArrowRTL, setHideRightArrowRTL] = useState(true);
     const [hideRightArrow, setHideRightArrow] = useState(true);
     const [hideLeftArrow, setHideLeftArrow] = useState(true);
-    const [mainmenu, setMainMenu] = useState(MENUITEMS);
+    const [mainmenu, setMainMenu] = useState([MENUITEMS]);
     const wrapper = configDB.data.settings.sidebar.wrapper;
     const layout = useSelector(content => content.Customizer.layout);
     const [currentUser, setCurrentUser] =  useState('');
