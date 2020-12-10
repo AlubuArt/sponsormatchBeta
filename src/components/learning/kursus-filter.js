@@ -16,7 +16,7 @@ const LearningFilter = () => {
                                 <div className="card-header">
                                     <h5 className="mb-0">
                                         <button className="btn btn-link pl-0" data-toggle="collapse" onClick={() => setIsFilter(!isFilter)}
-                                            data-target="#collapseicon" aria-expanded={isFilter} aria-controls="collapseicon">Find Course</button>
+                                            data-target="#collapseicon" aria-expanded={isFilter} aria-controls="collapseicon">Find kursus</button>
                                     </h5>
                                 </div>
                                 <Collapse isOpen={isFilter}>

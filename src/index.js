@@ -20,8 +20,8 @@ import UserProfile from './components/users/userProfile';
 import UserEdit from './components/users/userEdit';
 
 // learning 
-import LearningList from './components/learning/learning-list';
-import LearningDeatil from './components/learning/learning-deatil';
+import LearningList from './components/learning/kursus-samling';
+import LearningDeatil from './components/learning/kursus-detaljer';
 
 // pages 
 import Login from './pages/login';
@@ -124,8 +124,8 @@ const Root = () => {
                                     <Route path={`${process.env.PUBLIC_URL}/users/userEdit`} component={UserEdit}  />
                                     
                                     {/* Learning App */}
-                                    <Route path={`${process.env.PUBLIC_URL}/learning/learning-list`} component={LearningList} />
-                                    <Route path={`${process.env.PUBLIC_URL}/learning/learning-detail`} component={LearningDeatil} />
+                                    <Route path={`${process.env.PUBLIC_URL}/kursus/kursus-samling`} component={LearningList} />
+                                    <Route path={`${process.env.PUBLIC_URL}/kursus/kursus-detaljer`} component={LearningDeatil} />
 
                                     {/* Sponsor page */}
                                     <Route path={`${process.env.PUBLIC_URL}/sponsorer/vores-sponsorer`} component={SponsorContacts} />

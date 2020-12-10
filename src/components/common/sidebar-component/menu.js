@@ -29,8 +29,8 @@ export const MENUITEMS = [
 
     {
         title: 'Kurser', icon: Layers, type: 'sub', active: false, children: [
-            { path: '/learning/learning-list', title: 'Kursus samling', type: 'link' },
-            { path: '/learning/learning-detail', title: 'Detail Course', type: 'link' },
+            { path: '/kursus/kursus-samling', title: 'Kursus samling', type: 'link' },
+            { path: '/kursus/kursus-detaljer', title: 'Kursus information', type: 'link' },
         ]
     },
     
