@@ -1300,7 +1300,7 @@ export const Tags = "Tags"
 export const Newsletter = "Newsletter"
 export const Holidays = "Holidays"
 export const Important = "Important"
-export const Orgenization = "Diverse"
+export const DiverseKontakter = "Diverse Kontakter"
 export const NoBookmarksFound = "No Bookmarks Found."
 
 // Task 
@@ -1360,8 +1360,8 @@ export const ActivityLog = "Activity Log"
 
 // Contact
 
-export const  ContactHistory = "Contact History"
-export const  ContactCreated = "Contact Created"
+export const  ContactHistory = "Sponsor Historik"
+export const  ContactCreated = "Sponsor Oprettet"
 export const  NewContacts = "Opret ny sponsor"
 export const  AddContacts = "Tilføj ny sponsor"
 

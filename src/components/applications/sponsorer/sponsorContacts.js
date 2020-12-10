@@ -10,7 +10,8 @@ import { useForm } from 'react-hook-form';
 import SweetAlert from 'sweetalert2'
 import ReactToPrint from "react-to-print";
 import PrintPreview from './printpreview'
-import {MarkJecno,Sponsordatabase,NewContacts,AddContacts,Views,Name,Age,Mobile,MobileNo,EmailAddress,Gender,Male,Female,FollowUp,Orgenization,Favourites,History,ContactHistory,AddCategory,Ideas,SarahLoren,AndewJon,JasonBorne,Business,Holidays, Important,Personal,Edit,Delete,Print,General,Save,Cancel,NoDataFound,PrintViews, ContactCreated, Virksomhed, Email, CVR} from '../../../constant'
+import {Sponsordatabase,NewContacts,AddContacts,Views,Name,Mobile,EmailAddress,Gender,Male,Female,FollowUp,Favourites,History,ContactHistory,Ideas,Business,Holidays, Important,Personal,Edit,Delete,Print,General,Save,Cancel,NoDataFound,PrintViews, ContactCreated, Virksomhed, Email, CVR, DiverseKontakter} from '../../../constant'
+import { Phone } from 'react-feather';
 
 const Newcontact = (props) => {
 
@@ -146,20 +147,20 @@ const Newcontact = (props) => {
       icon: 'warning',
       showCancelButton: true,
       confirmButtonText: 'Ok',
-      cancelButtonText: 'fortryd',
+      cancelButtonText: 'Fortryd',
       reverseButtons: true
     }).then((result) => {
       if (result.value) {
         deletedUser(userId);
         SweetAlert.fire(
           'Slettet!',
-          'Dine filer er blvet slettet',
+          'Sponsoren er slettet',
           'success'
         )
       }
       else {
         SweetAlert.fire(
-          'Din fil er ikke blevet slettet'
+          ':Sponsoren er ikke blevet slettet'
         )
       }
     })
@@ -253,9 +254,8 @@ const Newcontact = (props) => {
                         </NavItem>
                         <NavItem><span className="main-title"> {Views}</span></NavItem>
                         <NavItem><a href="#javascript" className={activeTab === '1' ? 'active' : ''} onClick={() => setActiveTab('1')}><span className="title"> {Sponsordatabase}</span></a></NavItem>
-                        <NavItem><a href="#javascript" className={activeTab === '2' ? 'active' : ''} onClick={() => setActiveTab('2')}><span className="title"> {Orgenization}</span></a></NavItem>
                         <NavItem><a href="#javascript" className={activeTab === '3' ? 'active' : ''} onClick={() => setActiveTab('3')}><span className="title">{FollowUp}</span></a></NavItem>
-                        
+                        <NavItem><a href="#javascript" className={activeTab === '2' ? 'active' : ''} onClick={() => setActiveTab('2')}><span className="title"> {DiverseKontakter}</span></a></NavItem>
                       </Nav>
                     </div>
                   </CardBody>
@@ -408,7 +408,7 @@ const Newcontact = (props) => {
                       <TabPane tabId="2">
                         <Card className="mb-0">
                           <CardHeader className="d-flex">
-                            <h5>{Orgenization}</h5>
+                            <h5>{DiverseKontakter}</h5>
                           </CardHeader>
                           <CardBody className="p-0">
                             <Row className="list-persons">
@@ -419,7 +419,7 @@ const Newcontact = (props) => {
                                       <div className="media">
                                         <img className="img-50 img-fluid m-r-20 rounded-circle" src={require("../../../assets/images/user/user.png")} alt="" />
                                         <div className="media-body">
-                                          <h6>{MarkJecno}</h6>
+                                          <h6>Samarbejdspartner 1</h6>
                                           <p>{"markjecno@gmail.com"}</p>
                                         </div>
                                       </div>
@@ -429,7 +429,7 @@ const Newcontact = (props) => {
                                     <NavLink tag="a" href="#javaScript" className={orgactiveTab === '2' ? 'active' : ''} onClick={() => setorgActiveTab('2')}>
                                       <div className="media"><img className="img-50 img-fluid m-r-20 rounded-circle" src={require("../../../assets/images/user/3.jpg")} alt="" />
                                         <div className="media-body">
-                                          <h6>{JasonBorne}</h6>
+                                          <h6>Samarbejdspartner</h6>
                                           <p>{"jasonb@gmail.com"}</p>
                                         </div>
                                       </div>
@@ -439,7 +439,7 @@ const Newcontact = (props) => {
                                     <NavLink tag="a" href="#javaScript" className={orgactiveTab === '3' ? 'active' : ''} onClick={() => setorgActiveTab('3')}>
                                       <div className="media"><img className="img-50 img-fluid m-r-20 rounded-circle" src={require("../../../assets/images/user/4.jpg")} alt="" />
                                         <div className="media-body">
-                                          <h6>{SarahLoren}</h6>
+                                          <h6>Samarbejdspartner</h6>
                                           <p>{"barnes@gmail.com"}</p>
                                         </div>
                                       </div>
@@ -449,7 +449,7 @@ const Newcontact = (props) => {
                                     <NavLink tag="a" href="#javaScript" className={orgactiveTab === '4' ? 'active' : ''} onClick={() => setorgActiveTab('4')}>
                                       <div className="media"><img className="img-50 img-fluid m-r-20 rounded-circle" src={require("../../../assets/images/user/10.jpg")} alt="" />
                                         <div className="media-body">
-                                          <h6>{AndewJon}</h6>
+                                          <h6>Samarbejdspartner</h6>
                                           <p>{"andrewj@gmail.com"}</p>
                                         </div>
                                       </div>
@@ -465,18 +465,12 @@ const Newcontact = (props) => {
                                         <div className="media-body mt-0">
                                           <h5><span className="first_name_5">{"Mark"} </span><span className="last_name_5">{"jecno"}</span></h5>
                                           <p className="email_add_5">{"markjecno@gmail.com"}</p>
-                                          <ul>
-                                            <li><a href="#javaScript" data-toggle="modal" data-target="#printModal">{Print}</a></li>
-                                          </ul>
                                         </div>
                                       </div>
                                       <div className="email-general">
-                                        <h6>{General}</h6>
+                                        <h6>Informationer</h6>
                                         <p>{EmailAddress}: <span className="font-primary email_add_5">{"markjecno@gmail.com"}</span></p>
-                                        <div className="gender">
-                                          <h6>{Personal}</h6>
-                                          <p>{Gender}: <span>{Male}</span></p>
-                                        </div>
+                                        <p>{Mobile}: <span className="font-primary email_add_5">{"98129290"}</span></p>
                                       </div>
                                     </div>
                                   </TabPane>
@@ -628,12 +622,12 @@ const Newcontact = (props) => {
                         </div>
                         <div className="history-details">
                           <div className="text-center"><i className="icofont icofont-ui-edit"></i>
-                            <p>{"Contact has not been modified yet."}</p>
+                            <p>{"Der er ingen historik for denne sponsor."}</p>
                           </div>
                           <div className="media"><i className="icofont icofont-star mr-3"></i>
                             <div className="media-body mt-0">
                               <h6 className="mt-0">{ContactCreated}</h6>
-                              <p className="mb-0">{"Contact is created via mail"}</p><span className="f-12">{"Sep 10, 2019 4:00"}</span>
+                              <p className="mb-0">{"Sponsor oprettet via platform"}</p><span className="f-12">{"Sep 10, 2019 4:00"}</span>
                             </div>
                           </div>
                         </div>
