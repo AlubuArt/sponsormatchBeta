@@ -108,7 +108,9 @@
     .page-sidebar {
       width: $sidebar-width;
       position: $sidebar-position;
-      background: #006dbc;    
+       
+        
+      background: linear-gradient(#006adc, #3495fe, #006cdf);
       top: 0;
       height: calc(100vh);
       z-index: $sidebar-z-index;
