@@ -35,7 +35,7 @@ export const MENUITEMS = [
     },
     
     {
-        path: '/sample/samplepage', title: 'Sample Page', icon: File, type: 'link', active: false
+        path: '/feedback/feedbackpage', title: 'Feedback', icon: File, type: 'link', active: false
     },
     
     

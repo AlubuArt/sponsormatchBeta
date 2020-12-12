@@ -47,7 +47,7 @@ import Sponsorater from './components/applications/sponsorer/sponsorater';
 import SponsorSearch from './components/applications/sponsorer/sponsorSearch';
 
 // sample page
-import Samplepage from './components/sample/samplepage';
+import Samplepage from './components/feedback/feedbackpage';
 
 //config data
 import configDB from './data/customizer/config'
@@ -133,7 +133,7 @@ const Root = () => {
                                     <Route path={`${process.env.PUBLIC_URL}/sponsorer/soeg-sponsor`} component={SponsorSearch} />
 
                                     {/* Sample page */}
-                                    <Route path={`${process.env.PUBLIC_URL}/sample/samplepage`} component={Samplepage} />
+                                    <Route path={`${process.env.PUBLIC_URL}/feedback/feedbackpage`} component={Samplepage} />
 
                                 </App>
                              :

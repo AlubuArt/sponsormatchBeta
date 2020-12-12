@@ -6,10 +6,13 @@ import { Link } from 'react-router-dom';
 import { withRouter } from 'react-router';
 import {useAuth0} from '@auth0/auth0-react'
 import {EditProfile} from '../../../constant'
+import { dbRef } from '../../../data/config';
 
 const UserMenu = ({ history }) => {
 
     const [profile, setProfile] = useState('');
+    const [logo, setLogo] = useState('');
+    const [currentUser, setCurrentUser] =  useState('');
     // auth0 profile
     const {logout} = useAuth0()
     const authenticated = JSON.parse(localStorage.getItem("authenticated"))
@@ -18,6 +21,20 @@ const UserMenu = ({ history }) => {
     useEffect(() => {
         setProfile(localStorage.getItem('profileURL') || man);
     }, []);
+
+
+    useEffect(() => {
+        const getCurrentUser = () => {
+            firebase_app.auth().onAuthStateChanged(setCurrentUser);
+            dbRef.ref('/sponsormatchUsers/' +  currentUser.uid + '/profil/forening/logo' ).once('value', snapshot =>  {
+            const val =  snapshot.val();
+            setLogo(val)
+            })
+        }   
+        getCurrentUser(); 
+        
+          
+    }, [currentUser])
 
     const Logout_From_Firebase = () => {
         localStorage.removeItem('profileURL')
@@ -37,7 +54,7 @@ const UserMenu = ({ history }) => {
         <Fragment>
             <li className="onhover-dropdown">
                 <div className="media align-items-center">
-                    <img className="align-self-center pull-right img-50 rounded-circle blur-up lazyloaded" src={authenticated ? auth0_profile.picture : profile} alt="header-user" />
+                    <img className="align-self-center pull-right img-50 rounded-circle blur-up lazyloaded" src={logo} alt="header-user" />
                     <div className="dotted-animation">
                         <span className="animate-circle"></span>
                         <span className="main-circle"></span>
