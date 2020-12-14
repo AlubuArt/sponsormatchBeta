@@ -1,5 +1,4 @@
 import React, { Fragment, useState, useEffect } from 'react';
-import man from '../../../assets/images/dashboard/user.png';
 import { User, LogOut } from 'react-feather';
 import {firebase_app} from "../../../data/config";
 import { Link } from 'react-router-dom';
@@ -10,19 +9,13 @@ import { dbRef } from '../../../data/config';
 
 const UserMenu = ({ history }) => {
 
-    const [profile, setProfile] = useState('');
+    
     const [logo, setLogo] = useState('');
     const [currentUser, setCurrentUser] =  useState('');
     // auth0 profile
     const {logout} = useAuth0()
     const authenticated = JSON.parse(localStorage.getItem("authenticated"))
-    const auth0_profile = JSON.parse(localStorage.getItem("auth0_profile"))
-
-    useEffect(() => {
-        setProfile(localStorage.getItem('profileURL') || man);
-    }, []);
-
-
+    
     useEffect(() => {
         const getCurrentUser = () => {
             firebase_app.auth().onAuthStateChanged(setCurrentUser);

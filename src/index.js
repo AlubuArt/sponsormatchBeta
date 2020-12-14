@@ -93,12 +93,7 @@ const Root = () => {
                 <BrowserRouter basename={`/`}>
                         <Switch>
                             <Route path={`${process.env.PUBLIC_URL}/login`} component={Signin} />
-                            <Route path={`${process.env.PUBLIC_URL}/pages/login`} component={Login} />
-                            <Route path={`${process.env.PUBLIC_URL}/pages/loginWithBgImg`} component={LoginWithBgImg} />
-                            <Route path={`${process.env.PUBLIC_URL}/pages/loginWithVideo`} component={LoginWithVideo} />
                             <Route path={`${process.env.PUBLIC_URL}/pages/signup`} component={Signup} />
-                            <Route path={`${process.env.PUBLIC_URL}/pages/signupWithImg`} component={SignupWithImg} />
-                            <Route path={`${process.env.PUBLIC_URL}/pages/signupWithVideo`} component={SignupWithVideo} />
                             <Route path={`${process.env.PUBLIC_URL}/pages/unlockUser`} component={UnlockUser} />
                             <Route path={`${process.env.PUBLIC_URL}/pages/forgetPwd`} component={ForgetPwd} />
                             <Route path={`${process.env.PUBLIC_URL}/pages/resetPwd`} component={ResetPwd} />

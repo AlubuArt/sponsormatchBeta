@@ -5,13 +5,11 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { withRouter } from "react-router";
 import  {firebase_app, Jwt_token } from "../data/config";
-import { handleResponse } from "../services/fack.backend";
-import { useAuth0 } from '@auth0/auth0-react'
-import { Login,LOGIN,YourName,Password,RememberMe,LoginWithAuth0,LoginWithJWT } from '../constant';
+import { Login,LOGIN,YourName,Password,RememberMe} from '../constant';
 
 const Signin = ({ history }) => {
 
-    const {loginWithRedirect} = useAuth0()
+    
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     
@@ -41,26 +39,6 @@ const Signin = ({ history }) => {
             }, 200);
         }
     }
-
-
-    const loginWithJwt = (email,password) => {
-
-        const requestOptions = {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: ({ email, password })
-        };
-        
-        return fetch('/users/authenticate', requestOptions)
-        .then(handleResponse)
-        .then(user => {
-          // store user details and jwt token in local storage to keep user logged in between page refreshes
-          setValue(man);
-          localStorage.setItem('token', user);
-          window.location.href = `${process.env.PUBLIC_URL}/dashboard/default`
-          return user;
-        });
-      }
 
     return (
         <div>
@@ -104,14 +82,6 @@ const Signin = ({ history }) => {
                                                     <div className="form-group form-row mt-3 mb-0">
                                                         <button className="btn btn-primary btn-block" type="button" onClick={() => loginAuth()} >{Login}</button>
                                                     </div>
-                                                    <div className="form-group form-row mt-3 mb-0 button-auth">
-                                                        <div className="col-md-6">
-                                                            <button className="btn btn-secondary btn-block" type="button" onClick={() => loginWithJwt(email,password)} >{LoginWithJWT}</button>
-                                                        </div>
-                                                        <div className="col-md-6">
-                                                            <button className="btn btn-success btn-block" type="button" onClick={loginWithRedirect} >{LoginWithAuth0}</button>
-                                                        </div>
-                                                    </div>   
                                                 </form>
                                             </div>
                                         </div>

@@ -1,40 +1,28 @@
 import React ,{useEffect , Fragment, useState} from 'react';
 import Breadcrumb from '../../common/breadcrumb';
 import {  MessageCircle } from 'react-feather';
-import configDB from '../../../data/customizer/config';
 import { firebase_app } from '../../../data/config';
-import {News} from '../../../constant'
-var Knob = require('knob')// browserify require
-var primary = localStorage.getItem('primary_color') || configDB.data.color.primary_color;
+import {News} from '../../../constant';
+import {  dbRef } from '../../../data/config';
+
 
 const Default = (props) => {
 
-    const [currentUser, setCurrentUser] =  useState('');
+    const [currentUser, setCurrentUser] =  useState(props.us);
+    const [userData, setUserData] = useState((value, newValue) => ({...value, ...newValue}), {
+        fname: '',
+    });
 
     useEffect( () => {
 
         firebase_app.auth().onAuthStateChanged(setCurrentUser);
-        var profit = Knob({
-            value: 35,
-            left: 1,
-            angleOffset: 90,
-            className: "review",
-            thickness: 0.2,
-            width: 270,
-            height: 270,
-            fgColor: primary,
-            readOnly: false,
-            dynamicDraw: false,
-            tickColorizeValues: true,
-            bgColor: '#f6f7fb',
-            lineCap: 'round',
-            displayPrevious:true,
-            
+        dbRef.ref('/sponsormatchUsers/' +  currentUser.uid + '/profil/forening/fname' ).once('value',  async snapshot =>  {
+            const val =  snapshot.val();
+            setUserData({fname: val})    
         })
-    },[]);
+    },[currentUser]);
     
     
-
     return (
         <Fragment>
             <Breadcrumb title = "Forside" />
@@ -43,7 +31,8 @@ const Default = (props) => {
                         <div className="col-xl-8 xl-100">
                         <div className="card">
                             <div className="card-header bg-warning" >
-                                    <h5 className="text-white">Velkommen til SponsorMatch platformen!</h5>
+                                    <h5 className="text-white">Velkommen til din SponsorMatch platform {userData.fname}</h5>
+                                    
                             </div>
                             <div className="card-body" >
                                 <p>
@@ -113,15 +102,7 @@ const Default = (props) => {
                             </div>
                         </div>
                         {/* news column end*/}
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                        
+ 
                     </div>
                 </div>
 
