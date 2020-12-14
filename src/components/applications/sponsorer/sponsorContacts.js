@@ -24,7 +24,7 @@ const Newcontact = (props) => {
   const [users, setUsers] = useState([])
   const [editdata, setEditData] = useState({});
   const [editing, setEditing] = useState(false)
-  const [selectedUser,setSelectedUser] = useState({})
+  const [selectedUser, setSelectedUser] = useState({})
   const db = firebase_app.firestore();
   const [printmodal, setprintModal] = useState(false);
   const [modal, setModal] = useState(false);
@@ -175,7 +175,7 @@ const Newcontact = (props) => {
   }
 
   const ContactDetails = (user) => {
-      setSelectedUser({ id: user.id, name: user.name, surname: user.surname, avatar: user.avatar, age: user.age,mobile:user.mobile })
+      setSelectedUser({ id: user.id, name: user.name, surname: user.surname, avatar: user.avatar, age: user.age, mobile:user.mobile, email: user.email, virksomhed: user .virksomhed, cvrnr: user.cvrnr })
   }
   
   return (
@@ -363,7 +363,7 @@ const Newcontact = (props) => {
                                       <div className="profile-mail">
                                         <div className="media">
                                           <div className="media-body mt-0">
-                                            <h5><span className="first_name_0">{selectedUser.name}</span><span className="last_name_0">{selectedUser.surname}</span></h5>
+                                            <h5><span className="first_name_0">{selectedUser.name}</span> <span className="last_name_0">{selectedUser.surname}</span></h5>
                                             <span className="first_name_0">{selectedUser.virksomhed}</span>
                                             
                                             <ul>
@@ -378,7 +378,7 @@ const Newcontact = (props) => {
                                           <h6 className="mb-3">Informationer</h6>
                                           <ul>
                                             <li>{Name} <span className="font-primary first_name_0">{selectedUser.name} {selectedUser.surname}</span></li>
-                                            <li>{Virksomhed} <span className="font-primary">{selectedUser.virksomhed}</span></li>
+                                            <li>{Virksomhed} <span className="font-primary first_name_0">{selectedUser.virksomhed}</span></li>
                                             <li>{Mobile}<span className="font-primary mobile_num_0">{selectedUser.mobile}</span></li>
                                             <li>{EmailAddress} <span className="font-primary email_add_0">{selectedUser.email} </span></li>
                                             <li>{CVR} <span className="font-primary email_add_0">{selectedUser.cvrnr} </span></li>
