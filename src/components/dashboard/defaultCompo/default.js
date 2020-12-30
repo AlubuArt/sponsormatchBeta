@@ -20,6 +20,8 @@ const Default = (props) => {
             const val =  snapshot.val();
             setUserData({fname: val})    
         })
+
+        
     },[currentUser]);
     
     

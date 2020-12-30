@@ -110,9 +110,9 @@ const Root = () => {
                                 <App>
                                     {/* dashboard menu */}
                                     <Route exact path={`${process.env.PUBLIC_URL}/`} render={() => {
-                                        return (<Redirect to={`${process.env.PUBLIC_URL}/dashboard/default`} />)
+                                        return (<Redirect to={`${process.env.PUBLIC_URL}/forside`} />)
                                     }} />
-                                    <Route path={`${process.env.PUBLIC_URL}/dashboard/default`} render={() => <Default us={currentUser}/>} />
+                                    <Route path={`${process.env.PUBLIC_URL}/forside`} render={() => <Default us={currentUser}/>} />
 
                                     {/* Users */}
                                     <Route path={`${process.env.PUBLIC_URL}/users/userProfile`} component={UserProfile} />

@@ -6,6 +6,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { withRouter } from "react-router";
 import  {firebase_app, Jwt_token } from "../data/config";
 import { Login,LOGIN,YourName,Password,RememberMe} from '../constant';
+import {setFirebaseUser, getSponsorsFromDatabase}from '../services/firebase-model';
 
 const Signin = ({ history }) => {
 
@@ -28,14 +29,18 @@ const Signin = ({ history }) => {
  
     const loginAuth = async () => {
         try {
-            await firebase_app.auth().signInWithEmailAndPassword(email, password);
+            const currentUser = await firebase_app.auth().signInWithEmailAndPassword(email, password);
+            const uid = await currentUser.user.uid;
             setValue(man);
+            setFirebaseUser(currentUser);
+            getSponsorsFromDatabase();
+            localStorage.setItem('userID', uid)
             localStorage.setItem('token', Jwt_token);
-            history.push(`${process.env.PUBLIC_URL}/dashboard/default`);
+            history.push(`${process.env.PUBLIC_URL}/forside`);
 
         } catch (error) {
             setTimeout(() => {
-                toast.error("Oppss.. The password is invalid or the user does not have a password.");
+                toast.error("Hov! Det ser ud til at koden ikke er korrekt, eller at brugeren ikke har et kodeord.");
             }, 200);
         }
     }

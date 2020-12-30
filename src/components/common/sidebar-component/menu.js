@@ -8,7 +8,7 @@ import {
 
 export const MENUITEMS = [
     {
-        title: 'Forside', icon: Home, type: 'link', path: '/dashboard/default', badgeType: 'primary', active: false
+        title: 'Forside', icon: Home, type: 'link', path: '/forside', badgeType: 'primary', active: false
     },
     
     {

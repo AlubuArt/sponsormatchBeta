@@ -1,86 +1,48 @@
-import React, { Fragment, useState, } from 'react';
+import React, { Fragment, useState, useReducer, useEffect } from 'react';
 import Breadcrumb from '../common/breadcrumb';
 import {Email,ContactUs,Location} from '../../constant'
 import { firebase_app, dbRef } from '../../data/config';
+import { forEach } from 'lodash';
 
 
 
 
 const UserProfile = () => {
-    const [url, setUrl] = useState();
-    const [email, setEmail] = useState('');
-    const [currentUser, setCurrentUser] =  useState('');
-    const [foreningName, setForeningName] = useState()
-    const [sponsoransvarlig, setSponsoransvarlig] = useState('')
-    const [telefon, setTelefon] = useState('')
-    const [adresse, setAdresse] = useState('')
-    const [by, setBy] = useState('')
-    const [postnr, setPostnr] = useState('')
-    const [logo, setLogo] = useState('');
-    firebase_app.auth().onAuthStateChanged(setCurrentUser);
+
+    const [currentUser, setCurrentUser] =  useState(localStorage.getItem('userID'));
+    const [userInfo, setUserInfo] = useReducer((value, newValue) => ({...value, ...newValue}), {
+        foreningName: ' ',
+        fname: '',
+        lname: '',
+        telephonenr: '',
+        adresse: '',
+        city: '',
+        postnr: '',
+        email: '',
+        clubDescription: '',
+        website: '',
+        logo: ''
+    })
     
-   function getUserData() {
-        
-            dbRef.ref('/sponsormatchUsers/' + currentUser.uid + '/profil/forening/foreningName' ).once('value', snapshot => {
-                const value = snapshot.val();
-                setForeningName(value)
-            })
-            dbRef.ref('/sponsormatchUsers/' + currentUser.uid + '/profil/forening/adresse' ).once('value', snapshot => {
-                const value = snapshot.val();
-                setAdresse(value)
-            })
-            dbRef.ref('/sponsormatchUsers/' + currentUser.uid + '/profil/forening/logo' ).once('value', snapshot => {
-                const value = snapshot.val();
-                setLogo(value)
-            })
-            dbRef.ref('/sponsormatchUsers/' + currentUser.uid + '/profil/forening/city' ).once('value', snapshot => {
-                const val = snapshot.val();
-                setBy(val)
-            })
-            dbRef.ref('/sponsormatchUsers/' + currentUser.uid + '/profil/forening/postnr' ).once('value', snapshot => {
-                const val = snapshot.val();
-                setPostnr(val)
-            })
-            dbRef.ref('/sponsormatchUsers/' + currentUser.uid + '/profil/forening/fname' ).once('value', snapshot => {
-                const value = snapshot.val();
-                setSponsoransvarlig(value)
-            }) 
-            dbRef.ref('/sponsormatchUsers/' + currentUser.uid + '/profil/forening/email' ).once('value', snapshot => {
-                const email = snapshot.val();
-                setEmail(email)
-                }) 
-             
-            dbRef.ref('/sponsormatchUsers/' + currentUser.uid + '/profil/forening/telephonenr' ).once('value', snapshot => {
-                const value = snapshot.val();
-                setTelefon(value)
-                })     
+    const getUserDataFromDatabase = () => {
+        dbRef.ref('/sponsormatchUsers/' + currentUser + '/profil/forening/' ).once('value', snapshot => {
+            const value = snapshot.val();
+            for (let [key, val] of Object.entries(value)) {
+                setUserInfo({[key]: val})
+            }
+        })
     }
 
-    getUserData()
+    useEffect(() => {
+        getUserDataFromDatabase()
+ 
+    }, [])
     
 
-
-    const readUrl = (event) => {
-        if (event.target.files.length === 0)
-            return;
-        //Image upload validation
-        var mimeType = event.target.files[0].type;
-
-        if (mimeType.match(/image\/*/) == null) {
-            return;
-        }
-        // Image upload
-        var reader = new FileReader();
-
-        reader.readAsDataURL(event.target.files[0]);
-        reader.onload = (_event) => {
-            setUrl(reader.result)
-        }
-    }
     
     return (
         <Fragment>
-            <Breadcrumb parent="Users" title="Klub profil" />
+            <Breadcrumb parent="Profil" title="Klub profil" />
             <div className="container-fluid">
                 <div className="user-profile">
                     <div className="row">
@@ -90,11 +52,11 @@ const UserProfile = () => {
                                 <div className="cardheader"></div>
                                 <div className="user-image ">
                                     <div className="avatar ">
-                                        <img className="pro" alt="" src={logo} data-intro="This is Profile image" />
+                                        <img className="pro" alt="" src={userInfo.logo} data-intro="This is Profile image" />
                                     </div>
                                     <div className="icon-wrapper">
                                         <i className="icofont icofont-pencil-alt-5" data-intro="Change Profile image here" >
-                                            <input className="pencil" type="file" onChange={(e) => readUrl(e)} />
+                                            <input className="pencil" type="file"/>
                                         </i>
                                     </div>
                                 </div>
@@ -104,7 +66,7 @@ const UserProfile = () => {
                                             <div className="row">
                                                 <div className="col-md-6">
                                                     <div className="ttl-info text-left">
-                                                        <h6><i className="fa fa-envelope mr-2"></i>{Email}</h6><span>{email}</span>
+                                                        <h6><i className="fa fa-envelope mr-2"></i>{Email}</h6><span>{userInfo.email}</span>
                                                     </div>
                                                 </div>
                                                 
@@ -112,21 +74,21 @@ const UserProfile = () => {
                                         </div>
                                         <div className="col-sm-12 col-lg-4 order-sm-0 order-xl-1">
                                             <div className="user-designation">
-                                                <div className="title"><a target="_blank" href="javascript">{foreningName}</a></div>
+                                                <div className="title"><a target="_blank" href="javascript">{userInfo.foreningName}</a></div>
                                                 <div className="desc mt-2">Sponsoransvarlig</div>
-                                                <div className="sponsoransvarlig-navn">{sponsoransvarlig}</div>
+                                                <div className="sponsoransvarlig-navn">{userInfo.fname} {userInfo.lname}</div>
                                             </div>
                                         </div>
                                         <div className="col-sm-6 col-lg-4 order-sm-2 order-xl-2">
                                             <div className="row">
                                                 <div className="col-md-6">
                                                     <div className="ttl-info text-left ttl-xs-mt">
-                                                        <h6><i className="fa fa-phone"></i>{ContactUs}</h6><span>{telefon}</span>
+                                                        <h6><i className="fa fa-phone"></i>{ContactUs}</h6><span>{userInfo.telephonenr}</span>
                                                     </div>
                                                 </div>
                                                 <div className="col-md-6">
                                                     <div className="ttl-info text-left ttl-sm-mb-0">
-                                                        <h6><i className="fa fa-location-arrow"></i>{Location}</h6><span>{by}, {postnr} {adresse}</span>
+                                                        <h6><i className="fa fa-location-arrow"></i>{Location}</h6><span>{userInfo.city}, {userInfo.postnr} {userInfo.adresse}</span>
                                                     </div>
                                                 </div>
                                             </div>
