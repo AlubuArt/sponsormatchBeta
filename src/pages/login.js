@@ -6,7 +6,7 @@ import { Login,LOGIN,YourName,Password,RememberMe } from '../constant';
 const Logins = ({history}) => {
     
     const loginAuth = () => {
-        history.push(`${process.env.PUBLIC_URL}/dashboard/default`);
+        history.push(`${process.env.PUBLIC_URL}/forside`);
     }
     
     return (

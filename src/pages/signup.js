@@ -3,11 +3,13 @@
 
 import React, { Fragment, useState, useReducer, useEffect } from 'react';
 import sponsormatchLogo from '../assets/images/sponsormatch-logo_farver_login.png';
-import { FirstName, LastName,Login,Password,SignUp, EmailAddress, Forening } from '../constant';
-import {firebase_app, dbRef} from "../data/config";
+import { FirstName, LastName,Login,Password,SignUp, EmailAddress, Forening, errorMessageInvalidEmail, errorMesssageInvalidPassword, errorMessageUndefined } from '../constant';
+import {firebase_app, dbRef, Jwt_token} from "../data/config";
 import { toast, ToastContainer } from 'react-toastify';
 
+
 const Signup = ({ history }) => {
+    
     
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -24,12 +26,11 @@ const Signup = ({ history }) => {
         clubDescription: '',
         logo: ''
     })
-    firebase_app.auth().onAuthStateChanged(setCurrentUser);
+    
 
-    const handleButtonClickLoginIn = async (e) => {
+    const handleButtonClickLoginIn = (e) => {
         e.preventDefault()
         signUpAndMakeDatabase()
-        redirectToProfilePageAfterSucces()
     }
     
     const signUpAndMakeDatabase = async () => {
@@ -39,23 +40,26 @@ const Signup = ({ history }) => {
             const userID = user.uid
             const setUidInDatabase = {[ `/sponsormatchUsers/${userID}/profil/forening`]: value}     
             await dbRef.ref().update(setUidInDatabase);
+            localStorage.setItem('userID', userID)
+            localStorage.setItem('token', Jwt_token);
         } catch (error) {
             switch(error.code) {
                 case "auth/invalid-email":
-                    toast.error("Emailen du har indtastet er ugyldig. Forsøg venligst med en anden email."); 
+                    toast.error(errorMessageInvalidEmail); 
                 case "auth/weak-password":
-                    toast.error("Kodeordet du har valgt er for svagt. Vælg et kodeord med mindst 6 tegn og mindst 1 tal.");
+                    toast.error(errorMesssageInvalidPassword);
                 }
             }
+            redirectToProfilePageAfterSucces()
     }
 
     const redirectToProfilePageAfterSucces = async () => {
         try {
-            await firebase_app.auth().signInWithEmailAndPassword(email, password);
-            history.push(`${process.env.PUBLIC_URL}/dashboard/default`);
+            await firebase_app.auth().signInWithEmailAndPassword(value.email, password);
+            history.push(`${process.env.PUBLIC_URL}/forside`);
         } catch (error) {
             setTimeout(() => {
-                toast.error("Noget gik galt. Vi kunne ikke logge dig ind.");
+                toast.error(errorMessageUndefined);
             }, 200);
         }
     }

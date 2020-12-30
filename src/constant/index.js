@@ -1538,6 +1538,9 @@ export const  SidebarBackgroundSetting  = "Sidebar background setting"
 export const  Pattern  = "Pattern"
 export const  Border  = "Border"
 
-
+//error messages signup
+export const errorMessageInvalidEmail = "Emailen du har indtastet er ugyldig. Forsøg venligst med en anden email.";
+export const errorMesssageInvalidPassword = "Kodeordet du har valgt er for svagt. Vælg et kodeord med mindst 6 tegn og mindst 1 tal.";
+export const errorMessageUndefined = "Noget gik galt. Vi kunne ikke logge dig ind. Prøv at trykke på ´login´";
 
 

@@ -11,15 +11,15 @@ const UserMenu = ({ history }) => {
 
     
     const [logo, setLogo] = useState('');
-    const [currentUser, setCurrentUser] =  useState('');
+    const [currentUser, setCurrentUser] =  useState(localStorage.getItem('userID'));
     // auth0 profile
     const {logout} = useAuth0()
     const authenticated = JSON.parse(localStorage.getItem("authenticated"))
     
     useEffect(() => {
         const getCurrentUser = () => {
-            firebase_app.auth().onAuthStateChanged(setCurrentUser);
-            dbRef.ref('/sponsormatchUsers/' +  currentUser.uid + '/profil/forening/logo' ).once('value', snapshot =>  {
+            
+            dbRef.ref('/sponsormatchUsers/' +  currentUser + '/profil/forening/logo' ).once('value', snapshot =>  {
             const val =  snapshot.val();
             setLogo(val)
             })
