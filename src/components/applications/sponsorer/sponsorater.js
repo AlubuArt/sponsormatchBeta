@@ -12,15 +12,15 @@ import {
 
 const Sponsorater = () => {
 
-  const [currentUser, setCurrentUser] = useState('')
+  const [currentUser, setCurrentUser] = useState(localStorage.getItem('userID'))
   const [sponsors, setSponsors] = useReducer((value, newValue) => ({...value, ...newValue}), {
 
   })
 
 useEffect(() => {
   try {
-  firebase_app.auth().onAuthStateChanged(setCurrentUser);
-      dbRef.ref('/sponsormatchUsers/' + currentUser.uid + '/sponsorer' ).once('value', snapshot => {
+ 
+      dbRef.ref('/sponsormatchUsers/' + currentUser+ '/sponsorer' ).once('value', snapshot => {
         const value = snapshot.val();
         setSponsors(value)
       })

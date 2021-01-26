@@ -40,7 +40,7 @@ const Newcontact = (props) => {
   //todo when a new entry is made into the database, set the selectedUser to the new entry.
   
   useEffect(() => {
-    const newSponsors = db.collection('sponsorDatabase/Nshqes1lY7c1VcamCqX1KmF0kz52/newSponsor' ).onSnapshot((snapshot) => {
+    const newSponsors = db.collection('sponsorDatabase/' + currentUser + '/newSponsor' ).onSnapshot((snapshot) => {
       const getSponsors = snapshot.docs.map((doc) => ({
         id: doc.id,
         ...doc.data()
@@ -48,14 +48,14 @@ const Newcontact = (props) => {
       setSponsors(getSponsors)
       setSelectedUser(getSponsors[0])
     })
-    const followUp = db.collection('sponsorDatabase/Nshqes1lY7c1VcamCqX1KmF0kz52/followUp' ).onSnapshot((snapshot) => {
+    const followUp = db.collection('sponsorDatabase/' + currentUser + '/followUp' ).onSnapshot((snapshot) => {
       const getFollowUp = snapshot.docs.map((doc) => ({
         id: doc.id,
         ...doc.data()
       }))
       setFollowUp(getFollowUp)
     })
-    const diverseKontakter = db.collection('sponsorDatabase/Nshqes1lY7c1VcamCqX1KmF0kz52/diverse' ).onSnapshot((snapshot) => {
+    const diverseKontakter = db.collection('sponsorDatabase/' + currentUser + '/diverse' ).onSnapshot((snapshot) => {
       const getDiverseKontakter = snapshot.docs.map((doc) => ({
         id: doc.id,
         ...doc.data()
@@ -176,8 +176,8 @@ const Newcontact = (props) => {
     document.querySelector(".history").classList.remove("show")
   }
 
-  const ContactDetails = (user) => {
-      setSelectedUser({ id: user.id, name: user.name, surname: user.surname, avatar: user.avatar, age: user.age, mobile:user.mobile, email: user.email, virksomhed: user .virksomhed, cvrnr: user.cvrnr })
+  const ContactDetails = (sponsor) => {
+      setSelectedUser({ name: sponsor.name, phone:sponsor.phone, email: sponsor.email, virksomhed: sponsor.virksomhed, cvrnr: sponsor.cvrnr })
   }
   
   return (
@@ -235,12 +235,12 @@ const Newcontact = (props) => {
                                   <FormGroup className="col-md-12 ">
                                     <Label>{Mobile}</Label>
                                     <Input className="form-control" name="mobile" type="number" innerRef={register({ pattern: /\d+/, minlength: 0, maxlength: 9 })} />
-                                    <span style={{ color: "red" }}>{errors.mobile && 'Venligst indtast et nummer mellem 8 og 11 tal'}</span>
+                                    <span style={{ color: "red" }}>{errors.phone && 'Venligst indtast et nummer mellem 8 og 11 tal'}</span>
                                   </FormGroup>
                                   <FormGroup className="col-md-12 ">
                                     <Label>{Email}</Label>
                                     <Input className="form-control" name="email" type="email" innerRef={register({ required: true })} />
-                                    <span style={{ color: "red" }}>{errors.email&& 'Venligst indtast en gyldig email adresse'}</span>
+                                    <span style={{ color: "red" }}>{errors.email && 'Venligst indtast en gyldig email adresse'}</span>
                                   </FormGroup>
                                   <FormGroup className="col-md-12 ">
                                     <Label>{CVR}</Label>
@@ -283,18 +283,18 @@ const Newcontact = (props) => {
                                 <Nav className="flex-column nav-pills">
                                 
                                 { sponsors.length > 0 ?
-                                    sponsors.map((user, index) => {
+                                    sponsors.map((sponsor, index) => {
                                       return (
                                           <NavLink className={dynamictab === index ? "active" : ""} onClick={() => setDynamicTab(index)} key={index}>
-                                          <div className="media"  onClick={() => ContactDetails(user)}>
+                                          <div className="media"  onClick={() => ContactDetails(sponsor)}>
                                             
                                             <div className="media-body">
                                               <h6>
-                                                <span className="first_name_0">{user.name} {user.surname}</span>
+                                                <span className="first_name_0">{sponsor.name}</span>
                                                 
                                               </h6>
-                                              <span className="first_name_0">{user.virksomhed}</span>
-                                              <p className="email_add_0">{user.email}</p>
+                                              <span className="first_name_0">{sponsor.virksomhed}</span>
+                                              <p className="email_add_0">{sponsor.email}</p>
                                             </div>
                                           </div>
                                           </NavLink>
@@ -337,10 +337,7 @@ const Newcontact = (props) => {
                                               <Input className="form-control" type="text" name="name" defaultValue={editdata.name} innerRef={register({ required: true })} />
                                               <span style={{ color: "red" }}>{errors.name && 'First name is required'}</span>
                                             </Col>
-                                            <Col sm="6">
-                                              <Input className="form-control" type="text" name="surname" defaultValue={editdata.surname} innerRef={register({ required: true })} />
-                                              <span style={{ color: "red" }}>{errors.surname && 'Last name is required'}</span>
-                                            </Col>
+                                            
                                           </Row>
                                         </FormGroup>
                                         <FormGroup className="col-md-12">
@@ -350,8 +347,8 @@ const Newcontact = (props) => {
                                         </FormGroup>
                                         <FormGroup className="col-md-12">
                                           <Label>{Mobile}</Label>
-                                          <Input className="form-control" type="text" name="mobile" defaultValue={editdata.mobile} innerRef={register({ pattern: /\d+/, minlength: 0, maxlength: 9 })} />
-                                          <span style={{ color: "red" }}>{errors.mobile && 'Please enter number max 9 digit'}</span>
+                                          <Input className="form-control" type="text" name="mobile" defaultValue={editdata.phone} innerRef={register({ pattern: /\d+/, minlength: 0, maxlength: 9 })} />
+                                          <span style={{ color: "red" }}>{errors.phone && 'Please enter number max 9 digit'}</span>
                                         </FormGroup>
                                       </div>
                                       <Button color="secondary" className="update-contact mr-1">{Save}</Button>
@@ -379,9 +376,9 @@ const Newcontact = (props) => {
                                         <div className="email-general">
                                           <h6 className="mb-3">Informationer</h6>
                                           <ul>
-                                            <li>{Name} <span className="font-primary first_name_0">{selectedUser.name} {selectedUser.surname}</span></li>
+                                            <li>{Name} <span className="font-primary first_name_0">{selectedUser.name}</span></li>
                                             <li>{Virksomhed} <span className="font-primary first_name_0">{selectedUser.virksomhed}</span></li>
-                                            <li>{Mobile}<span className="font-primary mobile_num_0">{selectedUser.mobile}</span></li>
+                                            <li>{Mobile}<span className="font-primary mobile_num_0">{selectedUser.phone}</span></li>
                                             <li>{EmailAddress} <span className="font-primary email_add_0">{selectedUser.email} </span></li>
                                             <li>{CVR} <span className="font-primary email_add_0">{selectedUser.cvrnr} </span></li>
                                           </ul>
@@ -418,18 +415,18 @@ const Newcontact = (props) => {
                                 <Nav className="flex-column nav-pills">
                                 
                                 { followUp.length > 0 ?
-                                    followUp.map((user, index) => {
+                                    followUp.map((sponsor, index) => {
                                       return (
                                           <NavLink className={dynamictab === index ? "active" : ""} onClick={() => setDynamicTab(index)} key={index}>
-                                          <div className="media"  onClick={() => ContactDetails(user)}>
+                                          <div className="media"  onClick={() => ContactDetails(sponsor)}>
                                             
                                             <div className="media-body">
                                               <h6>
-                                                <span className="first_name_0">{user.name} {user.surname}</span>
+                                                <span className="first_name_0">{sponsor.name}</span>
                                                 
                                               </h6>
-                                              <span className="first_name_0">{user.virksomhed}</span>
-                                              <p className="email_add_0">{user.email}</p>
+                                              <span className="first_name_0">{sponsor.virksomhed}</span>
+                                              <p className="email_add_0">{sponsor.email}</p>
                                             </div>
                                           </div>
                                           </NavLink>
@@ -472,21 +469,18 @@ const Newcontact = (props) => {
                                               <Input className="form-control" type="text" name="name" defaultValue={editdata.name} innerRef={register({ required: true })} />
                                               <span style={{ color: "red" }}>{errors.name && 'First name is required'}</span>
                                             </Col>
-                                            <Col sm="6">
-                                              <Input className="form-control" type="text" name="surname" defaultValue={editdata.surname} innerRef={register({ required: true })} />
-                                              <span style={{ color: "red" }}>{errors.surname && 'Last name is required'}</span>
-                                            </Col>
+                                            
                                           </Row>
                                         </FormGroup>
                                         <FormGroup className="col-md-12">
                                           <Label>{Virksomhed}</Label>
                                           <Input className="form-control" type="text" name="virksomhed" defaultValue={editdata.virksomhed} innerRef={register({ required: true, pattern: /\d+/, min: 18, max: 70 })} />
-                                          <span style={{ color: "red" }}>{errors.age && 'Please enter age between 18 to 70 year.'}</span>
+                                          <span style={{ color: "red" }}>{errors.virksomhed && 'Please enter age between 18 to 70 year.'}</span>
                                         </FormGroup>
                                         <FormGroup className="col-md-12">
                                           <Label>{Mobile}</Label>
-                                          <Input className="form-control" type="text" name="mobile" defaultValue={editdata.mobile} innerRef={register({ pattern: /\d+/, minlength: 0, maxlength: 9 })} />
-                                          <span style={{ color: "red" }}>{errors.mobile && 'Please enter number max 9 digit'}</span>
+                                          <Input className="form-control" type="text" name="mobile" defaultValue={editdata.phone} innerRef={register({ pattern: /\d+/, minlength: 0, maxlength: 9 })} />
+                                          <span style={{ color: "red" }}>{errors.phone && 'Please enter number max 9 digit'}</span>
                                         </FormGroup>
                                       </div>
                                       <Button color="secondary" className="update-contact mr-1">{Save}</Button>
@@ -514,9 +508,9 @@ const Newcontact = (props) => {
                                         <div className="email-general">
                                           <h6 className="mb-3">Informationer</h6>
                                           <ul>
-                                            <li>{Name} <span className="font-primary first_name_0">{selectedUser.name} {selectedUser.surname}</span></li>
+                                            <li>{Name} <span className="font-primary first_name_0">{selectedUser.name}</span></li>
                                             <li>{Virksomhed} <span className="font-primary first_name_0">{selectedUser.virksomhed}</span></li>
-                                            <li>{Mobile}<span className="font-primary mobile_num_0">{selectedUser.mobile}</span></li>
+                                            <li>{Mobile}<span className="font-primary mobile_num_0">{selectedUser.phone}</span></li>
                                             <li>{EmailAddress} <span className="font-primary email_add_0">{selectedUser.email} </span></li>
                                             <li>{CVR} <span className="font-primary email_add_0">{selectedUser.cvrnr} </span></li>
                                           </ul>
@@ -553,18 +547,18 @@ const Newcontact = (props) => {
                                 <Nav className="flex-column nav-pills">
                                 
                                 { diverseKontakter.length > 0 ?
-                                    diverseKontakter.map((user, index) => {
+                                    diverseKontakter.map((sponsor, index) => {
                                       return (
                                           <NavLink className={dynamictab === index ? "active" : ""} onClick={() => setDynamicTab(index)} key={index}>
-                                          <div className="media"  onClick={() => ContactDetails(user)}>
+                                          <div className="media"  onClick={() => ContactDetails(sponsor)}>
                                             
                                             <div className="media-body">
                                               <h6>
-                                                <span className="first_name_0">{user.name} {user.surname}</span>
+                                                <span className="first_name_0">{sponsor.name}</span>
                                                 
                                               </h6>
-                                              <span className="first_name_0">{user.virksomhed}</span>
-                                              <p className="email_add_0">{user.email}</p>
+                                              <span className="first_name_0">{sponsor.virksomhed}</span>
+                                              <p className="email_add_0">{sponsor.email}</p>
                                             </div>
                                           </div>
                                           </NavLink>
@@ -607,21 +601,18 @@ const Newcontact = (props) => {
                                               <Input className="form-control" type="text" name="name" defaultValue={editdata.name} innerRef={register({ required: true })} />
                                               <span style={{ color: "red" }}>{errors.name && 'First name is required'}</span>
                                             </Col>
-                                            <Col sm="6">
-                                              <Input className="form-control" type="text" name="surname" defaultValue={editdata.surname} innerRef={register({ required: true })} />
-                                              <span style={{ color: "red" }}>{errors.surname && 'Last name is required'}</span>
-                                            </Col>
+                                            
                                           </Row>
                                         </FormGroup>
                                         <FormGroup className="col-md-12">
                                           <Label>{Virksomhed}</Label>
                                           <Input className="form-control" type="text" name="virksomhed" defaultValue={editdata.virksomhed} innerRef={register({ required: true, pattern: /\d+/, min: 18, max: 70 })} />
-                                          <span style={{ color: "red" }}>{errors.age && 'Please enter age between 18 to 70 year.'}</span>
+                                          <span style={{ color: "red" }}>{errors.virksomhed && 'Please enter age between 18 to 70 year.'}</span>
                                         </FormGroup>
                                         <FormGroup className="col-md-12">
                                           <Label>{Mobile}</Label>
-                                          <Input className="form-control" type="text" name="mobile" defaultValue={editdata.mobile} innerRef={register({ pattern: /\d+/, minlength: 0, maxlength: 9 })} />
-                                          <span style={{ color: "red" }}>{errors.mobile && 'Please enter number max 9 digit'}</span>
+                                          <Input className="form-control" type="text" name="mobile" defaultValue={editdata.phone} innerRef={register({ pattern: /\d+/, minlength: 0, maxlength: 9 })} />
+                                          <span style={{ color: "red" }}>{errors.phone && 'Please enter number max 9 digit'}</span>
                                         </FormGroup>
                                       </div>
                                       <Button color="secondary" className="update-contact mr-1">{Save}</Button>
@@ -635,7 +626,7 @@ const Newcontact = (props) => {
                                       <div className="profile-mail">
                                         <div className="media">
                                           <div className="media-body mt-0">
-                                            <h5><span className="first_name_0">{selectedUser.name}</span> <span className="last_name_0">{selectedUser.surname}</span></h5>
+                                            <h5><span className="first_name_0">{selectedUser.name}</span> <span className="last_name_0">{selectedUser.name}</span></h5>
                                             <span className="first_name_0">{selectedUser.virksomhed}</span>
                                             
                                             <ul>
@@ -649,9 +640,9 @@ const Newcontact = (props) => {
                                         <div className="email-general">
                                           <h6 className="mb-3">Informationer</h6>
                                           <ul>
-                                            <li>{Name} <span className="font-primary first_name_0">{selectedUser.name} {selectedUser.surname}</span></li>
+                                            <li>{Name} <span className="font-primary first_name_0">{selectedUser.name}</span></li>
                                             <li>{Virksomhed} <span className="font-primary first_name_0">{selectedUser.virksomhed}</span></li>
-                                            <li>{Mobile}<span className="font-primary mobile_num_0">{selectedUser.mobile}</span></li>
+                                            <li>{Mobile}<span className="font-primary mobile_num_0">{selectedUser.phone}</span></li>
                                             <li>{EmailAddress} <span className="font-primary email_add_0">{selectedUser.email} </span></li>
                                             <li>{CVR} <span className="font-primary email_add_0">{selectedUser.cvrnr} </span></li>
                                           </ul>

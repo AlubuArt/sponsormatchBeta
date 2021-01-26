@@ -1,20 +1,16 @@
-import React, { Fragment, useState, useEffect, useReducer } from "react";
+import React, { Fragment, useState,  useReducer } from "react";
 import Breadcrumb from "../../common/breadcrumb";
-import { firebase_app, dbRef } from '../../../data/config';
-import {
-SponsorSearchTitle
-  
-} from "../../../constant";
+import { SponsorSearchTitle } from "../../../constant";
 import SponsorMatchCard from "./sponsorMatchCard";
-import { Input } from "reactstrap";
+import { createSponsor } from "../../../services/contact.service";
 
 const SponsorSearch = () => {
 
-  const [currentUser, setCurrentUser] = useState('')
+  const [currentUser, setCurrentUser] = useState(localStorage.getItem('userID'))
   const [newSponsorMatches, setNewSponsorMatches] = useReducer((value, newValue) => ({...value, ...newValue}), {
     
         match1: {
-            sponsorname: "Børges Biler",
+            virksomhed: "Børges Biler",
             contactName:  'Børge Bentsen',
             cvrnr: '33301022',
             city: 'Aalborg',
@@ -22,33 +18,50 @@ const SponsorSearch = () => {
             adresse: 'Flydedokken 19 4th',
             phone: '98129290',
             email: 'børges@biler.dk',
-            branche: 'Møbler'
+            branche: 'Møbler',
+            name: 'Mogens Møbler',
+            
         },
         
        match2: {
-            sponsorname: "Mogens Møbler",
-            contactName: 'Mogens Mortensen',
+            virksomhed: "Børges Biler",
+            contactName:  'Børge Bentsen',
+            cvrnr: '33301022',
             city: 'Aalborg',
             postnr: '9000',
-            adresse: 'Ahornvej 29',
-            phone: '81612335',
-            email: 'mogens@møbler',
-            branche: 'Autohus'
+            adresse: 'Flydedokken 19 4th',
+            phone: '98129290',
+            email: 'børges@biler.dk',
+            branche: 'biler',
+            name: 'Børges Biler',
 
-        }
+        },
+
+        match3: {
+          virksomhed: "Torbens Træhandel",
+          contactName:  'Torben Træben',
+          cvrnr: '12345678',
+          city: 'Aalborg SØ',
+          postnr: '9220',
+          adresse: 'Lærkevej 14',
+          phone: '98101011',
+          email: 'torbens@træ.dk',
+          branche: 'detail med træ',
+          name: 'Torben',
+
+      }
  
 })
 
 const addSponsorToList = (input) => {
-    alert(input + ' blev tilføjet listen over mulige sponsorer')
+    createSponsor(input, 'followUp', currentUser);
+    console.log(input, 'followUp', currentUser)
+    alert(input.name + ' blev tilføjet listen over mulige sponsorer')
   }
 
   const makeSponsorDeal = (input) => {
       alert('Et nyt sponsortilbud til ' + input + ' blev oprettet')
   }
-
-  
-
 
   return (
     <Fragment>
@@ -76,8 +89,9 @@ const addSponsorToList = (input) => {
                                 postnr={matches.postnr}
                                 city={matches.city}
                                 cvrnr={matches.cvrnr}
-                                onClickAddToList={() => addSponsorToList(matches.sponsorname)}
+                                onClickAddToList={() => addSponsorToList(matches)}
                                 onClickMakeSponsorDeal={() => makeSponsorDeal(matches.sponsorname)}
+                                isAdded={false}
                                 
                                
                 />  

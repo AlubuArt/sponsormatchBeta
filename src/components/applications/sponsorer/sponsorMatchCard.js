@@ -18,6 +18,7 @@ const SponsorMatchCard = (props) => {
                             <h4>{props.sponsorname}</h4>
                             <br></br>
                         </div>
+                                {/* TODO refactor this */}
                             <div className="info-container">
                                 <div className="row">
                                     <div className="col-sm-8">

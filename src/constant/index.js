@@ -1381,8 +1381,8 @@ export const  Female  = "Female"
 export const  PrintViews  = "Print previe"
 export const  Delete  = "Slet"
 export const  Edit  = "Redigér"
-export const  GemSponsor = "Tilføj huskeliste" 
-export const  OpretSponsorTilbud = "Lav sponsortilbud"
+export const  GemSponsor = "Markér til opfølgning" 
+export const  OpretSponsorTilbud = "Lav sponsortilbud nu"
 
 // Project 
 export const ProjectTitle =  "Project Title"
