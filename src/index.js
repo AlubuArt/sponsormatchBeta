@@ -45,6 +45,8 @@ import Signin from './auth/signin';
 import SponsorContacts from './components/applications/sponsorer/sponsorContacts';
 import Sponsorater from './components/applications/sponsorer/sponsorater';
 import SponsorSearch from './components/applications/sponsorer/sponsorSearch';
+import OpretSponsorat from './components/applications/sponsorer/opretSponsorat';
+
 
 // sample page
 import Samplepage from './components/feedback/feedbackpage';
@@ -126,6 +128,7 @@ const Root = () => {
                                     <Route path={`${process.env.PUBLIC_URL}/sponsorer/vores-sponsorer`} component={SponsorContacts} />
                                     <Route path={`${process.env.PUBLIC_URL}/sponsorer/sponsorater`} component={Sponsorater} />
                                     <Route path={`${process.env.PUBLIC_URL}/sponsorer/soeg-sponsor`} component={SponsorSearch} />
+                                    <Route path={`${process.env.PUBLIC_URL}/sponsorer/opret-sponsorat`} component={OpretSponsorat} />
 
                                     {/* Sample page */}
                                     <Route path={`${process.env.PUBLIC_URL}/feedback/feedbackpage`} component={Samplepage} />
