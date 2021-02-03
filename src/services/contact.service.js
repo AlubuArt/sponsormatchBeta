@@ -1,5 +1,5 @@
 import {firebase_app,} from '../data/config';
-import user from '../assets/images/user/user.png';
+
 
 const db = firebase_app.firestore();
 
@@ -7,7 +7,7 @@ const db = firebase_app.firestore();
 export const createSponsor= (value, list, userID) => {
     db.collection('sponsorDatabase/' + userID + '/' + list).add({
         
-        name: value.name,
+        name: value.sponsorname,
         phone: value.phone,
         virksomhed: value.virksomhed,
         email: value.email,
@@ -17,7 +17,7 @@ export const createSponsor= (value, list, userID) => {
         postnr: value.postnr,
         adresse: value.adresse,
         branche: value.branche,
-        nameToSearch: value.name.toLowerCase(),
+        nameToSearch: value.sponsorname.toLowerCase(),
         
     })
 }

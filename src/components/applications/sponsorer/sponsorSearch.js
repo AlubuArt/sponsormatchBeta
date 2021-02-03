@@ -6,8 +6,8 @@ import { createSponsor } from "../../../services/contact.service";
 
 const SponsorSearch = () => {
 
-  const [currentUser, setCurrentUser] = useState(localStorage.getItem('userID'))
-  const [newSponsorMatches, setNewSponsorMatches] = useReducer((value, newValue) => ({...value, ...newValue}), {
+  const [currentUser] = useState(localStorage.getItem('userID'))
+  const [newSponsorMatches] = useReducer((value, newValue) => ({...value, ...newValue}), {
     
         match1: {
             virksomhed: "Børges Biler",
@@ -19,21 +19,21 @@ const SponsorSearch = () => {
             phone: '98129290',
             email: 'børges@biler.dk',
             branche: 'Møbler',
-            name: 'Mogens Møbler',
+            sponsorname: 'Børges Biler',
             
         },
         
        match2: {
-            virksomhed: "Børges Biler",
-            contactName:  'Børge Bentsen',
+            virksomhed: "Karstens Køreskole",
+            contactName:  'Karsten Kold',
             cvrnr: '33301022',
             city: 'Aalborg',
             postnr: '9000',
             adresse: 'Flydedokken 19 4th',
             phone: '98129290',
-            email: 'børges@biler.dk',
-            branche: 'biler',
-            name: 'Børges Biler',
+            email: 'karsten@køreskole.dk',
+            branche: 'køreskoler',
+            sponsorname: 'Karstens Køreskole',
 
         },
 
@@ -47,7 +47,7 @@ const SponsorSearch = () => {
           phone: '98101011',
           email: 'torbens@træ.dk',
           branche: 'detail med træ',
-          name: 'Torben',
+          sponsorname: 'Torben',
 
       }
  
@@ -56,7 +56,7 @@ const SponsorSearch = () => {
 const addSponsorToList = (input) => {
     createSponsor(input, 'followUp', currentUser);
     console.log(input, 'followUp', currentUser)
-    alert(input.name + ' blev tilføjet listen over mulige sponsorer')
+    alert(input.sponsorname + ' blev tilføjet listen over mulige sponsorer')
   }
 
   const makeSponsorDeal = (input) => {

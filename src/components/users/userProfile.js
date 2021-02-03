@@ -1,15 +1,15 @@
 import React, { Fragment, useState, useReducer, useEffect } from 'react';
 import Breadcrumb from '../common/breadcrumb';
 import {Email,ContactUs,Location} from '../../constant'
-import { firebase_app, dbRef } from '../../data/config';
-import { forEach } from 'lodash';
+import {  dbRef } from '../../data/config';
+
 
 
 
 
 const UserProfile = () => {
 
-    const [currentUser, setCurrentUser] =  useState(localStorage.getItem('userID'));
+    const [currentUser] =  useState(localStorage.getItem('userID'));
     const [userInfo, setUserInfo] = useReducer((value, newValue) => ({...value, ...newValue}), {
         foreningName: ' ',
         fname: '',
@@ -24,19 +24,17 @@ const UserProfile = () => {
         logo: ''
     })
     
-    const getUserDataFromDatabase = () => {
+    
+
+    useEffect(() => {
+        
         dbRef.ref('/sponsormatchUsers/' + currentUser + '/profil/forening/' ).once('value', snapshot => {
             const value = snapshot.val();
             for (let [key, val] of Object.entries(value)) {
                 setUserInfo({[key]: val})
             }
         })
-    }
-
-    useEffect(() => {
-        getUserDataFromDatabase()
- 
-    }, [])
+    }, [currentUser])
     
 
     

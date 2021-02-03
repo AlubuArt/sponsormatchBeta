@@ -23,6 +23,7 @@ const UserEdit = () => {
         logo: ''
     })
 
+    //TODO: flyttes til service
     const getUserDataFromDatabase = () => {
         dbRef.ref('/sponsormatchUsers/' + currentUser + '/profil/forening/' ).once('value', snapshot => {
             const value = snapshot.val();
@@ -32,6 +33,7 @@ const UserEdit = () => {
         })
     }
     
+    //TODO: flyttes til service
     const updateUserData = () => {
         const dataToupdate = userInfo;
         dbRef.ref('/sponsormatchUsers/' + currentUser+ '/profil/forening/').update(dataToupdate, function(error)  {
@@ -150,46 +152,7 @@ const UserEdit = () => {
                                 </div>
                             </form>
                         </div>
-                        <div className="col-md-12">
-                            <div className="card">
-                                <div className="card-header">
-                                    <h4 className="card-title mb-0">{UsersTableTitle}</h4>
-                                    <div className="card-options"><a className="card-options-collapse" href="javascript" data-toggle="card-collapse"><i className="fe fe-chevron-up"></i></a><a className="card-options-remove" href="javascript" data-toggle="card-remove"><i className="fe fe-x"></i></a></div>
-                                </div>
-                                <div className="table-responsive">
-                                    <table className="table card-table table-vcenter text-nowrap">
-                                        <thead>
-                                            <tr>
-                                                {UsersTableHeader.map((items,i) => 
-                                                    <th key={i}>{items}</th>
-                                                )}
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {data.map((items,i) => 
-                                                <tr key={i}>
-                                                <td><a className="text-inherit" href="#javascript">{items.projectName} </a></td>
-                                                <td>{items.date}</td>
-                                                <td><span className="status-icon bg-success"></span>{items.status}</td>
-                                                <td>{items.price}</td>
-                                                <td className="text-right">
-                                                    <button className="btn btn-primary btn-sm" href="javascript">
-                                                        <i className="fa fa-pencil"></i> {Edit}
-                                                    </button>
-                                                    <button className="btn btn-transparent btn-sm" href="javascript">
-                                                        <i className="fa fa-link"></i> {Update}
-                                                    </button>
-                                                    <button className="btn btn-danger btn-sm" href="javascript">
-                                                        <i className="fa fa-trash"></i> {Delete}
-                                                    </button>
-                                                </td>
-                                                </tr>
-                                            )}
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
+                        
                     </div>
                 </div>
             </div>

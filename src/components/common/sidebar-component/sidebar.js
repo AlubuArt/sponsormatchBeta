@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect } from 'react';
+import React, { Fragment, useState, useEffect, useReducer } from 'react';
 import { useSelector } from 'react-redux';
 import sponsormatchLogo from '../../../assets/images/logo_med_tekst_hvid_200px.png';
 import logo_compact from '../../../assets/images/logo/compact-logo.png';
@@ -21,7 +21,7 @@ const Sidebar = (props) => {
     const [mainmenu, setMainMenu] = useState([MENUITEMS]);
     const wrapper = configDB.data.settings.sidebar.wrapper;
     const layout = useSelector(content => content.Customizer.layout);
-    const [currentUser, setCurrentUser] =  useState('');
+    const [currentUser, setCurrentUser] =  useState(localStorage.getItem('userID'));
     const [logo, setLogo] = useState('')
     const [foreningName, setForeningName] = useState('')
 
@@ -30,12 +30,12 @@ const Sidebar = (props) => {
     useEffect(() => {
 
         const getCurrentUser = () => {
-            firebase_app.auth().onAuthStateChanged(setCurrentUser);
-            dbRef.ref('/sponsormatchUsers/' +  currentUser.uid + '/profil/forening/foreningName' ).once('value', snapshot =>  {
+            
+            dbRef.ref('/sponsormatchUsers/' +  currentUser + '/profil/forening/foreningName' ).once('value', snapshot =>  {
             const val =  snapshot.val();
             setForeningName(val)
             })
-            dbRef.ref('/sponsormatchUsers/' +  currentUser.uid + '/profil/forening/logo' ).once('value', snapshot =>  {
+            dbRef.ref('/sponsormatchUsers/' +  currentUser + '/profil/forening/logo' ).once('value', snapshot =>  {
             const val =  snapshot.val();
             setLogo(val)
             })

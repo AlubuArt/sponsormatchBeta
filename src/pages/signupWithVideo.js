@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import comingsoon from '../assets/images/other-images/coming-soon-bg.jpg';
 import sponsormatchLogo from '../assets/images/logo_med_tekst_hvid_200px.png';
-import authVideo from '../assets/video/auth-bg.mp4';
+
 import { FirstName, LastName, Username,Login,Password,SignUp,BOD } from '../constant';
 
 const SignupWithVideo = () => {
@@ -12,7 +12,7 @@ const SignupWithVideo = () => {
                     {/* <!-- sign up page start--> */}
                     <div className="auth-bg-video">
                         <video id="bgvid" poster={comingsoon} playsInline="" autoPlay={true} muted="" loop="">
-                            <source src={authVideo} type="video/mp4" />
+                            <source type="video/mp4" />
                         </video>
                         <div className="authentication-box">
                             <div className="text-center"><img src={sponsormatchLogo} alt="" /></div>
