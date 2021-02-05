@@ -1,10 +1,10 @@
 import React, { Fragment, useState, useEffect, useReducer } from "react";
 import Breadcrumb from "../../common/breadcrumb";
-import { firebase_app, dbRef } from '../../../data/config';
+import {  dbRef } from '../../../data/config';
 import {
   UsersTableTitle,
   UsersTableHeader,
-  Update,
+  
   Edit,
   Delete,
   SeSponsorat
@@ -12,7 +12,7 @@ import {
 
 const Sponsorater = () => {
 
-  const [currentUser, setCurrentUser] = useState(localStorage.getItem('userID'))
+  const [currentUser] = useState(localStorage.getItem('userID'))
   const [sponsors, setSponsors] = useReducer((value, newValue) => ({...value, ...newValue}), {
 
   })

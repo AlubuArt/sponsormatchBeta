@@ -11,7 +11,7 @@ const UserMenu = ({ history }) => {
 
     
     const [logo, setLogo] = useState('');
-    const [currentUser, setCurrentUser] =  useState(localStorage.getItem('userID'));
+    const [currentUser] =  useState(localStorage.getItem('userID'));
     // auth0 profile
     const {logout} = useAuth0()
     const authenticated = JSON.parse(localStorage.getItem("authenticated"))

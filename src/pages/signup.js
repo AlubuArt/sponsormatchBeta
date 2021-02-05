@@ -1,7 +1,7 @@
 /* eslint-disable no-fallthrough */
 /* eslint-disable default-case */
 
-import React, { Fragment, useState, useReducer, useEffect } from 'react';
+import React, { Fragment, useState, useReducer} from 'react';
 import sponsormatchLogo from '../assets/images/sponsormatch-logo_farver_login.png';
 import { FirstName, LastName,Login,Password,SignUp, EmailAddress, Forening, errorMessageInvalidEmail, errorMesssageInvalidPassword, errorMessageUndefined } from '../constant';
 import {firebase_app, dbRef, Jwt_token} from "../data/config";
@@ -11,9 +11,8 @@ import { toast, ToastContainer } from 'react-toastify';
 const Signup = ({ history }) => {
     
     
-    const [email, setEmail] = useState("");
+   
     const [password, setPassword] = useState("");
-    const [currentUser, setCurrentUser] = useState('')
     const [value, setValue] = useReducer((value, newValue) => ({...value, ...newValue}), {
         foreningName: ' ',
         fname: '',

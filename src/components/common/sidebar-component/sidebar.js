@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect, useReducer } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import sponsormatchLogo from '../../../assets/images/logo_med_tekst_hvid_200px.png';
 import logo_compact from '../../../assets/images/logo/compact-logo.png';
@@ -7,7 +7,7 @@ import { MENUITEMS } from '../../../components/common/sidebar-component/menu';
 import { Link } from 'react-router-dom';
 import { translate } from 'react-switch-lang';
 import configDB from '../../../data/customizer/config';
-import { firebase_app, dbRef } from '../../../data/config';
+import { dbRef } from '../../../data/config';
 
 const Sidebar = (props) => {
 
@@ -21,7 +21,7 @@ const Sidebar = (props) => {
     const [mainmenu, setMainMenu] = useState([MENUITEMS]);
     const wrapper = configDB.data.settings.sidebar.wrapper;
     const layout = useSelector(content => content.Customizer.layout);
-    const [currentUser, setCurrentUser] =  useState(localStorage.getItem('userID'));
+    const [currentUser] =  useState(localStorage.getItem('userID'));
     const [logo, setLogo] = useState('')
     const [foreningName, setForeningName] = useState('')
 
@@ -88,6 +88,7 @@ const Sidebar = (props) => {
             clearTimeout(timeout)
         }
         
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [currentUser]);
 
     

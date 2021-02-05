@@ -1,4 +1,4 @@
-import { ADD_TO_WISHLIST, REMOVE_FROM_WISHLIST } from "../../../redux/actionTypes";
+import { ADD_TO_WISHLIST, REMOVE_FROM_WISHLIST } from "../../actionTypes";
 
 
 export default function wishlistReducer(state = { list: [] }, action) {

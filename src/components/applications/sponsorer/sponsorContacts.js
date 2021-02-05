@@ -10,7 +10,7 @@ import { useForm } from 'react-hook-form';
 import SweetAlert from 'sweetalert2'
 import ReactToPrint from "react-to-print";
 import PrintPreview from './printpreview'
-import {Sponsordatabase,NewContacts,AddContacts,Views,Name,Mobile,EmailAddress,Gender,Male,Female,FollowUp,Favourites,History,ContactHistory,Ideas,Business,Holidays, Important,Personal,Edit,Delete,Print,General,Save,Cancel,NoDataFound,PrintViews, ContactCreated, Virksomhed, Email, CVR, DiverseKontakter} from '../../../constant'
+import {Sponsordatabase,NewContacts,AddContacts,Views,Name,Mobile,EmailAddress,FollowUp,History,ContactHistory,Edit,Delete,Print,Save,Cancel,PrintViews, ContactCreated, Virksomhed, Email, CVR, DiverseKontakter} from '../../../constant'
 
 
 const Newcontact = (props) => {
@@ -19,7 +19,7 @@ const Newcontact = (props) => {
   const [editurl,setEditurl] = useState()
   const [activeTab, setActiveTab] = useState('1');
   const [dynamictab, setDynamicTab] = useState('0')
-  const [orgactiveTab, setorgActiveTab] = useState('1');
+ 
   const {register, handleSubmit, errors } = useForm(); // initialise the hook
   const [sponsors, setSponsors] = useState([]);
   const [followUp, setFollowUp] = useState([]);
@@ -30,17 +30,15 @@ const Newcontact = (props) => {
   const db = firebase_app.firestore();
   const [printmodal, setprintModal] = useState(false);
   const [modal, setModal] = useState(false);
-  const [categoryModal,setCategoryModal] = useState(false)
   const toggle = () => setModal(!modal);
-  const categoryToggle = () => setCategoryModal(!categoryModal);
   const printModalToggle = () => setprintModal(!printmodal);
   const componentRef = useRef();
-  const [currentUser, setCurrentUser] =  useState(localStorage.getItem('userID'));
+  const [currentUser] =  useState(localStorage.getItem('userID'));
 
   //todo when a new entry is made into the database, set the selectedUser to the new entry.
   
   useEffect(() => {
-    const newSponsors = db.collection('sponsorDatabase/' + currentUser + '/newSponsor' ).onSnapshot((snapshot) => {
+    db.collection('sponsorDatabase/' + currentUser + '/newSponsor' ).onSnapshot((snapshot) => {
       const getSponsors = snapshot.docs.map((doc) => ({
         id: doc.id,
         ...doc.data()
@@ -48,14 +46,14 @@ const Newcontact = (props) => {
       setSponsors(getSponsors)
       setSelectedUser(getSponsors[0])
     })
-    const followUp = db.collection('sponsorDatabase/' + currentUser + '/followUp' ).onSnapshot((snapshot) => {
+    db.collection('sponsorDatabase/' + currentUser + '/followUp' ).onSnapshot((snapshot) => {
       const getFollowUp = snapshot.docs.map((doc) => ({
         id: doc.id,
         ...doc.data()
       }))
       setFollowUp(getFollowUp)
     })
-    const diverseKontakter = db.collection('sponsorDatabase/' + currentUser + '/diverse' ).onSnapshot((snapshot) => {
+    db.collection('sponsorDatabase/' + currentUser + '/diverse' ).onSnapshot((snapshot) => {
       const getDiverseKontakter = snapshot.docs.map((doc) => ({
         id: doc.id,
         ...doc.data()

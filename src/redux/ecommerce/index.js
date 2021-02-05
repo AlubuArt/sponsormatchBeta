@@ -1,7 +1,7 @@
 import {call,put, takeLatest} from "redux-saga/effects";
 import { fetchProductApi } from "../../api";
-import { WATCH_PRODUCT_LIST,WATCH_SINGLE_ITEM } from "../../redux/actionTypes";
-import { fetchProducts,getSingleItem } from "../../redux/ecommerce/product/action";
+import { WATCH_PRODUCT_LIST,WATCH_SINGLE_ITEM } from "../actionTypes";
+import { fetchProducts,getSingleItem } from "./product/action";
 
 function* fetchProductsAsyn() {
     const productData = yield call(fetchProductApi);

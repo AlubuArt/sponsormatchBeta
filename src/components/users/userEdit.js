@@ -1,14 +1,14 @@
 import React, { Fragment,useState,useEffect, useReducer } from 'react';
 import Breadcrumb from '../common/breadcrumb';
 import seven from '../../assets/images/user/7.jpg';
-import { MyProfile,Phone,Website,Save,EditProfile,Forening,AboutMe,UpdateProfile,UsersTableTitle,FirstName,LastName,Address,EmailAddress,PostalCode, UsersTableHeader,City,Edit,Update,Delete} from '../../constant'
-import { firebase_app, dbRef } from '../../data/config';
+import { MyProfile,Phone,Website,Save,EditProfile,Forening,AboutMe,UpdateProfile,FirstName,LastName,Address,EmailAddress,PostalCode,City} from '../../constant'
+import {  dbRef } from '../../data/config';
 
 
 const UserEdit = () => {
     
-    const [data, setData] = useState([{price: 23}]);
-    const [currentUser, setCurrentUser] =  useState(localStorage.getItem('userID'));
+    
+    const [currentUser] =  useState(localStorage.getItem('userID'));
     const [userInfo, setUserInfo] = useReducer((value, newValue) => ({...value, ...newValue}), {
         foreningName: ' ',
         fname: '',
@@ -54,6 +54,7 @@ const UserEdit = () => {
      useEffect(() => {
         getUserDataFromDatabase()
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
     
 

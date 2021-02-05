@@ -1,5 +1,5 @@
 import React from 'react';
-import {Email, Message, SEND_IT, YourName} from '../../constant'
+import {Email, Message, YourName} from '../../constant'
 const ContactUs = () => {
     return (
         <div className="col-sm-12 col-lg-6 col-xl-8 xl-50 col-md-12">

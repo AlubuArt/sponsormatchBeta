@@ -1,8 +1,7 @@
-import React, { Fragment, Container,  useState, useEffect, useReducer } from "react";
+import React, { Fragment,   useState} from "react";
 import { Page, Text, View, Document, StyleSheet, PDFDownloadLink } from '@react-pdf/renderer';
-import ReactPDF from '@react-pdf/renderer';
 import Breadcrumb from "../../common/breadcrumb";
-import { Sponsordatabase } from "../../../constant";
+
 
 //applying style to the PDF - remove this to another place
 const styles = StyleSheet.create({

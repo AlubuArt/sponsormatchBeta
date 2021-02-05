@@ -1,4 +1,4 @@
-import {firebase_app, auth0} from '../data/config'
+
 
 let user = '';
 

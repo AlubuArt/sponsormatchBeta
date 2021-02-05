@@ -1,4 +1,4 @@
-import {GET_SINGLE_ITEM,DECREMENT_QTY,ADD_TO_CART,GET_LIST,WATCH_PRODUCT_LIST, WATCH_SINGLE_ITEM} from '../../../redux/actionTypes'
+import {GET_SINGLE_ITEM,DECREMENT_QTY,ADD_TO_CART,GET_LIST,WATCH_PRODUCT_LIST, WATCH_SINGLE_ITEM} from '../../actionTypes'
 
 
 export const watchfetchProducts = () => ({

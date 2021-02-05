@@ -24,12 +24,7 @@ import LearningList from './components/learning/kursus-samling';
 import LearningDeatil from './components/learning/kursus-detaljer';
 
 // pages 
-import Login from './pages/login';
-import LoginWithBgImg from './pages/loginWithBgImg';
-import LoginWithVideo from './pages/loginWithVideo';
 import Signup from './pages/signup';
-import SignupWithImg from './pages/signupWithImg';
-import SignupWithVideo from './pages/signupWithVideo';
 import UnlockUser from './pages/unlockUser';
 import ForgetPwd from './pages/forgetPwd';
 import ResetPwd from './pages/resetPwd';
@@ -66,7 +61,6 @@ const Root = () => {
     const jwt_token = localStorage.getItem('token');
 
     useEffect(() => {
-
 
         const abortController = new AbortController();
         const requestOptions = { method: 'GET', headers: authHeader() };
@@ -114,6 +108,8 @@ const Root = () => {
                                     <Route exact path={`${process.env.PUBLIC_URL}/`} render={() => {
                                         return (<Redirect to={`${process.env.PUBLIC_URL}/forside`} />)
                                     }} />
+                                    
+                                    {/* passing the user as a prop to the component or getting the user from local storage? */ }
                                     <Route path={`${process.env.PUBLIC_URL}/forside`} render={() => <Default us={currentUser}/>} />
 
                                     {/* Users */}

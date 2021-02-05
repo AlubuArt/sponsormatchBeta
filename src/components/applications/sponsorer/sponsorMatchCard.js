@@ -1,6 +1,6 @@
-import React, { Fragment, useState, useEffect, useReducer } from "react";
+import React, { Fragment } from "react";
 import {
-    Edit,
+    
     GemSponsor, 
     OpretSponsorTilbud 
 

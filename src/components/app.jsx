@@ -1,4 +1,4 @@
-import React,{Fragment, useEffect, useState} from 'react';
+import React,{Fragment} from 'react';
 import Header from './common/header-component/header';
 import Sidebar from './common/sidebar-component/sidebar';
 import RightSidebar from './common/right-sidebar';

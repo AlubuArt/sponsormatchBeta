@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import Breadcrumb from '../common/breadcrumb';
-import {SampleCard} from '../../constant';
+
 import ContactUs from './contactUs'
 const Feedbackpage = () => {
     return (
