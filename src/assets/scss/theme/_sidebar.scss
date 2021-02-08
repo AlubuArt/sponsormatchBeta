@@ -269,6 +269,7 @@
         background-color: $main-header-left-bg-color;
         z-index: $main-header-z-index;
         box-shadow: -3px 1px 3px 1px rgba(68, 102, 242, 0.1);
+        border-bottom: 2px solid #f6f7fb;
         .logo-wrapper {
           padding-left: 10px;
           height: 100%;

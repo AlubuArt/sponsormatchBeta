@@ -1,5 +1,5 @@
 
-import React, { Fragment, useState, useEffect,useRef } from 'react';
+import React, { Fragment, useState, useEffect, useRef, useReducer } from 'react';
 import Breadcrumb from '../../common/breadcrumb'
 import {firebase_app} from '../../../data/config';
 import { Container, Row, Col, Card, CardHeader, CardBody, Nav, NavItem, NavLink, TabContent, TabPane, Modal, ModalHeader, ModalBody, Label, Input, FormGroup, Form, Button } from 'reactstrap'
@@ -19,7 +19,6 @@ const Newcontact = (props) => {
   const [editurl,setEditurl] = useState()
   const [activeTab, setActiveTab] = useState('1');
   const [dynamictab, setDynamicTab] = useState('0')
- 
   const {register, handleSubmit, errors } = useForm(); // initialise the hook
   const [sponsors, setSponsors] = useState([]);
   const [followUp, setFollowUp] = useState([]);
@@ -34,6 +33,20 @@ const Newcontact = (props) => {
   const printModalToggle = () => setprintModal(!printmodal);
   const componentRef = useRef();
   const [currentUser] =  useState(localStorage.getItem('userID'));
+  const [newContact, setNewContact] = useReducer((value, newValue) => ({...value, ...newValue}), {
+    virksomhed: ' ',
+    fname: '',
+    lname: '',
+    phone: '',
+    adresse: '',
+    city: '',
+    postnr: '',
+    email: '',
+    cvrnr: '',
+    contactName: '',
+    branche: '',
+    
+})
 
   //todo when a new entry is made into the database, set the selectedUser to the new entry.
   
@@ -52,6 +65,7 @@ const Newcontact = (props) => {
         ...doc.data()
       }))
       setFollowUp(getFollowUp)
+      setSelectedUser(getFollowUp[0])
     })
     db.collection('sponsorDatabase/' + currentUser + '/diverse' ).onSnapshot((snapshot) => {
       const getDiverseKontakter = snapshot.docs.map((doc) => ({
@@ -59,11 +73,12 @@ const Newcontact = (props) => {
         ...doc.data()
       }))
       setDiverseKontakter(getDiverseKontakter)
+      setSelectedUser(getDiverseKontakter[0])
     }) 
   }, [db, currentUser]);
 
-  const AddContact = data => {
-    
+  const AddContact = () => {
+   
     var setToList;
     // eslint-disable-next-line default-case
     switch (activeTab) {
@@ -78,10 +93,24 @@ const Newcontact = (props) => {
        break;
     }
       
-    if (data !== '') {
-      createSponsor(data, setToList, currentUser);
+    if (newContact !== '') {
+      alert('sponsor' + newContact.fname + ' added to ' + setToList )
+      createSponsor(newContact, setToList, currentUser);
+      setNewContact({
+        virksomhed: '',
+        fname: '',
+        lname: '',
+        phone: '',
+        adresse: '',
+        city: '',
+        postnr: '',
+        email: '',
+        cvrnr: '',
+        contactName: '',
+        branche: '',
+      })
       setModal(false)
-      alert('sponsor added to ' + setToList )
+      
       
 
     } else {
@@ -139,11 +168,25 @@ const Newcontact = (props) => {
     }
   }
 
-  const deleteUser = (userId) => {
+  const deleteUser = () => {
+
+    var setToList;
+    // eslint-disable-next-line default-case
+    switch (activeTab) {
+      case '1': 
+       setToList = 'newSponsor';
+       break;
+      case '2': 
+       setToList = 'diverse';
+       break;
+      case '3': 
+       setToList = 'followUp';
+       break;
+    }
 
     SweetAlert.fire({
       title: 'Er du sikker?',
-    text: "Hvis du sletter denne kontakt, er det ikke muligt at få den tilbage!",
+      text: "Hvis du sletter denne kontakt, er det ikke muligt at få den tilbage!",
       icon: 'warning',
       showCancelButton: true,
       confirmButtonText: 'Ok',
@@ -151,7 +194,7 @@ const Newcontact = (props) => {
       reverseButtons: true
     }).then((result) => {
       if (result.value) {
-        deletedUser(userId);
+        deletedUser(currentUser, setToList, selectedUser.id );
         SweetAlert.fire(
           'Slettet!',
           'Sponsoren er slettet',
@@ -175,7 +218,7 @@ const Newcontact = (props) => {
   }
 
   const ContactDetails = (sponsor) => {
-      setSelectedUser({ name: sponsor.name, phone:sponsor.phone, email: sponsor.email, virksomhed: sponsor.virksomhed, cvrnr: sponsor.cvrnr })
+      setSelectedUser({ firstName: sponsor.firstName, lastName: sponsor.lastName, phone:sponsor.phone, email: sponsor.email, virksomhed: sponsor.virksomhed, cvrnr: sponsor.cvrnr })
   }
   
   return (
@@ -201,7 +244,7 @@ const Newcontact = (props) => {
                           <Modal isOpen={modal} toggle={toggle} size="lg">
                             <ModalHeader toggle={toggle}>{AddContacts}</ModalHeader>
                             <ModalBody>
-                              <Form className="form-bookmark needs-validation" onSubmit={handleSubmit(AddContact)}>
+                              <Form className="form-bookmark needs-validation" >
                                 <div className="form-row">
                                   <div className="contact-profile">
                                     <img className="rounded-circle img-100" src={addurl} alt="" />
@@ -215,38 +258,38 @@ const Newcontact = (props) => {
                                     <Label>{Name}</Label>
                                     <Row>
                                       <Col sm="6">
-                                        <Input className="form-control" name="name" type="text" innerRef={register({ required: true })} />
+                                        <Input className="form-control" name="firstname" type="text" value={newContact.fname} onChange={((e) => setNewContact({fname: e.target.value}))} innerRef={register({ required: true })} />
                                         <span style={{ color: "red" }}>{errors.name && 'Venligst indtast et fornavn'}</span>
                                       </Col>
                                       <Col sm="6">
-                                        <Input className="form-control" name="surname" type="text" innerRef={register({ required: true })} />
+                                        <Input className="form-control" name="lastname" type="text" value={newContact.lname} onChange={((e) => setNewContact({lname: e.target.value}))} innerRef={register({ required: true })} />
                                         <span style={{ color: "red" }}></span>
                                       </Col>
                                     </Row>
                                   </FormGroup>
                                   <FormGroup className="col-md-12 ">
                                     <Label>{Virksomhed}</Label>
-                                    <Input className="form-control" name="virksomhed" type="text" innerRef={register({ required: true })} />
+                                    <Input className="form-control" name="virksomhed" type="text" value={newContact.virksomhed} onChange={((e) => setNewContact({virksomhed: e.target.value}))} innerRef={register({ required: true })} />
                                     <span style={{ color: "red" }}>{errors.virksomhed&& '<Venligst indtast et virksomhedsnavn'}</span>
                                   </FormGroup>
                                   
                                   <FormGroup className="col-md-12 ">
                                     <Label>{Mobile}</Label>
-                                    <Input className="form-control" name="mobile" type="number" innerRef={register({ pattern: /\d+/, minlength: 0, maxlength: 9 })} />
+                                    <Input className="form-control" name="phone" type="number" value={newContact.phone} onChange={((e) => setNewContact({phone: e.target.value}))} innerRef={register({ pattern: /\d+/, minlength: 0, maxlength: 9 })} />
                                     <span style={{ color: "red" }}>{errors.phone && 'Venligst indtast et nummer mellem 8 og 11 tal'}</span>
                                   </FormGroup>
                                   <FormGroup className="col-md-12 ">
                                     <Label>{Email}</Label>
-                                    <Input className="form-control" name="email" type="email" innerRef={register({ required: true })} />
+                                    <Input className="form-control" name="email" type="email" value={newContact.email} onChange={((e) => setNewContact({email: e.target.value}))} innerRef={register({ required: true })} />
                                     <span style={{ color: "red" }}>{errors.email && 'Venligst indtast en gyldig email adresse'}</span>
                                   </FormGroup>
                                   <FormGroup className="col-md-12 ">
                                     <Label>{CVR}</Label>
-                                    <Input className="form-control" name="cvrnr" type="number" innerRef={register({ required: true })} />
+                                    <Input className="form-control" name="cvrnr" type="number" value={newContact.cvrnr} onChange={((e) => setNewContact({cvrnr: e.target.value}))} innerRef={register({ required: true })} />
                                     <span style={{ color: "red" }}></span>
                                   </FormGroup>
                                 </div>
-                                <Button color="secondary" className="mr-1">{Save}</Button>
+                                <Button color="secondary" className="mr-1" onClick={handleSubmit(AddContact)}>{Save}</Button>
                                 <Button color="primary" onClick={toggle}>{Cancel}</Button>
                               </Form>
                             </ModalBody>
@@ -288,11 +331,11 @@ const Newcontact = (props) => {
                                             
                                             <div className="media-body">
                                               <h6>
-                                                <span className="first_name_0">{sponsor.name}</span>
+                                                <span className="first_name_0">{sponsor.virksomhed}</span>
                                                 
                                               </h6>
-                                              <span className="first_name_0">{sponsor.virksomhed}</span>
-                                              <p className="email_add_0">{sponsor.email}</p>
+                                              <span className="first_name_0">{sponsor.firstName} {sponsor.lastName}</span>
+                                              
                                             </div>
                                           </div>
                                           </NavLink>
@@ -360,9 +403,8 @@ const Newcontact = (props) => {
                                       <div className="profile-mail">
                                         <div className="media">
                                           <div className="media-body mt-0">
-                                            <h5><span className="first_name_0">{selectedUser.name}</span> <span className="last_name_0">{selectedUser.surname}</span></h5>
-                                            <span className="first_name_0">{selectedUser.virksomhed}</span>
-                                            
+                                            <h5 className="first_name_0">{selectedUser.virksomhed}</h5>
+                                            <p><span className="first_name_0">{selectedUser.firstName}</span> <span className="last_name_0">{selectedUser.lastName}</span></p>
                                             <ul>
                                               <li><a href="#javaScript" onClick={() => EditUSers(selectedUser)}>{Edit}</a></li>
                                               <li><a href="#javaScript" onClick={() => deleteUser(selectedUser.id)}>{Delete}</a></li>
@@ -374,7 +416,7 @@ const Newcontact = (props) => {
                                         <div className="email-general">
                                           <h6 className="mb-3">Informationer</h6>
                                           <ul>
-                                            <li>{Name} <span className="font-primary first_name_0">{selectedUser.name}</span></li>
+                                            <li>{Name} <span className="font-primary first_name_0">{selectedUser.firstName} {selectedUser.lastName}</span></li>
                                             <li>{Virksomhed} <span className="font-primary first_name_0">{selectedUser.virksomhed}</span></li>
                                             <li>{Mobile}<span className="font-primary mobile_num_0">{selectedUser.phone}</span></li>
                                             <li>{EmailAddress} <span className="font-primary email_add_0">{selectedUser.email} </span></li>
@@ -420,11 +462,11 @@ const Newcontact = (props) => {
                                             
                                             <div className="media-body">
                                               <h6>
-                                                <span className="first_name_0">{sponsor.name}</span>
+                                                <span className="first_name_0">{sponsor.virksomhed}</span>
                                                 
                                               </h6>
-                                              <span className="first_name_0">{sponsor.virksomhed}</span>
-                                              <p className="email_add_0">{sponsor.email}</p>
+                                              <span className="first_name_0">{sponsor.firstName} {sponsor.lastName}</span>
+                                              
                                             </div>
                                           </div>
                                           </NavLink>
@@ -492,8 +534,8 @@ const Newcontact = (props) => {
                                       <div className="profile-mail">
                                         <div className="media">
                                           <div className="media-body mt-0">
-                                            <h5><span className="first_name_0">{selectedUser.name}</span> <span className="last_name_0">{selectedUser.surname}</span></h5>
-                                            <span className="first_name_0">{selectedUser.virksomhed}</span>
+                                          <h5 className="first_name_0">{selectedUser.virksomhed}</h5>
+                                            <p><span className="first_name_0">{selectedUser.firstName}</span> <span className="last_name_0">{selectedUser.lastName}</span></p>
                                             
                                             <ul>
                                               <li><a href="#javaScript" onClick={() => EditUSers(selectedUser)}>{Edit}</a></li>
@@ -506,7 +548,7 @@ const Newcontact = (props) => {
                                         <div className="email-general">
                                           <h6 className="mb-3">Informationer</h6>
                                           <ul>
-                                            <li>{Name} <span className="font-primary first_name_0">{selectedUser.name}</span></li>
+                                            <li>{Name} <span className="font-primary first_name_0">{selectedUser.firstName} {selectedUser.lastName}</span></li>
                                             <li>{Virksomhed} <span className="font-primary first_name_0">{selectedUser.virksomhed}</span></li>
                                             <li>{Mobile}<span className="font-primary mobile_num_0">{selectedUser.phone}</span></li>
                                             <li>{EmailAddress} <span className="font-primary email_add_0">{selectedUser.email} </span></li>
@@ -624,8 +666,8 @@ const Newcontact = (props) => {
                                       <div className="profile-mail">
                                         <div className="media">
                                           <div className="media-body mt-0">
-                                            <h5><span className="first_name_0">{selectedUser.name}</span> <span className="last_name_0">{selectedUser.name}</span></h5>
-                                            <span className="first_name_0">{selectedUser.virksomhed}</span>
+                                          <h5 className="first_name_0">{selectedUser.virksomhed}</h5>
+                                            <p><span className="first_name_0">{selectedUser.firstName}</span> <span className="last_name_0">{selectedUser.lastName}</span></p>
                                             
                                             <ul>
                                               <li><a href="#javaScript" onClick={() => EditUSers(selectedUser)}>{Edit}</a></li>
@@ -638,7 +680,7 @@ const Newcontact = (props) => {
                                         <div className="email-general">
                                           <h6 className="mb-3">Informationer</h6>
                                           <ul>
-                                            <li>{Name} <span className="font-primary first_name_0">{selectedUser.name}</span></li>
+                                            <li>{Name} <span className="font-primary first_name_0">{selectedUser.firstName} {selectedUser.lastName}</span></li>
                                             <li>{Virksomhed} <span className="font-primary first_name_0">{selectedUser.virksomhed}</span></li>
                                             <li>{Mobile}<span className="font-primary mobile_num_0">{selectedUser.phone}</span></li>
                                             <li>{EmailAddress} <span className="font-primary email_add_0">{selectedUser.email} </span></li>
