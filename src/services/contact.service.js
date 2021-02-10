@@ -19,8 +19,8 @@ export const createSponsor= (value, list, userID) => {
     })
 }
 
-export const deletedUser = (userID, list, contactEmail) => {
-    db.collection('sponsorDatabase/' + userID + '/' + list).doc(contactEmail).delete();
+export const deletedUser = (userID, list, contactID) => {
+    db.collection('sponsorDatabase/' + userID + '/' + list).doc(contactID).delete();
 }
 
 export const editUser = (value, list, userID) => {
