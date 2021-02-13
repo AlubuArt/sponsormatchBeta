@@ -4,8 +4,8 @@ const db = firebase_app.firestore();
 
 export const createSponsor= (value, list, userID) => {
     db.collection('sponsorDatabase/' + userID + '/' + list).add({
-        firstName: value.fname,
-        lastName: value.lname,
+        firstName: value.firstName,
+        lastName: value.lastName,
         phone: value.phone,
         virksomhed: value.virksomhed,
         email: value.email,
@@ -23,10 +23,11 @@ export const deletedUser = (userID, list, contactID) => {
     db.collection('sponsorDatabase/' + userID + '/' + list).doc(contactID).delete();
 }
 
-export const editUser = (value, list, userID) => {
-    db.collection('sponsorDatabase/' + userID + '/' + list).set({
-        firstName: value.fname,
-        lastName: value.lname,
+export const editUser = (value, list, userID, contactID) => {
+    db.collection('sponsorDatabase/' + userID + '/' + list).doc(contactID).set({
+        adresse: value.adresse,
+        firstName: value.firstName,
+        lastName: value.lastName,
         phone: value.phone,
         virksomhed: value.virksomhed,
         email: value.email,
@@ -34,7 +35,7 @@ export const editUser = (value, list, userID) => {
         contactName: value.contactName,
         city: value.city,
         postnr: value.postnr,
-        adresse: value.adresse,
+        
         branche: value.branche,
         
     })

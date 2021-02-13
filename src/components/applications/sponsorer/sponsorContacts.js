@@ -10,7 +10,7 @@ import { useForm } from 'react-hook-form';
 import SweetAlert from 'sweetalert2'
 import ReactToPrint from "react-to-print";
 import PrintPreview from './printpreview'
-import {Sponsordatabase,NewContacts,AddContacts,Views,FrontName, LastName, City, PostalCode, Name, Mobile,EmailAddress,FollowUp,History,ContactHistory,Edit,Delete,Print,Save,Cancel,PrintViews, ContactCreated, Virksomhed, Email, CVR, DiverseKontakter, Adresse} from '../../../constant'
+import {Sponsordatabase,NewContacts,AddContacts,Views,FrontName, Email, LastName, City, PostalCode, Name, FirstName, Mobile,EmailAddress,FollowUp,History,ContactHistory,Edit,Delete,Print,Save,Cancel,PrintViews, ContactCreated, Virksomhed, CVR, DiverseKontakter, Adresse, Submit} from '../../../constant'
 
 
 const Newcontact = () => {
@@ -23,7 +23,20 @@ const Newcontact = () => {
   const [sponsors, setSponsors] = useState([]);
   const [followUp, setFollowUp] = useState([]);
   const [diverseKontakter, setDiverseKontakter] = useState([]);
-  const [editdata, setEditData] = useState({});
+  const [editdata, setEditData] = useReducer((value, newValue) => ({...value, ...newValue}), {
+    virksomhed: '',
+    firstName: '',
+    lastName: '',
+    phone: '',
+    adresse: '',
+    city: '',
+    postnr: '',
+    email: '',
+    cvrnr: '',
+    contactName: '',
+    branche: '',
+    
+  }); 
   const [editing, setEditing] = useState(false)
   const [selectedContact, setselectedContact] = useState({})
   const db = firebase_app.firestore();
@@ -33,10 +46,11 @@ const Newcontact = () => {
   const printModalToggle = () => setprintModal(!printmodal);
   const componentRef = useRef();
   const [currentUser] =  useState(localStorage.getItem('userID'));
+  const [selectedList, setSelectedList] = useState('Vores Sponsorer')
   const [newContact, setNewContact] = useReducer((value, newValue) => ({...value, ...newValue}), {
-    virksomhed: ' ',
-    fname: '',
-    lname: '',
+    virksomhed: '',
+    firstName: '',
+    lastName: '',
     phone: '',
     adresse: '',
     city: '',
@@ -47,8 +61,6 @@ const Newcontact = () => {
     branche: '',
     
 })
-
-  //todo when a new entry is made into the database, set the selectedContact to the new entry.
   
   useEffect(() => {
     db.collection('sponsorDatabase/' + currentUser + '/newSponsor' ).onSnapshot((snapshot) => {
@@ -77,9 +89,51 @@ const Newcontact = () => {
     }) 
   }, [db, currentUser]);
 
-
   const AddContact = () => {
 
+    var setToList;
+    var listName;
+    // eslint-disable-next-line default-case
+    switch (activeTab) {
+      case '1': 
+       setToList = 'newSponsor';
+       listName = "Vores Sponsorer"
+       break;
+      case '2': 
+       setToList = 'diverse';
+       listName = "Diverse kontakter"
+       break;
+      case '3': 
+       setToList = 'followUp';
+       listName = 'Til opfølgning'
+       break;
+    }
+      
+    if (newContact !== '') {
+      alert('En ny kontakt:  ' + newContact.firstName + ' blev tilføjet listen ' + setToList )
+      createSponsor(newContact, setToList, currentUser);
+      setNewContact({
+        virksomhed: '',
+        firstName: '',
+        lastName: '',
+        phone: '',
+        adresse: '',
+        city: '',
+        postnr: '',
+        email: '',
+        cvrnr: '',
+        contactName: '',
+        branche: '',
+      })
+      setModal(false)
+
+    } else {
+      errors.showMessages();
+    }
+  };
+
+  const UpdateContact = () => {
+    console.log('1')
     var setToList;
     // eslint-disable-next-line default-case
     switch (activeTab) {
@@ -93,80 +147,20 @@ const Newcontact = () => {
        setToList = 'followUp';
        break;
     }
-      
-    if (newContact !== '') {
-      alert('En ny kontakt:  ' + newContact.fname + ' blev tilføjet ' + setToList )
-      createSponsor(newContact, setToList, currentUser);
-      setNewContact({
-        virksomhed: '',
-        fname: '',
-        lname: '',
-        phone: '',
-        adresse: '',
-        city: '',
-        postnr: '',
-        email: '',
-        cvrnr: '',
-        contactName: '',
-        branche: '',
-      })
-      setModal(false)
-      
-      
-
-    } else {
-      errors.showMessages();
-    }
-  };
-
-
-  const UpdateContact = data => {
-    if (data !== '') {
-      editUser(data, editurl, editdata.id);
+    if (editdata !== '') {
+      console.log(selectedContact)
+      editUser(editdata, setToList, currentUser, selectedContact.id);
       setEditing(false)
     } else {
       errors.showMessages();
     }
+    
   };
 
   const EditUSers = (usersData) => {
     setEditing(true)
     setEditData(usersData)
-    setEditurl(usersData.avatar)
-  }
-
-  const HandleAddUrl = (event) => {
-    if (event.target.files.length === 0)
-      return;
-    //Image upload validation
-    var mimeType = event.target.files[0].type;
-
-    if (mimeType.match(/image\/*/) == null) {
-      return;
-    }
-    // Image upload
-    var reader = new FileReader();
-    reader.readAsDataURL(event.target.files[0]);
-    reader.onload = (_event) => {
-      setAddurl(reader.result)
-    }
-  }
-
-  const HandleEditUrl = (event) => {
-    if (event.target.files.length === 0)
-      return;
-    //Image upload validation
-    var mimeType = event.target.files[0].type;
-
-    if (mimeType.match(/image\/*/) == null) {
-      return;
-    }
-    // Image upload
-    var reader = new FileReader();
-    reader.readAsDataURL(event.target.files[0]);
-    reader.onload = (_event) => {
-      setEditurl(reader.result)
-    }
+    
   }
 
   const deleteUser = () => {
@@ -195,7 +189,7 @@ const Newcontact = () => {
       reverseButtons: true
     }).then((result) => {
       if (result.value) {
-        
+        console.log(selectedContact.id)
         deletedUser(currentUser, setToList, selectedContact.id );
         SweetAlert.fire(
           'Slettet!',
@@ -245,28 +239,20 @@ const Newcontact = () => {
                             <ModalHeader toggle={toggle}>{AddContacts}</ModalHeader>
                             <ModalBody>
                               <Form className="form-bookmark needs-validation" >
-                                <div className="form-row">
-                                  <div className="contact-profile">
-                                    <img className="rounded-circle img-100" src={addurl} alt="" />
-                                    <div className="icon-wrapper">
-                                      <i className="icofont icofont-pencil-alt-5">
-                                        <input className="upload" type="file" onChange={(e) => HandleAddUrl(e)} />
-                                      </i>
-                                    </div>
-                                  </div>
+                               
                                   <FormGroup className="col-md-12">
                                     
                                     <Row>
                                       <Col sm="6">
                                       <Label>{FrontName}</Label>
-                                        <Input className="form-control" name="firstname" type="text" value={newContact.fname}
-                                         onChange={((e) => setNewContact({fname: e.target.value}))} innerRef={register({ required: true })} />
+                                        <Input className="form-control" name="firstname" type="text" value={newContact.firstName}
+                                         onChange={((e) => setNewContact({firstName: e.target.value}))} innerRef={register({ required: true })} />
                                         <span style={{ color: "red" }}>{errors.name && 'Venligst indtast et fornavn'}</span>
                                       </Col>
                                       <Col sm="6">
                                       <Label>{LastName}</Label>
-                                        <Input className="form-control" name="lastname" type="text" value={newContact.lname}
-                                         onChange={((e) => setNewContact({lname: e.target.value}))} innerRef={register({ required: true })} />
+                                        <Input className="form-control" name="lastname" type="text" value={newContact.lastName}
+                                         onChange={((e) => setNewContact({lastName: e.target.value}))} innerRef={register({ required: true })} />
                                         <span style={{ color: "red" }}></span>
                                       </Col>
                                     </Row>
@@ -275,7 +261,7 @@ const Newcontact = () => {
                                     <Label>{Virksomhed}</Label>
                                     <Input className="form-control" name="virksomhed" type="text" value={newContact.virksomhed}
                                      onChange={((e) => setNewContact({virksomhed: e.target.value}))} innerRef={register({ required: true })} />
-                                    <span style={{ color: "red" }}>{errors.virksomhed&& '<Venligst indtast et virksomhedsnavn'}</span>
+                                    <span style={{ color: "red" }}>{errors.virksomhed&& 'Venligst indtast et virksomhedsnavn'}</span>
                                   </FormGroup>
                                   
                                   <FormGroup className="col-md-12 ">
@@ -314,7 +300,7 @@ const Newcontact = () => {
                                     <span style={{ color: "red" }}>{errors.postnr && 'Venligst indtast et gyldigt postnummer på 4 cifre'}</span>
                                   </FormGroup>
                                   
-                                </div>
+                                
                                 <Button color="secondary" className="mr-1" onClick={handleSubmit(AddContact)}>{Save}</Button>
                                 <Button color="primary" onClick={toggle}>{Cancel}</Button>
                               </Form>
@@ -322,17 +308,35 @@ const Newcontact = () => {
                           </Modal>
                         </NavItem>
                         <NavItem><span className="main-title"> {Views}</span></NavItem>
-                        <NavItem><a href="#javascript" className={activeTab === '1' ? 'active' : ''}
-                            onClick={() => {setActiveTab('1'); setselectedContact(sponsors[0])}}>
+                        <NavItem>
+                            <a href="#javascript"
+                            className={activeTab === '1' ? 'active' : ''}
+                            onClick={() => {
+                              setActiveTab('1'); 
+                              setselectedContact(sponsors[0]);
+                              setSelectedList('Vores sponsorer')
+                            }}>
                             <span className="title"> {Sponsordatabase}</span></a>
                         </NavItem>
                         <NavItem>
-                            <a href="#javascript" className={activeTab === '3' ? 'active' : ''}
-                            onClick={() => {setActiveTab('3'); setselectedContact(followUp[0])} }>
+                            <a href="#javascript" 
+                            className={activeTab === '3' ? 'active' : ''}
+                            onClick={() => {
+                              setActiveTab('3'); 
+                              setselectedContact(followUp[0]);
+                              setSelectedList('Mulige Sponsorer')
+                              
+                            }}>
                             <span className="title">{FollowUp}</span></a>
                         </NavItem>
-                        <NavItem><a href="#javascript" className={activeTab === '2' ? 'active' : ''} 
-                            onClick={() => {setActiveTab('2'); setselectedContact(diverseKontakter[0])}}>
+                        <NavItem>
+                            <a href="#javascript" 
+                            className={activeTab === '2' ? 'active' : ''} 
+                            onClick={() => {
+                              setActiveTab('2'); 
+                              setselectedContact(diverseKontakter[0])
+                              setSelectedList('Diverse kontakter')
+                            }}>
                             <span className="title"> {DiverseKontakter}</span></a>
                         </NavItem>
                       </Nav>
@@ -352,7 +356,7 @@ const Newcontact = () => {
                       <TabPane tabId="1">
                         <Card className="mb-0">
                           <CardHeader className="d-flex">
-                            <h5>{Sponsordatabase}</h5>
+                              <h5>{selectedList}</h5>
                           </CardHeader>
                           <CardBody className="p-0">
                             <Row className="list-persons" id="addcon">
@@ -397,39 +401,72 @@ const Newcontact = () => {
                                 {editing ?
 
                                   <div className="contact-editform pl-0 m-auto">
-                                    <Form onSubmit={handleSubmit(UpdateContact)}>
-                                      <div className="form-row">
-                                        <div className="contact-profile">
-                                          <img className="rounded-circle img-100" src={editurl} alt="" />
-                                          <div className="icon-wrapper">
-                                            <i className="icofont icofont-pencil-alt-5">
-                                              <input className="upload" type="file" onChange={(e) => HandleEditUrl(e)} />
-                                            </i>
-                                          </div>
-                                        </div>
+                                    <Form >
+                                      
                                         <FormGroup className="col-md-12">
-                                          <label>{Name}</label>
+                                          
                                           <Row>
+                                          
                                             <Col sm="6">
-                                              <Input className="form-control" type="text" name="name" defaultValue={editdata.name} innerRef={register({ required: true })} />
-                                              <span style={{ color: "red" }}>{errors.name && 'First name is required'}</span>
+                                              <label>{FirstName}</label>
+                                              <Input className="form-control" type="text" name="firstname" value={editdata.firstName} onChange={((e) => setEditData({firstName: e.target.value}))}innerRef={register({ required: true })} />
+                                              <span style={{ color: "red" }}>{errors.name && 'Venligst indsæt et fornavn'}</span>
                                             </Col>
                                             
+                                            <Col sm="6">
+                                              <label>{LastName}</label>
+                                              <Input className="form-control" type="text" name="lastname" value={editdata.lastName} onChange={((e) => setEditData({lastName: e.target.value}))}innerRef={register({ required: true })} />
+                                              <span style={{ color: "red" }}>{errors.name && 'Venligst indsæt et efternavn'}</span>
+                                            </Col>
                                           </Row>
-                                        </FormGroup>
-                                        <FormGroup className="col-md-12">
+                                        
+                                        <Row>
+                                          <Col sm="8">
                                           <Label>{Virksomhed}</Label>
-                                          <Input className="form-control" type="text" name="virksomhed" defaultValue={editdata.virksomhed} innerRef={register({ required: true, pattern: /\d+/, min: 18, max: 70 })} />
-                                          <span style={{ color: "red" }}>{errors.age && 'Please enter age between 18 to 70 year.'}</span>
-                                        </FormGroup>
-                                        <FormGroup className="col-md-12">
-                                          <Label>{Mobile}</Label>
-                                          <Input className="form-control" type="text" name="mobile" defaultValue={editdata.phone} innerRef={register({ pattern: /\d+/, minlength: 0, maxlength: 9 })} />
-                                          <span style={{ color: "red" }}>{errors.phone && 'Please enter number max 9 digit'}</span>
-                                        </FormGroup>
-                                      </div>
-                                      <Button color="secondary" className="update-contact mr-1">{Save}</Button>
-                                      <Button color="primary" onClick={() => setEditing(false)}>{Cancel}</Button>
+                                          <Input className="form-control" type="text" name="virksomhed" value={editdata.virksomhed} onChange={((e) => setEditData({virksomhed: e.target.value}))} innerRef={register({ required: true})} />
+                                          <span style={{ color: "red" }}>{errors.virksomhed && 'Venligst indsæt et firmanavn'}</span>
+                                        </Col>
+                                        <Col sm="4">
+                                          <Label>{CVR}</Label>
+                                          <Input className="form-control" type="number" name="cvrnr" value={editdata.cvrnr} onChange={((e) => setEditData({cvrnr: e.target.value}))} innerRef={register({ required: true})} />
+                                          <span style={{ color: "red" }}>{errors.cvrnr && 'Venligst indsæt et gyldigt CVRnr.'}</span>
+                                        </Col>
+                                        </Row>
+                                        <Row>
+                                          <Col sm="8">
+                                            <Label>{Email}</Label>
+                                            <Input className="form-control" type="text" name="email" value={editdata.email} onChange={((e) => setEditData({email: e.target.value}))} innerRef={register({ required: true})} />
+                                            <span style={{ color: "red" }}>{errors.email && 'Venligst indsæt en gyldig email adresse'}</span>
+                                          </Col>
+                                          <Col sm="4">
+                                            <Label>{Mobile}</Label>
+                                            <Input className="form-control" type="number" name="mobile" value={editdata.phone} onChange={((e) => setEditData({phone: e.target.value}))} innerRef={register({ pattern: /\d+/, minlength: 0, maxlength: 11 })} />
+                                            <span style={{ color: "red" }}>{errors.phone && 'Venligst indsæt et gyldigt telefon nummer'}</span>
+                                          </Col>
+                                          
+                                        </Row>
+                                        <Row>
+                                          <Col sm="12">
+                                            <Label>{Adresse}</Label>
+                                            <Input className="form-control" type="text" name="email" value={editdata.adresse} onChange={((e) => setEditData({adresse: e.target.value}))} />
+                                            
+                                          </Col>
+                                        </Row>
+                                        <Row>
+                                        <Col sm="8">
+                                            <Label>{City}</Label>
+                                            <Input className="form-control" type="text" name="city" value={editdata.city} onChange={((e) => setEditData({city: e.target.value}))}  />
+                                            
+                                          </Col>
+                                          <Col sm="4">
+                                            <Label>{PostalCode}</Label>
+                                            <Input className="form-control" type="number" name="postnr" value={editdata.postnr} onChange={((e) => setEditData({postnr: e.target.value}))} innerRef={register({ required: true})} />
+                                            <span style={{ color: "red" }}>{errors.postnr && 'Venligst indsæt et gyldigt postnummer'}</span>
+                                        </Col>
+                                        </Row>
+                                        <Button color="secondary" className="update-contact mr-1" onClick={UpdateContact}>{Save}</Button>
+                                        <Button color="primary" onClick={() => {setEditing(false); setEditData('')}}>{Cancel}</Button>
+                                      </FormGroup>
                                     </Form>
                                   </div>
                                   :
@@ -483,7 +520,7 @@ const Newcontact = () => {
                       <TabPane tabId="3">
                         <Card className="mb-0">
                           <CardHeader className="d-flex">
-                            <h5>{Sponsordatabase}</h5>
+                            <h5>{selectedList}</h5>
                           </CardHeader>
                           <CardBody className="p-0">
                             <Row className="list-persons" id="addcon">
@@ -528,40 +565,74 @@ const Newcontact = () => {
                                 {editing ?
 
                                   <div className="contact-editform pl-0 m-auto">
-                                    <Form onSubmit={handleSubmit(UpdateContact)}>
-                                      <div className="form-row">
-                                        <div className="contact-profile">
-                                          <img className="rounded-circle img-100" src={editurl} alt="" />
-                                          <div className="icon-wrapper">
-                                            <i className="icofont icofont-pencil-alt-5">
-                                              <input className="upload" type="file" onChange={(e) => HandleEditUrl(e)} />
-                                            </i>
-                                          </div>
-                                        </div>
-                                        <FormGroup className="col-md-12">
-                                          <label>{Name}</label>
-                                          <Row>
-                                            <Col sm="6">
-                                              <Input className="form-control" type="text" name="name" defaultValue={editdata.name} innerRef={register({ required: true })} />
-                                              <span style={{ color: "red" }}>{errors.name && 'First name is required'}</span>
-                                            </Col>
-                                            
-                                          </Row>
-                                        </FormGroup>
-                                        <FormGroup className="col-md-12">
-                                          <Label>{Virksomhed}</Label>
-                                          <Input className="form-control" type="text" name="virksomhed" defaultValue={editdata.virksomhed} innerRef={register({ required: true, pattern: /\d+/, min: 18, max: 70 })} />
-                                          <span style={{ color: "red" }}>{errors.virksomhed && 'Please enter age between 18 to 70 year.'}</span>
-                                        </FormGroup>
-                                        <FormGroup className="col-md-12">
+                                    <Form >
+                                      
+                                      <FormGroup className="col-md-12">
+                                        
+                                        <Row>
+                                        
+                                          <Col sm="6">
+                                            <label>{FirstName}</label>
+                                            <Input className="form-control" type="text" name="firstname" value={editdata.firstName} onChange={((e) => setEditData({firstName: e.target.value}))}innerRef={register({ required: true })} />
+                                            <span style={{ color: "red" }}>{errors.name && 'Venligst indsæt et fornavn'}</span>
+                                          </Col>
+                                          
+                                          <Col sm="6">
+                                            <label>{LastName}</label>
+                                            <Input className="form-control" type="text" name="lastname" value={editdata.lastName} onChange={((e) => setEditData({lastName: e.target.value}))}innerRef={register({ required: true })} />
+                                            <span style={{ color: "red" }}>{errors.name && 'Venligst indsæt et efternavn'}</span>
+                                          </Col>
+                                        </Row>
+                                      
+                                      <Row>
+                                        <Col sm="8">
+                                        <Label>{Virksomhed}</Label>
+                                        <Input className="form-control" type="text" name="virksomhed" value={editdata.virksomhed} onChange={((e) => setEditData({virksomhed: e.target.value}))} innerRef={register({ required: true})} />
+                                        <span style={{ color: "red" }}>{errors.virksomhed && 'Venligst indsæt et firmanavn'}</span>
+                                      </Col>
+                                      <Col sm="4">
+                                        <Label>{CVR}</Label>
+                                        <Input className="form-control" type="number" name="cvrnr" value={editdata.cvrnr} onChange={((e) => setEditData({cvrnr: e.target.value}))} innerRef={register({ required: true})} />
+                                        <span style={{ color: "red" }}>{errors.cvrnr && 'Venligst indsæt et gyldigt CVRnr.'}</span>
+                                      </Col>
+                                      </Row>
+                                      <Row>
+                                        <Col sm="8">
+                                          <Label>{Email}</Label>
+                                          <Input className="form-control" type="text" name="email" value={editdata.email} onChange={((e) => setEditData({email: e.target.value}))} innerRef={register({ required: true})} />
+                                          <span style={{ color: "red" }}>{errors.email && 'Venligst indsæt en gyldig email adresse'}</span>
+                                        </Col>
+                                        <Col sm="4">
                                           <Label>{Mobile}</Label>
-                                          <Input className="form-control" type="text" name="mobile" defaultValue={editdata.phone} innerRef={register({ pattern: /\d+/, minlength: 0, maxlength: 9 })} />
-                                          <span style={{ color: "red" }}>{errors.phone && 'Please enter number max 9 digit'}</span>
-                                        </FormGroup>
-                                      </div>
-                                      <Button color="secondary" className="update-contact mr-1">{Save}</Button>
-                                      <Button color="primary" onClick={() => setEditing(false)}>{Cancel}</Button>
-                                    </Form>
+                                          <Input className="form-control" type="number" name="mobile" value={editdata.phone} onChange={((e) => setEditData({phone: e.target.value}))} innerRef={register({ pattern: /\d+/, minlength: 0, maxlength: 11 })} />
+                                          <span style={{ color: "red" }}>{errors.phone && 'Venligst indsæt et gyldigt telefon nummer'}</span>
+                                        </Col>
+                                        
+                                      </Row>
+                                      <Row>
+                                        <Col sm="12">
+                                          <Label>{Adresse}</Label>
+                                          <Input className="form-control" type="text" name="email" value={editdata.adresse} onChange={((e) => setEditData({adresse: e.target.value}))} />
+                                          
+                                        </Col>
+                                      </Row>
+                                      <Row>
+                                      <Col sm="8">
+                                          <Label>{City}</Label>
+                                          <Input className="form-control" type="text" name="city" value={editdata.city} onChange={((e) => setEditData({city: e.target.value}))}  />
+                                          
+                                        </Col>
+                                        <Col sm="4">
+                                          <Label>{PostalCode}</Label>
+                                          <Input className="form-control" type="number" name="postnr" value={editdata.postnr} onChange={((e) => setEditData({postnr: e.target.value}))} innerRef={register({ required: true})} />
+                                          <span style={{ color: "red" }}>{errors.postnr && 'Venligst indsæt et gyldigt postnummer'}</span>
+                                      </Col>
+                                      </Row>
+                                      <Button color="secondary" className="update-contact mr-1" onClick={UpdateContact}>{Save}</Button>
+                                      <Button color="primary" onClick={() => {setEditing(false); setEditData('')}}>{Cancel}</Button>
+                                    </FormGroup>
+                                  </Form>
+                                    
                                   </div>
                                   :
                                   <TabContent activeTab={dynamictab}>
@@ -615,7 +686,7 @@ const Newcontact = () => {
                       <TabPane tabId="2">
                         <Card className="mb-0">
                           <CardHeader className="d-flex">
-                            <h5>{Sponsordatabase}</h5>
+                            <h5>{selectedList}</h5>
                           </CardHeader>
                           <CardBody className="p-0">
                             <Row className="list-persons" id="addcon">
@@ -660,40 +731,73 @@ const Newcontact = () => {
                                 {editing ?
 
                                   <div className="contact-editform pl-0 m-auto">
-                                    <Form onSubmit={handleSubmit(UpdateContact)}>
-                                      <div className="form-row">
-                                        <div className="contact-profile">
-                                          <img className="rounded-circle img-100" src={editurl} alt="" />
-                                          <div className="icon-wrapper">
-                                            <i className="icofont icofont-pencil-alt-5">
-                                              <input className="upload" type="file" onChange={(e) => HandleEditUrl(e)} />
-                                            </i>
-                                          </div>
-                                        </div>
-                                        <FormGroup className="col-md-12">
-                                          <label>{Name}</label>
-                                          <Row>
-                                            <Col sm="6">
-                                              <Input className="form-control" type="text" name="name" defaultValue={editdata.firstName} innerRef={register({ required: true })} />
-                                              <span style={{ color: "red" }}>{errors.name && 'First name is required'}</span>
-                                            </Col>
-                                            
-                                          </Row>
-                                        </FormGroup>
-                                        <FormGroup className="col-md-12">
-                                          <Label>{Virksomhed}</Label>
-                                          <Input className="form-control" type="text" name="virksomhed" defaultValue={editdata.virksomhed} innerRef={register({ required: true, pattern: /\d+/, min: 18, max: 70 })} />
-                                          <span style={{ color: "red" }}>{errors.virksomhed && 'Please enter age between 18 to 70 year.'}</span>
-                                        </FormGroup>
-                                        <FormGroup className="col-md-12">
+                                    <Form >
+                                      
+                                      <FormGroup className="col-md-12">
+                                        
+                                        <Row>
+                                        
+                                          <Col sm="6">
+                                            <label>{FirstName}</label>
+                                            <Input className="form-control" type="text" name="firstname" value={editdata.firstName} onChange={((e) => setEditData({firstName: e.target.value}))}innerRef={register({ required: true })} />
+                                            <span style={{ color: "red" }}>{errors.name && 'Venligst indsæt et fornavn'}</span>
+                                          </Col>
+                                          
+                                          <Col sm="6">
+                                            <label>{LastName}</label>
+                                            <Input className="form-control" type="text" name="lastname" value={editdata.lastName} onChange={((e) => setEditData({lastName: e.target.value}))}innerRef={register({ required: true })} />
+                                            <span style={{ color: "red" }}>{errors.name && 'Venligst indsæt et efternavn'}</span>
+                                          </Col>
+                                        </Row>
+                                      
+                                      <Row>
+                                        <Col sm="8">
+                                        <Label>{Virksomhed}</Label>
+                                        <Input className="form-control" type="text" name="virksomhed" value={editdata.virksomhed} onChange={((e) => setEditData({virksomhed: e.target.value}))} innerRef={register({ required: true})} />
+                                        <span style={{ color: "red" }}>{errors.virksomhed && 'Venligst indsæt et firmanavn'}</span>
+                                      </Col>
+                                      <Col sm="4">
+                                        <Label>{CVR}</Label>
+                                        <Input className="form-control" type="number" name="cvrnr" value={editdata.cvrnr} onChange={((e) => setEditData({cvrnr: e.target.value}))} innerRef={register({ required: true})} />
+                                        <span style={{ color: "red" }}>{errors.cvrnr && 'Venligst indsæt et gyldigt CVRnr.'}</span>
+                                      </Col>
+                                      </Row>
+                                      <Row>
+                                        <Col sm="8">
+                                          <Label>{Email}</Label>
+                                          <Input className="form-control" type="text" name="email" value={editdata.email} onChange={((e) => setEditData({email: e.target.value}))} innerRef={register({ required: true})} />
+                                          <span style={{ color: "red" }}>{errors.email && 'Venligst indsæt en gyldig email adresse'}</span>
+                                        </Col>
+                                        <Col sm="4">
                                           <Label>{Mobile}</Label>
-                                          <Input className="form-control" type="text" name="mobile" defaultValue={editdata.phone} innerRef={register({ pattern: /\d+/, minlength: 0, maxlength: 9 })} />
-                                          <span style={{ color: "red" }}>{errors.phone && 'Please enter number max 9 digit'}</span>
-                                        </FormGroup>
-                                      </div>
-                                      <Button color="secondary" className="update-contact mr-1">{Save}</Button>
-                                      <Button color="primary" onClick={() => setEditing(false)}>{Cancel}</Button>
-                                    </Form>
+                                          <Input className="form-control" type="number" name="mobile" value={editdata.phone} onChange={((e) => setEditData({phone: e.target.value}))} innerRef={register({ pattern: /\d+/, minlength: 0, maxlength: 11 })} />
+                                          <span style={{ color: "red" }}>{errors.phone && 'Venligst indsæt et gyldigt telefon nummer'}</span>
+                                        </Col>
+                                        
+                                      </Row>
+                                      <Row>
+                                        <Col sm="12">
+                                          <Label>{Adresse}</Label>
+                                          <Input className="form-control" type="text" name="email" value={editdata.adresse} onChange={((e) => setEditData({adresse: e.target.value}))} />
+                                          
+                                        </Col>
+                                      </Row>
+                                      <Row>
+                                      <Col sm="8">
+                                          <Label>{City}</Label>
+                                          <Input className="form-control" type="text" name="city" value={editdata.city} onChange={((e) => setEditData({city: e.target.value}))}  />
+                                          
+                                        </Col>
+                                        <Col sm="4">
+                                          <Label>{PostalCode}</Label>
+                                          <Input className="form-control" type="number" name="postnr" value={editdata.postnr} onChange={((e) => setEditData({postnr: e.target.value}))} innerRef={register({ required: true})} />
+                                          <span style={{ color: "red" }}>{errors.postnr && 'Venligst indsæt et gyldigt postnummer'}</span>
+                                      </Col>
+                                      </Row>
+                                      <Button color="secondary" className="update-contact mr-1" onClick={UpdateContact}>{Save}</Button>
+                                      <Button color="primary" onClick={() => {setEditing(false); setEditData('')}}>{Cancel}</Button>
+                                    </FormGroup>
+                                  </Form>
                                   </div>
                                   :
                                   <TabContent activeTab={dynamictab}>
@@ -744,11 +848,7 @@ const Newcontact = () => {
                           </CardBody>
                         </Card>
                       </TabPane>
-                     
-                        
-
-                      
-
+          
                       <div id="right-history" className="history">
                         <div className="modal-header p-l-20 p-r-20">
                           <h6 className="modal-title w-100">{ContactHistory}
