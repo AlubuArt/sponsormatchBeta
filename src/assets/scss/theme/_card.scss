@@ -40,6 +40,15 @@
         margin-bottom: 0;
       }
     }
+    .user-image {
+      .profile-picture{
+        img{
+          max-height: 150px;
+          max-width: auto;
+
+        }
+      }
+    }
   }
   .sub-title{
     border-bottom: 1px solid rgba(0, 0, 0, 0.1);

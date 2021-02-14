@@ -10,7 +10,7 @@ const UserPanel = (props) => {
                 <div>
                     <img className="img-100 rounded-circle lazyloaded blur-up" src={props.logo} alt="#" />
                     <div className="profile-edit">
-                        <Link to={`${process.env.PUBLIC_URL}/users/userEdit`}>
+                        <Link to={`${process.env.PUBLIC_URL}/users`}>
                             <Edit />
                         </Link>
                     </div>

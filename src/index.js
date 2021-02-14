@@ -17,7 +17,7 @@ import Default from './components/dashboard/defaultCompo/default';
 
 // users
 import UserProfile from './components/users/userProfile';
-import UserEdit from './components/users/userEdit';
+
 
 // learning 
 import LearningList from './components/learning/kursus-samling';
@@ -113,8 +113,8 @@ const Root = () => {
                                     <Route path={`${process.env.PUBLIC_URL}/forside`} render={() => <Default us={currentUser}/>} />
 
                                     {/* Users */}
-                                    <Route path={`${process.env.PUBLIC_URL}/users/userProfile`} component={UserProfile} />
-                                    <Route path={`${process.env.PUBLIC_URL}/users/userEdit`} component={UserEdit}  />
+                                    <Route path={`${process.env.PUBLIC_URL}/profil`} component={UserProfile} />
+                                    
                                     
                                     {/* Learning App */}
                                     <Route path={`${process.env.PUBLIC_URL}/kursus/kursus-samling`} component={LearningList} />

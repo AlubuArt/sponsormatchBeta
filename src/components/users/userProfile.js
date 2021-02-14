@@ -1,7 +1,9 @@
 import React, { Fragment, useState, useReducer, useEffect } from 'react';
 import Breadcrumb from '../common/breadcrumb';
-import {Email,ContactUs,Location} from '../../constant'
+import {Email, Mobile,Location, Sponsoransvarlig} from '../../constant'
 import {  dbRef } from '../../data/config';
+import UserEdit from './userEdit';
+
 
 
 
@@ -24,11 +26,9 @@ const UserProfile = () => {
         logo: ''
     })
     
-    
-
     useEffect(() => {
         
-        dbRef.ref('/sponsormatchUsers/' + currentUser + '/profil/forening/' ).once('value', snapshot => {
+        dbRef.ref('/sponsormatchUsers/' + currentUser + '/profil/forening/' ).on('value', snapshot => {
             const value = snapshot.val();
             for (let [key, val] of Object.entries(value)) {
                 setUserInfo({[key]: val})
@@ -36,11 +36,9 @@ const UserProfile = () => {
         })
     }, [currentUser])
     
-
-    
     return (
         <Fragment>
-            <Breadcrumb parent="Profil" title="Klub profil" />
+            <Breadcrumb title="Forenings profil" />
             <div className="container-fluid">
                 <div className="user-profile">
                     <div className="row">
@@ -48,8 +46,8 @@ const UserProfile = () => {
                         <div className="col-sm-12">
                             <div className="card hovercard text-center">
                                 <div className="cardheader"></div>
-                                <div className="user-image ">
-                                    <div className="avatar ">
+                                    <div className="user-image ">
+                                    <div className="logo ">
                                         <img className="pro" alt="" src={userInfo.logo} data-intro="This is Profile image" />
                                     </div>
                                     <div className="icon-wrapper">
@@ -67,21 +65,27 @@ const UserProfile = () => {
                                                         <h6><i className="fa fa-envelope mr-2"></i>{Email}</h6><span>{userInfo.email}</span>
                                                     </div>
                                                 </div>
-                                                
                                             </div>
                                         </div>
                                         <div className="col-sm-12 col-lg-4 order-sm-0 order-xl-1">
-                                            <div className="user-designation">
+                                            
+                                                <div className="user-designation">
                                                 <div className="title"><a target="_blank" href="javascript">{userInfo.foreningName}</a></div>
-                                                <div className="desc mt-2">Sponsoransvarlig</div>
+                                                <div className="desc mt-2">{Sponsoransvarlig}</div>
                                                 <div className="sponsoransvarlig-navn">{userInfo.fname} {userInfo.lname}</div>
+                                                <div className="forening-beskrivelse">
+                                                    <br></br>
+                                                    <p>{userInfo.clubDescription}</p>
+                                                </div>
+                                            
                                             </div>
+                                            
                                         </div>
                                         <div className="col-sm-6 col-lg-4 order-sm-2 order-xl-2">
                                             <div className="row">
                                                 <div className="col-md-6">
                                                     <div className="ttl-info text-left ttl-xs-mt">
-                                                        <h6><i className="fa fa-phone"></i>{ContactUs}</h6><span>{userInfo.telephonenr}</span>
+                                                        <h6><i className="fa fa-phone"></i>{Mobile}</h6><span>{userInfo.telephonenr}</span>
                                                     </div>
                                                 </div>
                                                 <div className="col-md-6">
@@ -99,6 +103,7 @@ const UserProfile = () => {
                         
                     </div>
                 </div>
+                <UserEdit />
             </div>
         </Fragment>
     );

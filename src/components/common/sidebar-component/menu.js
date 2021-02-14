@@ -12,11 +12,7 @@ export const MENUITEMS = [
     },
     
     {
-        title: 'Profil', icon: Users, type: 'sub', active: false, children: [
-            { path: '/users/userProfile', type: 'link', title: 'Klub profil' },
-            { path: '/users/userEdit', type: 'link', title: 'Redigér profil' },
-            
-        ]
+        title: 'Profil', icon: Users, type: 'link', path: '/profil', active: false
     },
     
     {
