@@ -6,8 +6,11 @@ import { Login,LOGIN,YourName,Password,RememberMe } from '../constant';
 const Logins = ({history}) => {
     
     const loginAuth = () => {
+        console.log("pressed")
         history.push(`${process.env.PUBLIC_URL}/forside`);
     }
+
+    
     
     return (
         <div>
@@ -41,7 +44,7 @@ const Logins = ({history}) => {
                                                         <label htmlFor="checkbox1">{RememberMe}</label>
                                                     </div>
                                                     <div className="form-group form-row mt-3 mb-0">
-                                                        <button className="btn btn-primary btn-block" type="button" onClick={() => loginAuth()}>{Login}</button>
+                                                        <button id="login-button" className="btn btn-primary btn-block" type="button" onClick={() => loginAuth()}>{Login}</button>
                                                     </div>
                                                     <div className="login-divider"></div>
                                                     <div className="social mt-3">
