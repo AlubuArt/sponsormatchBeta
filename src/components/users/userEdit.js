@@ -1,13 +1,12 @@
 import React, { Fragment,useState,useEffect, useReducer } from 'react';
-
-
 import { Sponsoransvarlig, Phone, Website, EditProfile,Forening, UpdateProfile,FirstName,LastName,Address,EmailAddress,PostalCode,City, OmForeningen} from '../../constant'
-import {  dbRef } from '../../data/config';
+import { uploadUserProfilePicture, getUserFromDatabase, updateUserDataInDatabase } from '../../services/editUser.service'
 
 
 const UserEdit = () => {
     
     const [currentUser] =  useState(localStorage.getItem('userID'));
+    const [profilePicture, setProfilePicture] = useState();
     const [userInfo, setUserInfo] = useReducer((value, newValue) => ({...value, ...newValue}), {
         foreningName: ' ',
         fname: '',
@@ -23,39 +22,46 @@ const UserEdit = () => {
         userProfilePicture: ''
     })
 
-    //TODO: flyttes til service
-    const getUserDataFromDatabase = () => {
-        dbRef.ref('/sponsormatchUsers/' + currentUser + '/profil/forening/' ).once('value', snapshot => {
-            const value = snapshot.val();
-            for (let [key, val] of Object.entries(value)) {
+    const getUserData = async () => {
+        try {
+            const userData = await getUserFromDatabase(currentUser);
+            for (let [key, val] of Object.entries(userData)) {
                 setUserInfo({[key]: val})
-            }
-        })
+            }   
+        }
+        catch {}
     }
     
-    //TODO: flyttes til service
     const updateUserData = () => {
-        const dataToupdate = userInfo;
-        dbRef.ref('/sponsormatchUsers/' + currentUser+ '/profil/forening/').update(dataToupdate, function(error)  {
-            if(error) {
-                console.log("update failed")
-            } else {
-                alert("Profil blev opdateret")  
-            }
-        })
-        
+        try {
+            const dataToupdate = userInfo;
+            updateUserDataInDatabase(currentUser, dataToupdate)  
+        }
+        catch {}
     }
 
     const handleClick = (e) => {
         updateUserData()
     }
 
-    const updateProfilePicture = () => {
-
+    const getSelectedFileToUpload = () => {
+        const selectedFile = document.getElementById('input').files[0];
+        setProfilePicture(selectedFile)
     }
-     useEffect(() => {
-        getUserDataFromDatabase()
 
+    const changeProfilePicture = (e) => {
+        e.preventDefault();
+        uploadUserProfilePicture(currentUser, profilePicture)
+        const timer = setTimeout(() => {
+          getUserData()  
+        }, 1000);
+        return  () => clearTimeout(timer);
+    }
+
+
+     useEffect(() => {
+        //getUserDataFromDatabase()
+        getUserData()
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
     
@@ -80,7 +86,7 @@ const UserEdit = () => {
                                                 </div>
                                                 <div className="icon-wrapper">
                                                     <i className="icofont icofont-pencil-alt-5" data-intro="Change Profile image here" >
-                                                    <input className="pencil" type="file"/>
+                                                    <input id="input" className="pencil" type="file" onChange={getSelectedFileToUpload}/><button onClick={changeProfilePicture}>Upload billede</button>
                                                     </i>
                                                 </div>
                                             </div>   

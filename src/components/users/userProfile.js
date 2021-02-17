@@ -5,10 +5,6 @@ import {  dbRef } from '../../data/config';
 import UserEdit from './userEdit';
 
 
-
-
-//some edtiing fghgh
-
 const UserProfile = () => {
 
     const [currentUser] =  useState(localStorage.getItem('userID'));
@@ -25,6 +21,7 @@ const UserProfile = () => {
         website: '',
         logo: ''
     })
+    
     
     useEffect(() => {
         
@@ -52,7 +49,7 @@ const UserProfile = () => {
                                     </div>
                                     <div className="icon-wrapper">
                                         <i className="icofont icofont-pencil-alt-5" data-intro="Change Profile image here" >
-                                            <input className="pencil" type="file"/>
+                                            <input className="pencil" type="file" />
                                         </i>
                                     </div>
                                 </div>
