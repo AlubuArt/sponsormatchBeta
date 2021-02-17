@@ -16,10 +16,11 @@ const UserMenu = ({ history }) => {
     const {logout} = useAuth0()
     const authenticated = JSON.parse(localStorage.getItem("authenticated"))
     
+    //flyttes til service
     useEffect(() => {
         const getCurrentUser = () => {
             
-            dbRef.ref('/sponsormatchUsers/' +  currentUser + '/profil/forening/logo' ).once('value', snapshot =>  {
+            dbRef.ref('/sponsormatchUsers/' +  currentUser + '/profil/forening/userProfilePicture' ).on('value', snapshot =>  {
             const val =  snapshot.val();
             setLogo(val)
             })

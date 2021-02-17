@@ -31,11 +31,11 @@ const Sidebar = (props) => {
 
         const getCurrentUser = () => {
             
-            dbRef.ref('/sponsormatchUsers/' +  currentUser + '/profil/forening/foreningName' ).once('value', snapshot =>  {
+            dbRef.ref('/sponsormatchUsers/' +  currentUser + '/profil/forening/foreningName' ).on('value', snapshot =>  {
             const val =  snapshot.val();
             setForeningName(val)
             })
-            dbRef.ref('/sponsormatchUsers/' +  currentUser + '/profil/forening/logo' ).once('value', snapshot =>  {
+            dbRef.ref('/sponsormatchUsers/' +  currentUser + '/profil/forening/logo' ).on('value', snapshot =>  {
             const val =  snapshot.val();
             setLogo(val)
             })

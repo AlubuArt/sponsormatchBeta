@@ -36,7 +36,7 @@
     .user-image {
       position: relative;
       height: 0;
-      .avatar {
+      .logo {
         margin-top: -100px;
         img {
           width: 125px;
@@ -46,6 +46,14 @@
           border-radius: 50%;
           border: 7px solid $white;
         }
+      }
+      .profile-picture {
+        img {
+          width: 50px;
+          height: 50px;
+          
+        }
+
       }
       .icon-wrapper {
         position: absolute;

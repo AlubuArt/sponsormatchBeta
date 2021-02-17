@@ -1,14 +1,12 @@
 import React, { Fragment,useState,useEffect, useReducer } from 'react';
-import Breadcrumb from '../common/breadcrumb';
-import seven from '../../assets/images/user/7.jpg';
-import { MyProfile,Phone,Website,Save,EditProfile,Forening,AboutMe,UpdateProfile,FirstName,LastName,Address,EmailAddress,PostalCode,City} from '../../constant'
-import {  dbRef } from '../../data/config';
+import { Sponsoransvarlig, Phone, Website, EditProfile,Forening, UpdateProfile,FirstName,LastName,Address,EmailAddress,PostalCode,City, OmForeningen} from '../../constant'
+import { uploadUserProfilePicture, getUserFromDatabase, updateUserDataInDatabase } from '../../services/editUser.service'
 
 
 const UserEdit = () => {
     
-    
     const [currentUser] =  useState(localStorage.getItem('userID'));
+    const [profilePicture, setProfilePicture] = useState();
     const [userInfo, setUserInfo] = useReducer((value, newValue) => ({...value, ...newValue}), {
         foreningName: ' ',
         fname: '',
@@ -20,86 +18,102 @@ const UserEdit = () => {
         email: '',
         clubDescription: '',
         website: '',
-        logo: ''
+        logo: '',
+        userProfilePicture: ''
     })
 
-    //TODO: flyttes til service
-    const getUserDataFromDatabase = () => {
-        dbRef.ref('/sponsormatchUsers/' + currentUser + '/profil/forening/' ).once('value', snapshot => {
-            const value = snapshot.val();
-            for (let [key, val] of Object.entries(value)) {
+    const getUserData = async () => {
+        try {
+            const userData = await getUserFromDatabase(currentUser);
+            for (let [key, val] of Object.entries(userData)) {
                 setUserInfo({[key]: val})
-            }
-        })
+            }   
+        }
+        catch {}
     }
     
-    //TODO: flyttes til service
     const updateUserData = () => {
-        const dataToupdate = userInfo;
-        dbRef.ref('/sponsormatchUsers/' + currentUser+ '/profil/forening/').update(dataToupdate, function(error)  {
-            if(error) {
-                console.log("update failed")
-            } else {
-                alert("Profil blev opdateret")  
-            }
-        })
-        
+        try {
+            const dataToupdate = userInfo;
+            updateUserDataInDatabase(currentUser, dataToupdate)  
+        }
+        catch {}
     }
 
     const handleClick = (e) => {
         updateUserData()
     }
 
-  
-     useEffect(() => {
-        getUserDataFromDatabase()
+    const getSelectedFileToUpload = () => {
+        const selectedFile = document.getElementById('input').files[0];
+        setProfilePicture(selectedFile)
+    }
 
+    const updateProfilePicture = (e) => {
+        e.preventDefault();
+        uploadUserProfilePicture(currentUser, profilePicture)
+        const timer = setTimeout(() => {
+          getUserData()  
+        }, 1000);
+        return  () => clearTimeout(timer);
+    }
+
+
+     useEffect(() => {
+        //getUserDataFromDatabase()
+        getUserData()
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
     
-
     return (
         <Fragment>
-            <Breadcrumb parent="Klub profil" title="Redigér profil" />
-            <div className="container-fluid">
+            
                 <div className="edit-profile">
                     <div className="row">
                         <div className="col-lg-4">
                             <div className="card">
                                 <div className="card-header">
-                                    <h4 className="card-title mb-0">{MyProfile}</h4>
+                                    <h4 className="card-title mb-0">{Sponsoransvarlig}</h4>
                                     <div className="card-options">
                                         <a className="card-options-collapse" href="javascript" data-toggle="card-collapse"><i className="fe fe-chevron-up"></i></a><a className="card-options-remove" href="javascript" data-toggle="card-remove"><i className="fe fe-x"></i></a></div>
                                 </div>
+                                <form>
                                 <div className="card-body">
-                                    <form>
-                                        <div className="row mb-2">
-                                            <div className="col-auto"><img className="img-70 rounded-circle" alt="" src={seven} /></div>
-                                            <div className="col">
-                                                <h3 className="mb-1">{userInfo.fname}</h3>
-                                            </div>
-                                        </div>
+                                    <div className="row mb-2">´
+                                            <div className="col-auto user-image ">
+                                                <div className="profile-picture ">
+                                                    <img className="pro" alt="" src={userInfo.userProfilePicture} data-intro="This is Profile image" />
+                                                </div>
+                                                <div className="icon-wrapper">
+                                                    <i className="icofont icofont-pencil-alt-5" data-intro="Change Profile image here" >
+                                                    <input id="input" className="pencil" type="file" onChange={getSelectedFileToUpload}/><button onClick={updateProfilePicture}>Upload billede</button>
+                                                    </i>
+                                                </div>
+                                            </div>   
+                                    </div>
+                                        
                                             <div className="form-group">
                                                 <label className="form-label">{FirstName}</label>
-                                                <input className="form-control" type="text" name="fname" value={userInfo.fname} onChange={((e) => setUserInfo({fname: e.target.value}))} />
+                                                <input className="form-control" type="text" name="fname" placeholder={userInfo.fname} onChange={((e) => setUserInfo({fname: e.target.value}))} />
                                             </div>
                                             <div className="form-group">
                                                 <label className="form-label">{LastName}</label>
-                                                <input className="form-control" type="text" name="lname" value={userInfo.lname} onChange={((e) => setUserInfo({lname: e.target.value}))} />
+                                                <input className="form-control" type="text" name="lname" placeholder={userInfo.lname} onChange={((e) => setUserInfo({lname: e.target.value}))} />
                                             </div>
                                         <div className="form-group">
                                             <label className="form-label">{EmailAddress}</label>
-                                            <input className="form-control"  value={userInfo.email} onChange={((e) => setUserInfo({email: e.target.value}))}/>
+                                            <input className="form-control"  placeholder={userInfo.email} onChange={((e) => setUserInfo({email: e.target.value}))}/>
                                         </div>
                                         <div className="form-group">
                                             <label className="form-label">{Phone}</label>
-                                            <input className="form-control"  value={userInfo.telephonenr} onChange={((e) => setUserInfo({telephonenr: e.target.value}))}/>
+                                            <input className="form-control"  placeholder={userInfo.telephonenr} onChange={((e) => setUserInfo({telephonenr: e.target.value}))}/>
                                         </div>
                                         <div className="form-footer">
-                                            <button className="btn btn-primary btn-block" type="button" onClick={handleClick}>{Save}</button>
+                                            <button className="btn btn-primary btn-block" type="button" onClick={handleClick}>Opdatér kontakt oplysninger</button>
                                         </div>
-                                    </form>
-                                </div>
+                                   
+                                    </div> 
+                                </form>
                             </div>
                         </div>
                         <div className="col-lg-8">
@@ -113,37 +127,35 @@ const UserEdit = () => {
                                         <div className="col-md-5">
                                             <div className="form-group">
                                                 <label className="form-label">{Forening}</label>
-                                                <input className="form-control" type="text" name="foreningName" value={userInfo.foreningName} onChange={((e) => setUserInfo({foreningName: e.target.value}))}/>
+                                                <input className="form-control" type="text" name="foreningName" placeholder={userInfo.foreningName} onChange={((e) => setUserInfo({foreningName: e.target.value}))}/>
                                             </div>
                                         </div>
-                                        
                                         <div className="form-group">
                                             <label className="form-label">{Website}</label>
-                                            <input className="form-control" type="text" value={userInfo.website} onChange={((e) => setUserInfo({website: e.target.value}))} />
+                                            <input className="form-control" type="text" placeholder={userInfo.website} onChange={((e) => setUserInfo({website: e.target.value}))} />
                                         </div>
-                                        
                                         <div className="col-md-12">
                                             <div className="form-group">
                                                 <label className="form-label">{Address}</label>
-                                                <input className="form-control" type="text" name="adresse" value={userInfo.adresse} onChange={((e) => setUserInfo({adresse: e.target.value}))} />
+                                                <input className="form-control" type="text" name="adresse" placeholder={userInfo.adresse} onChange={((e) => setUserInfo({adresse: e.target.value}))} />
                                             </div>
                                         </div>
                                         <div className="col-sm-6 col-md-4">
                                             <div className="form-group">
                                                 <label className="form-label">{City}</label>
-                                                <input className="form-control" type="text" name="city" value={userInfo.city} onChange={((e) => setUserInfo({city: e.target.value}))} />
+                                                <input className="form-control" type="text" name="city" placeholder={userInfo.city} onChange={((e) => setUserInfo({city: e.target.value}))} />
                                             </div>
                                         </div>
                                         <div className="col-sm-6 col-md-3">
                                             <div className="form-group">
                                                 <label className="form-label">{PostalCode}</label>
-                                                <input className="form-control" type="number" name="postnr" value={userInfo.postnr} onChange={((e) => setUserInfo({postnr: e.target.value}))} />
+                                                <input className="form-control" type="number" name="postnr" placeholder={userInfo.postnr} onChange={((e) => setUserInfo({postnr: e.target.value}))} />
                                             </div>
                                         </div>
                                         <div className="col-md-12">
                                             <div className="form-group mb-0">
-                                                <label className="form-label">{AboutMe}</label>
-                                                <textarea className="form-control" rows="5" name="clubDescription" value={userInfo.clubDescription} onChange={((e) => setUserInfo({clubDescription: e.target.value}))}></textarea>
+                                                <label className="form-label">{OmForeningen}</label>
+                                                <textarea className="form-control" rows="5" name="clubDescription" placeholder={userInfo.clubDescription} onChange={((e) => setUserInfo({clubDescription: e.target.value}))}></textarea>
                                             </div>
                                         </div>
                                     </div>
@@ -156,7 +168,6 @@ const UserEdit = () => {
                         
                     </div>
                 </div>
-            </div>
         </Fragment>
     );
 };
