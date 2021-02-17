@@ -49,7 +49,7 @@ const UserEdit = () => {
         setProfilePicture(selectedFile)
     }
 
-    const changeProfilePicture = (e) => {
+    const updateProfilePicture = (e) => {
         e.preventDefault();
         uploadUserProfilePicture(currentUser, profilePicture)
         const timer = setTimeout(() => {
@@ -86,7 +86,7 @@ const UserEdit = () => {
                                                 </div>
                                                 <div className="icon-wrapper">
                                                     <i className="icofont icofont-pencil-alt-5" data-intro="Change Profile image here" >
-                                                    <input id="input" className="pencil" type="file" onChange={getSelectedFileToUpload}/><button onClick={changeProfilePicture}>Upload billede</button>
+                                                    <input id="input" className="pencil" type="file" onChange={getSelectedFileToUpload}/><button onClick={updateProfilePicture}>Upload billede</button>
                                                     </i>
                                                 </div>
                                             </div>   

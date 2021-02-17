@@ -3,11 +3,14 @@ import Breadcrumb from '../common/breadcrumb';
 import {Email, Mobile,Location, Sponsoransvarlig} from '../../constant'
 import {  dbRef } from '../../data/config';
 import UserEdit from './userEdit';
+import { uploadClubLogo } from '../../services/editUser.service';
+
 
 
 const UserProfile = () => {
 
     const [currentUser] =  useState(localStorage.getItem('userID'));
+    const [clubLogoFile, setClubLogoFile] = useState();
     const [userInfo, setUserInfo] = useReducer((value, newValue) => ({...value, ...newValue}), {
         foreningName: ' ',
         fname: '',
@@ -21,6 +24,14 @@ const UserProfile = () => {
         website: '',
         logo: ''
     })
+
+
+    const getSelectedFileToUpload = async () => {
+        const selectedFile = await document.getElementById('logo-input').files[0];
+
+        //setClubLogoFile(selectedFile)
+        uploadClubLogo(currentUser, selectedFile)
+    }
     
     
     useEffect(() => {
@@ -49,7 +60,7 @@ const UserProfile = () => {
                                     </div>
                                     <div className="icon-wrapper">
                                         <i className="icofont icofont-pencil-alt-5" data-intro="Change Profile image here" >
-                                            <input className="pencil" type="file" />
+                                            <input id="logo-input" className="pencil" type="file" onChange={getSelectedFileToUpload}/>
                                         </i>
                                     </div>
                                 </div>

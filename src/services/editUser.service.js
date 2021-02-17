@@ -32,6 +32,7 @@ export const uploadUserProfilePicture = async (currentUser, fileToUpload) => {
    // Upload file to the foolder 'profileImages/'
     var uploadTask = storageRef.child('profileImages/' + fileToUpload.name).put(fileToUpload);
 
+    
     uploadTask.on('state_changed',(snapshot) => {
       // Observe state change events such as progress, pause, and resume
       // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
@@ -75,3 +76,53 @@ const addProfilePictureToUserProfile = async (currentUser, URLToFile) => {
     })
 
 }
+
+export const uploadClubLogo = async (currentUser, fileToUpload) => {
+    
+  // Upload file to the foolder 'profileImages/'
+   var uploadTask = storageRef.child('clubLogoes/' + fileToUpload.name).put(fileToUpload);
+
+   
+   uploadTask.on('state_changed',(snapshot) => {
+     // Observe state change events such as progress, pause, and resume
+     // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+     var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+     console.log('Upload is ' + progress + '% done');
+     // eslint-disable-next-line default-case
+     switch (snapshot.state) {
+       case firebase.storage.TaskState.PAUSED: // or 'paused'
+         console.log('Upload is paused');
+         break;
+       case firebase.storage.TaskState.RUNNING: // or 'running'
+         console.log('Upload is running');
+         break;
+     }
+   }, 
+   (error) => {
+     // Handle unsuccessful uploads
+   }, 
+   () => {
+     // Handle successful uploads on complete
+     // For instance, get the download URL: https://firebasestorage.googleapis.com/...
+    uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
+       console.log('File available at', downloadURL); 
+       addClubLogoToUserProfile(currentUser, downloadURL);
+             
+     })   
+     
+   }
+ );
+ 
+}
+
+const addClubLogoToUserProfile = async (currentUser, URLToFile) => {
+  await dbRef.ref('/sponsormatchUsers/' + currentUser + '/profil/forening/').update({logo: URLToFile}, function(error)  {
+    if(error) {
+        console.log("update failed")
+    } else {
+        console.log("Logo blev opdateret")
+    }
+})
+
+}
+
