@@ -63,7 +63,8 @@ const Newcontact = () => {
 })
   
   useEffect(() => {
-    db.collection('sponsorDatabase/' + currentUser + '/newSponsor' ).onSnapshot((snapshot) => {
+    //move all to the data layer 
+    db.collection('users/' + currentUser + '/sponsorer' ).onSnapshot((snapshot) => {
       const getSponsors = snapshot.docs.map((doc) => ({
         id: doc.id,
         ...doc.data()
@@ -71,7 +72,7 @@ const Newcontact = () => {
       setSponsors(getSponsors)
       setselectedContact(getSponsors[0])
     })
-    db.collection('sponsorDatabase/' + currentUser + '/followUp' ).onSnapshot((snapshot) => {
+    db.collection('users/' + currentUser + '/potentielleSponsorer' ).onSnapshot((snapshot) => {
       const getFollowUp = snapshot.docs.map((doc) => ({
         id: doc.id,
         ...doc.data()
@@ -79,7 +80,7 @@ const Newcontact = () => {
       setFollowUp(getFollowUp)
       setselectedContact(getFollowUp[0])
     })
-    db.collection('sponsorDatabase/' + currentUser + '/diverse' ).onSnapshot((snapshot) => {
+    db.collection('users/' + currentUser + '/diverseKontakter' ).onSnapshot((snapshot) => {
       const getDiverseKontakter = snapshot.docs.map((doc) => ({
         id: doc.id,
         ...doc.data()
@@ -96,15 +97,15 @@ const Newcontact = () => {
     // eslint-disable-next-line default-case
     switch (activeTab) {
       case '1': 
-       setToList = 'newSponsor';
+       setToList = 'sponsorer';
        listName = "Vores Sponsorer"
        break;
       case '2': 
-       setToList = 'diverse';
+       setToList = 'diverseKontakter';
        listName = "Diverse kontakter"
        break;
       case '3': 
-       setToList = 'followUp';
+       setToList = 'potentielleSponsorer';
        listName = 'Til opfølgning'
        break;
     }
@@ -138,13 +139,13 @@ const Newcontact = () => {
     // eslint-disable-next-line default-case
     switch (activeTab) {
       case '1': 
-       setToList = 'newSponsor';
+       setToList = 'sponsorer';
        break;
       case '2': 
-       setToList = 'diverse';
+       setToList = 'diverseKontakter';
        break;
       case '3': 
-       setToList = 'followUp';
+       setToList = 'potentielleSponsorer';
        break;
     }
     if (editdata !== '') {
@@ -169,13 +170,13 @@ const Newcontact = () => {
     // eslint-disable-next-line default-case
     switch (activeTab) {
       case '1': 
-       setToList = 'newSponsor';
+       setToList = 'sponsorer';
        break;
       case '2': 
-       setToList = 'diverse';
+       setToList = 'diverseKontakter';
        break;
       case '3': 
-       setToList = 'followUp';
+       setToList = 'potentielleSponsorer';
        break;
     }
 

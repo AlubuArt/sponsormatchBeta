@@ -9,13 +9,13 @@ import {
   Delete,
   SeSponsorat
 } from "../../../constant";
+import {getSponsoraterFromDatabase} from '../../../services/sponsorater.service';
+
 
 const Sponsorater = () => {
 
   const [currentUser] = useState(localStorage.getItem('userID'))
-  const [sponsors, setSponsors] = useReducer((value, newValue) => ({...value, ...newValue}), {
-
-  })
+  const [sponsors, setSponsors] = useReducer((value, newValue) => ({...value, ...newValue}), {})
 
 useEffect(() => {
   try {
@@ -24,6 +24,10 @@ useEffect(() => {
         const value = snapshot.val();
         setSponsors(value)
       })
+      getSponsoraterFromDatabase(currentUser).then((s) => {
+        console.log(s);
+      })
+      
   } catch (error) {
     alert(error)
   }

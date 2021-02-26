@@ -33,7 +33,7 @@ const Signin = ({ history }) => {
 
     const handleKeyPress = (e) => {
         
-            console.log("pressed");
+   if(e.charCode === 13 || e.keyCode === 13)
             loginAuth();
         
     }

@@ -33,7 +33,7 @@ const Default = (props) => {
                         <div className="col-xl-8 xl-100">
                         <div className="card">
                             <div className="card-header bg-warning" >
-                                    <h5 className="text-white">Velkommen til din SponsorMatch platform {userData.fname}</h5>
+                                    <h5 className="text-white">Velkommen til din SponsorMatch platformen {userData.fname}</h5>
                                     
                             </div>
                             <div className="card-body" >
