@@ -9,17 +9,18 @@ import {
   Delete,
   SeSponsorat
 } from "../../../constant";
-import {getSponsoraterFromDatabase} from '../../../services/sponsorater.service';
+import {getAllSponsoraterFromDatabase, getFilteredSponsoraterFromDatabase} from '../../../services/sponsorater.service';
 import SponsoratCard from "./sponsoratCard";
-import { identity } from "lodash";
+
 
 
 const Sponsorater = () => {
 
   const [currentUser] = useState(localStorage.getItem('userID'))
   const [sponsors, setSponsors] = useReducer((value, newValue) => ({...value, ...newValue}), {})
-  const [activeSponsorater, setActiveSponsorater] = useReducer((value, newValue) => ({...value, ...newValue}), {})
-  const [inactiveSponsorater, setInactiveSponsorater] = useReducer((value, newValue) => ({...value, ...newValue}), {})
+  const [selectedSponsorater, setSelectedSponsorater] = useState([])
+  const [filter, setFilter] = useState('status')
+ 
 
 useEffect(() => {
 
@@ -34,23 +35,18 @@ useEffect(() => {
 
 const getSponsorater = async () => {
   try {
-    const activeSponsoratList =[];
-    const inactiveSponsoratList =[];
-    const sponsorater = await getSponsoraterFromDatabase(currentUser);
-    sponsorater.forEach((sponsorat) => {
-      if(sponsorat.status === 'aktiv') {
-        activeSponsoratList.push(sponsorat);
-      }
-      else {
-        inactiveSponsoratList.push(sponsorat)
-      }
-      setActiveSponsorater(activeSponsoratList)
-      setInactiveSponsorater(inactiveSponsoratList)
-      
-    })
-  } catch {
+    
+    const sponsorater = await getAllSponsoraterFromDatabase(currentUser);
+    setSelectedSponsorater(sponsorater);
+    
+  } catch {}
+}
 
-  }
+const filterSponsorater = async () => {
+ const sponsorater = await getFilteredSponsoraterFromDatabase(currentUser, filter);
+ setSelectedSponsorater(sponsorater);
+ 
+    
 }
 
   return (
@@ -60,7 +56,7 @@ const getSponsorater = async () => {
         <div className="active">
         <h3>Aktive sponsorater</h3>
               {  
-                Object.values(activeSponsorater).map((sponsorat, i) => (
+                Object.values(selectedSponsorater).map((sponsorat, i) => (
                     <div className="card" key={i}>
                       <div className="card-header">
                         
@@ -76,26 +72,9 @@ const getSponsorater = async () => {
                 ))
             }
 
-      <h3>Ikke aktive sponsorater</h3>
-              {
-                
-                Object.values(inactiveSponsorater).map((sponsorat, i) => (
-                    <div className="card" key={i}>
-                      <div className="card-header">
-                        
-                        <SponsoratCard 
-                                sponsorName={sponsorat.sponsorName}
-                                amount={sponsorat.amount}
-                                endDate={sponsorat.endDate}
-                                startDate={sponsorat.startDate}
-                                status={sponsorat.status}
-                        />
-                      </div>
-                    </div>
-                ))
-            }
+      
         </div>
-        
+        <button onClick={filterSponsorater}>filtrer</button>
             
       </div>
     </Fragment>

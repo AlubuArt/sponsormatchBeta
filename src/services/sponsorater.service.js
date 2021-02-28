@@ -2,15 +2,31 @@ import {db} from '../data/config';
 import 'firebase/storage';
 
 
-export const getSponsoraterFromDatabase = async (currentUser) => {
+export const getAllSponsoraterFromDatabase = async (currentUser) => {
 
-    var  sponsoratData = [];
+    var result = [];
     var userRef = db.collection('users/' + currentUser + '/sponsorater' );
 
     await userRef.get().then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
-            sponsoratData.push(doc.data());
+            result.push(doc.data());
         })
     })
-    return sponsoratData;
+    return result;
 }
+
+
+export const getFilteredSponsoraterFromDatabase = async (currentUser, filter) => {
+
+    var result = [];
+    var userRef = db.collection('users/' + currentUser + '/sponsorater' ).where(filter, '==', 'aktiv');
+
+    await userRef.get().then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+            result.push(doc.data());
+        })
+    })
+    return result;
+}
+
+
