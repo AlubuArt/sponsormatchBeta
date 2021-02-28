@@ -1,19 +1,16 @@
 import {db} from '../data/config';
-
-
 import 'firebase/storage';
 
 
-export const getSponsoraterFromDatabase = (currentUser) => {
+export const getSponsoraterFromDatabase = async (currentUser) => {
 
+    var  sponsoratData = [];
     var userRef = db.collection('users/' + currentUser + '/sponsorater' );
 
-    userRef.get().then((querySnapshot) => {
+    await userRef.get().then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
-            var amount = doc.data();
-            console.log(amount.amount);
+            sponsoratData.push(doc.data());
         })
     })
-    
-
+    return sponsoratData;
 }
