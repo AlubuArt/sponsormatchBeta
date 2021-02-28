@@ -1,37 +1,18 @@
 import React, { Fragment, useState, useEffect, useReducer } from "react";
 import Breadcrumb from "../../common/breadcrumb";
-import {  dbRef, db } from '../../../data/config';
-import {
-  UsersTableTitle,
-  UsersTableHeader,
-  
-  Edit,
-  Delete,
-  SeSponsorat
-} from "../../../constant";
+
 import {getAllSponsoraterFromDatabase, getFilteredSponsoraterFromDatabase} from '../../../services/sponsorater.service';
 import SponsoratCard from "./sponsoratCard";
+import DropdownButton from 'react-bootstrap/DropdownButton'
+import Dropdown from 'react-bootstrap/Dropdown'
 
 
 
 const Sponsorater = () => {
 
   const [currentUser] = useState(localStorage.getItem('userID'))
-  const [sponsors, setSponsors] = useReducer((value, newValue) => ({...value, ...newValue}), {})
   const [selectedSponsorater, setSelectedSponsorater] = useState([])
-  const [filter, setFilter] = useState('status')
- 
-
-useEffect(() => {
-
-  try {
-    getSponsorater()
-    
-  } catch (error) {
-    alert(error)
-  }
-}, [currentUser])
-
+  const [buttonText, setButtonText] = useState('Filtrér')
 
 const getSponsorater = async () => {
   try {
@@ -42,19 +23,35 @@ const getSponsorater = async () => {
   } catch {}
 }
 
-const filterSponsorater = async () => {
- const sponsorater = await getFilteredSponsoraterFromDatabase(currentUser, filter);
- setSelectedSponsorater(sponsorater);
- 
-    
+
+const toggle = async (eventKey, value) => {
+ try{
+    const sponsorater = await getFilteredSponsoraterFromDatabase(currentUser, eventKey);
+    setSelectedSponsorater(sponsorater); 
+    setButtonText(eventKey)
+ } catch {}
+  
 }
+
+useEffect(() => {
+
+    getSponsorater()
+// eslint-disable-next-line react-hooks/exhaustive-deps
+}, [])
 
   return (
     <Fragment>
       <Breadcrumb title="Vores Sponsorater" parent="Sponsorer" />
       <div className="container-fluid">
         <div className="active">
-        <h3>Aktive sponsorater</h3>
+        <h3>Sponsorater</h3>
+        <div>
+          <DropdownButton id="dropdown-basic-button" title={buttonText} onSelect={toggle}>
+            <Dropdown.Item eventKey="aktiv" value="Aktive">Aktive</Dropdown.Item>
+            <Dropdown.Item eventKey="inaktiv">Ikke aktive</Dropdown.Item>
+          </DropdownButton>
+        </div>
+       
               {  
                 Object.values(selectedSponsorater).map((sponsorat, i) => (
                     <div className="card" key={i}>
@@ -74,7 +71,7 @@ const filterSponsorater = async () => {
 
       
         </div>
-        <button onClick={filterSponsorater}>filtrer</button>
+        
             
       </div>
     </Fragment>
