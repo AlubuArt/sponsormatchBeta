@@ -2,8 +2,8 @@ import {firebase_app,} from '../data/config';
 
 const db = firebase_app.firestore();
 
-export const createSponsor= (value, list, userID) => {
-    db.collection('users/' + userID + '/' + list).add({
+export const createSponsor= (value, list, userID, contactID) => {
+    db.collection('users/' + userID + '/' + list).doc(contactID).set({
         firstName: value.firstName,
         lastName: value.lastName,
         phone: value.phone,
@@ -35,8 +35,23 @@ export const editUser = (value, list, userID, contactID) => {
         contactName: value.contactName,
         city: value.city,
         postnr: value.postnr,
-        
         branche: value.branche,
         
     })
+}
+
+
+export const getContactsFromDatabase = async (currentUser, collection) => {
+
+    var result = [];
+    var ref =  db.collection('users/' + currentUser + collection );
+    await ref.get().then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+
+            result.push(doc.data());
+        })
+    })
+   
+    return result;
+
 }

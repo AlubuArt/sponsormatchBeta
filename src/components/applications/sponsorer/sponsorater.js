@@ -24,7 +24,7 @@ const getSponsorater = async () => {
 }
 
 
-const toggle = async (eventKey, value) => {
+const toggle = async (eventKey) => {
  try{
     const sponsorater = await getFilteredSponsoraterFromDatabase(currentUser, eventKey);
     setSelectedSponsorater(sponsorater); 
