@@ -5,14 +5,12 @@ const db = firebase_app.firestore();
 const coll = db.collection('users/');
 
 
-export const signupUserInDatabase = async (value, pass) => {
+export const loginUser = async (email, pass) => {
     
-        const userObject = await firebase_app.auth().createUserWithEmailAndPassword(value.email, pass);
-        const user = userObject.user;
-        const userID = user.uid;   
-        await coll.doc(userID).set({value})
-        localStorage.setItem('userID', userID)
-        localStorage.setItem('token', Jwt_token);
+        const currentUser = await firebase_app.auth().signInWithEmailAndPassword(email, pass);
+            const uid =  currentUser.user.uid;
+            localStorage.setItem('userID', uid)
+            localStorage.setItem('token', Jwt_token);
 
 }
 
