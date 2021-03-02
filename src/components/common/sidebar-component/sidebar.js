@@ -7,12 +7,14 @@ import { MENUITEMS } from '../../../components/common/sidebar-component/menu';
 import { Link } from 'react-router-dom';
 import { translate } from 'react-switch-lang';
 import configDB from '../../../data/customizer/config';
-import { dbRef } from '../../../data/config';
-import {getForeningLogoFromDatabase, getForeningNameFromDatabase} from '../../../services/sidebar.service'
+import { dbRef, firebase_app } from '../../../data/config';
+import {getForeningLogoFromDatabase, getForeningNameFromDatabase, testListener} from '../../../services/sidebar.service'
+
+
+const db = firebase_app.firestore();
 
 const Sidebar = (props) => {
 
-    
     const [margin, setMargin] = useState(0);
     const [width, setWidth] = useState(0);
     const [hideLeftArrowRTL, setHideLeftArrowRTL] = useState(true);
@@ -29,11 +31,22 @@ const Sidebar = (props) => {
     const getForeningNameAndLogo = async () => {
 
         const name = await getForeningNameFromDatabase(currentUser);
-        const logo = await getForeningLogoFromDatabase(currentUser);
+        const logo = await getForeningLogoFromDatabase(currentUser);        
         setForeningName(name);
         setLogo(logo)
+        testListen()
     }
 
+    //this should be moved to the service file... But how?
+    function testListen () {
+    
+        var userRef = db.collection('users/').doc(currentUser);
+        userRef.onSnapshot((doc) => {
+            console.log('new logo uploaded');
+            setLogo(doc.data().logo)  
+        })
+    
+    }
 
     const handleResize = () => {
         setWidth(window.innerWidth - 310);

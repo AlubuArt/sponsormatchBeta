@@ -12,3 +12,4 @@ export const getSponsorsFromDatabase = (currentUser) => {
 
     console.log(user.id)
 }
+

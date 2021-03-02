@@ -31,3 +31,18 @@ export const getForeningLogoFromDatabase = async (currentUser) => {
     return logo;
 } 
 
+export const testListener = (currentUser) => {
+    
+    var userRef = db.collection('users/').doc(currentUser);
+
+    const docdata = userRef.onSnapshot(async (doc) => {
+        console.log('new logo uploaded');
+        
+        return await doc.data()
+        
+    })
+
+    console.log(docdata.logo)
+    return docdata
+
+}
