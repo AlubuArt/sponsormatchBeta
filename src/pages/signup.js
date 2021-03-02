@@ -49,25 +49,6 @@ const Signup = ({ history }) => {
         
     }
     
-    /* const signUpAndMakeDatabase = async () => {
-        try {
-            const userObject = await firebase_app.auth().createUserWithEmailAndPassword(value.email, password)
-            const user = userObject.user
-            const userID = user.uid
-            const setUidInDatabase = {[ `/sponsormatchUsers/${userID}/profil/forening`]: value}     
-            await dbRef.ref().update(setUidInDatabase);
-            localStorage.setItem('userID', userID)
-            localStorage.setItem('token', Jwt_token);
-        } catch (error) {
-            switch(error.code) {
-                case "auth/invalid-email":
-                    toast.error(errorMessageInvalidEmail); 
-                case "auth/weak-password":
-                    toast.error(errorMesssageInvalidPassword);
-                }
-            }
-            redirectToProfilePageAfterSucces()
-    } */
 
     const redirectToProfilePageAfterSucces = async () => {
         try {
