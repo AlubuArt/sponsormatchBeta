@@ -1,28 +1,30 @@
 import React ,{useEffect , Fragment, useState} from 'react';
 import Breadcrumb from '../../common/breadcrumb';
 import {  MessageCircle } from 'react-feather';
-import { firebase_app } from '../../../data/config';
 import {News} from '../../../constant';
 import {  dbRef } from '../../../data/config';
+import {getUserFromDatabase} from '../../../services/editUser.service';
 
 
-const Default = (props) => {
 
-    const [currentUser, setCurrentUser] =  useState(props.us);
-    const [userData, setUserData] = useState((value, newValue) => ({...value, ...newValue}), {
-        fname: '',
-    });
+const Default = () => {
+
+    const [currentUser, setCurrentUser] =  useState(localStorage.getItem('userID'));
+    const [userData, setUserData] = useState('');
+
+    const getUser = async () => {
+        const userData = await getUserFromDatabase(currentUser);
+        console.log(userData.fname)
+        setUserData(userData.fname)
+            
+    }
 
     useEffect( () => {
 
-        firebase_app.auth().onAuthStateChanged(setCurrentUser);
-        dbRef.ref('/sponsormatchUsers/' +  currentUser.uid + '/profil/forening/fname' ).once('value',  async snapshot =>  {
-            const val =  snapshot.val();
-            setUserData({fname: val})    
-        })
+       getUser() 
 
-        
-    },[currentUser]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    },[]);
     
     
     return (
@@ -33,7 +35,7 @@ const Default = (props) => {
                         <div className="col-xl-8 xl-100">
                         <div className="card">
                             <div className="card-header bg-warning" >
-                                    <h5 className="text-white">Velkommen til din SponsorMatch platformen {userData.fname}</h5>
+                                    <h5 className="text-white">Velkommen til din SponsorMatch platformen {userData}</h5>
                                     
                             </div>
                             <div className="card-body" >
