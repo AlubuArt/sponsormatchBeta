@@ -1,22 +1,18 @@
-
 import React, { Fragment, useState, useEffect, useRef, useReducer } from 'react';
-import Breadcrumb from '../../common/breadcrumb'
-import {firebase_app} from '../../../data/config';
-import { Container, Row, Col, Card, CardHeader, CardBody, Nav, NavItem, NavLink, TabContent, TabPane, Modal, ModalHeader, ModalBody, Label, Input, FormGroup, Form, Button } from 'reactstrap'
-import defaultuser from '../../../assets/images/user/user.png';
-import { createSponsor, deletedUser, editUser, getContactsFromDatabase } from '../../../services/contact.service'
+import Breadcrumb from '../../common/breadcrumb';
+import { Container, Row, Col, Card, CardHeader, CardBody, Nav, NavItem, NavLink, TabContent, TabPane, Modal, ModalHeader, ModalBody, Label, Input, FormGroup, Form, Button } from 'reactstrap';
+import { createSponsor, deletedUser, editUser, getContactsFromDatabase } from '../../../services/contact.service';
 import search from '../../../assets/images/search-not-found.png';
 import { useForm } from 'react-hook-form';
-import SweetAlert from 'sweetalert2'
+import SweetAlert from 'sweetalert2';
 import ReactToPrint from "react-to-print";
 import PrintPreview from './printpreview'
-import {Sponsordatabase,NewContacts,AddContacts,Views,FrontName, Email, LastName, City, PostalCode, Name, FirstName, Mobile,EmailAddress,FollowUp,History,ContactHistory,Edit,Delete,Print,Save,Cancel,PrintViews, ContactCreated, Virksomhed, CVR, DiverseKontakter, Adresse, Submit} from '../../../constant'
+import {Sponsordatabase,NewContacts,AddContacts,Views,FrontName, Email, LastName, City, PostalCode, Name, FirstName, Mobile,EmailAddress,FollowUp,History,ContactHistory,Edit,Delete,Print,Save,Cancel,PrintViews, ContactCreated, Virksomhed, CVR, DiverseKontakter, Adresse} from '../../../constant'
 
 
 const Newcontact = () => {
 
-  const [addurl,setAddurl] = useState(defaultuser)
-  const [editurl,setEditurl] = useState()
+ 
   const [activeTab, setActiveTab] = useState('1');
   const [dynamictab, setDynamicTab] = useState('0')
   const {register, handleSubmit, errors } = useForm(); // initialise the hook
@@ -39,7 +35,6 @@ const Newcontact = () => {
   }); 
   const [editing, setEditing] = useState(false)
   const [selectedContact, setselectedContact] = useState({})
-  const db = firebase_app.firestore();
   const [printmodal, setprintModal] = useState(false);
   const [modal, setModal] = useState(false);
   const toggle = () => setModal(!modal);
@@ -83,7 +78,9 @@ const Newcontact = () => {
   const AddContact = () => {
 
     var setToList;
+    // eslint-disable-next-line no-unused-vars
     var listName;
+    // eslint-disable-next-line no-unused-vars
     var setList;
     // eslint-disable-next-line default-case
     switch (activeTab) {

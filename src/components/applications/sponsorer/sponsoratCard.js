@@ -1,8 +1,5 @@
 import React, { Fragment } from "react";
-import {
-    GemSponsor, 
-    OpretSponsorTilbud 
-  } from "../../../constant";
+
 
   const SponsoratCard = (props) => {
 

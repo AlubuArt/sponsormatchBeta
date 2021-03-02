@@ -2,14 +2,13 @@ import React ,{useEffect , Fragment, useState} from 'react';
 import Breadcrumb from '../../common/breadcrumb';
 import {  MessageCircle } from 'react-feather';
 import {News} from '../../../constant';
-import {  dbRef } from '../../../data/config';
 import {getUserFromDatabase} from '../../../services/editUser.service';
 
 
 
 const Default = () => {
 
-    const [currentUser, setCurrentUser] =  useState(localStorage.getItem('userID'));
+    const [currentUser] =  useState(localStorage.getItem('userID'));
     const [userData, setUserData] = useState('');
 
     const getUser = async () => {
@@ -105,8 +104,6 @@ const Default = () => {
                                 </div>
                             </div>
                         </div>
-                        {/* news column end*/}
- 
                     </div>
                 </div>
 
