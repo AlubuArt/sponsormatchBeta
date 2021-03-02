@@ -8,6 +8,7 @@ import { Link } from 'react-router-dom';
 import { translate } from 'react-switch-lang';
 import configDB from '../../../data/customizer/config';
 import { dbRef } from '../../../data/config';
+import {getForeningLogoFromDatabase, getForeningNameFromDatabase} from '../../../services/sidebar.service'
 
 const Sidebar = (props) => {
 
@@ -26,20 +27,20 @@ const Sidebar = (props) => {
     const [foreningName, setForeningName] = useState('')
 
    
+    const getForeningNameAndLogo = async () => {
+
+        const name = await getForeningNameFromDatabase(currentUser);
+        const logo = await getForeningLogoFromDatabase(currentUser);
+        setForeningName(name);
+        setLogo(logo)
+    }
+
+    
 
     useEffect(() => {
 
-        const getCurrentUser = () => {
-            
-            dbRef.ref('/sponsormatchUsers/' +  currentUser + '/profil/forening/foreningName' ).on('value', snapshot =>  {
-            const val =  snapshot.val();
-            setForeningName(val)
-            })
-            dbRef.ref('/sponsormatchUsers/' +  currentUser + '/profil/forening/logo' ).on('value', snapshot =>  {
-            const val =  snapshot.val();
-            setLogo(val)
-            })
-        }
+        
+        getForeningNameAndLogo()
         
         window.addEventListener('resize', handleResize)
         handleResize();
@@ -80,7 +81,7 @@ const Sidebar = (props) => {
                 setHideRightArrow(true);
                 setHideLeftArrowRTL(true);
             }
-            getCurrentUser()
+            
         }, 500)
 
         return () => {

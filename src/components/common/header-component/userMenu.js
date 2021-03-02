@@ -6,29 +6,27 @@ import { withRouter } from 'react-router';
 import {useAuth0} from '@auth0/auth0-react'
 import {EditProfile} from '../../../constant'
 import { dbRef } from '../../../data/config';
+import {getProfilePictureFromDatabase} from '../../../services/headerMenu.service';
 
 const UserMenu = ({ history }) => {
 
     
     const [logo, setLogo] = useState('');
     const [currentUser] =  useState(localStorage.getItem('userID'));
-    // auth0 profile
     const {logout} = useAuth0()
     const authenticated = JSON.parse(localStorage.getItem("authenticated"))
     
-    //flyttes til service
     useEffect(() => {
-        const getCurrentUser = () => {
-            
-            dbRef.ref('/sponsormatchUsers/' +  currentUser + '/profil/forening/userProfilePicture' ).on('value', snapshot =>  {
-            const val =  snapshot.val();
-            setLogo(val)
-            })
-        }   
-        getCurrentUser(); 
-        
-          
-    }, [currentUser])
+ 
+       profilePicture()
+   
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
+
+    const profilePicture = async () => {
+        const data = await getProfilePictureFromDatabase(currentUser);
+         setLogo(data)
+     }
 
     const Logout_From_Firebase = () => {
         localStorage.removeItem('profileURL')

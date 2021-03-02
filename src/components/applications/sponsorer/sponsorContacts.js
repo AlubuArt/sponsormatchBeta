@@ -79,9 +79,7 @@ const Newcontact = () => {
     
   }
 
-    
-  
-
+ 
   const AddContact = () => {
 
     var setToList;
@@ -129,8 +127,6 @@ const Newcontact = () => {
     } else {
       errors.showMessages();
     }
-    
-    
   };
 
   const UpdateContact = () => {
@@ -140,7 +136,6 @@ const Newcontact = () => {
     switch (activeTab) {
       case '1': 
        setToList = 'sponsorer';
-       
        break;
       case '2': 
        setToList = 'diverseKontakter';
@@ -195,9 +190,7 @@ const Newcontact = () => {
       reverseButtons: true
     }).then((result) => {
       if (result.value) {
-        
-        deletedUser(currentUser, setToList, selectedContact.virksomhed);
-        
+        deletedUser(currentUser, setToList, selectedContact.virksomhed)
         setselectedContact(setSelected)
         getContacts()
         SweetAlert.fire(
@@ -205,7 +198,6 @@ const Newcontact = () => {
           'Sponsoren er slettet',
           'success'
         )
-        
       }
       
       else {
@@ -214,7 +206,6 @@ const Newcontact = () => {
         )
       }
     })
-    
   }
 
   const history = () => {
@@ -226,7 +217,13 @@ const Newcontact = () => {
   }
 
   const ContactDetails = (sponsor) => {
-      setselectedContact({ firstName: sponsor.firstName, lastName: sponsor.lastName, phone:sponsor.phone, email: sponsor.email, virksomhed: sponsor.virksomhed, cvrnr: sponsor.cvrnr })
+      setselectedContact({ firstName: sponsor.firstName,
+                           lastName: sponsor.lastName, 
+                           phone:sponsor.phone, 
+                           email: sponsor.email, 
+                           virksomhed: sponsor.virksomhed, 
+                           cvrnr: sponsor.cvrnr 
+                          })
   }
   
   return (
