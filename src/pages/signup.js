@@ -4,7 +4,8 @@
 import React, { Fragment, useState, useReducer} from 'react';
 import sponsormatchLogo from '../assets/images/sponsormatch-logo_farver_login.png';
 import { FirstName, LastName,Login,Password,SignUp, EmailAddress, Forening, errorMessageInvalidEmail, errorMesssageInvalidPassword, errorMessageUndefined } from '../constant';
-import {firebase_app, dbRef, Jwt_token} from "../data/config";
+import {firebase_app} from "../data/config";
+import {signupUserInDatabase} from '../services/signup.service';
 import { toast, ToastContainer } from 'react-toastify';
 
 
@@ -26,13 +27,29 @@ const Signup = ({ history }) => {
         logo: ''
     })
     
-
     const handleButtonClickLoginIn = (e) => {
         e.preventDefault()
-        signUpAndMakeDatabase()
+        signUp();
+        //signUpAndMakeDatabase()
+    }
+
+    const signUp = async () => {
+        try{
+         await signupUserInDatabase(value.email, password);
+          
+        } catch (error) {
+            switch(error.code) {
+                case "auth/invalid-email":
+                    toast.error(errorMessageInvalidEmail); 
+                case "auth/weak-password":
+                    toast.error(errorMesssageInvalidPassword);
+                }
+        }
+        redirectToProfilePageAfterSucces() 
+        
     }
     
-    const signUpAndMakeDatabase = async () => {
+    /* const signUpAndMakeDatabase = async () => {
         try {
             const userObject = await firebase_app.auth().createUserWithEmailAndPassword(value.email, password)
             const user = userObject.user
@@ -50,7 +67,7 @@ const Signup = ({ history }) => {
                 }
             }
             redirectToProfilePageAfterSucces()
-    }
+    } */
 
     const redirectToProfilePageAfterSucces = async () => {
         try {

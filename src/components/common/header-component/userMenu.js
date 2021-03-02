@@ -5,7 +5,6 @@ import { Link } from 'react-router-dom';
 import { withRouter } from 'react-router';
 import {useAuth0} from '@auth0/auth0-react'
 import {EditProfile} from '../../../constant'
-import { dbRef } from '../../../data/config';
 import {getProfilePictureFromDatabase} from '../../../services/headerMenu.service';
 
 const UserMenu = ({ history }) => {

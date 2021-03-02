@@ -1,6 +1,5 @@
-import React, { Fragment, useState, useEffect, useReducer } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import Breadcrumb from "../../common/breadcrumb";
-
 import {getAllSponsoraterFromDatabase, getFilteredSponsoraterFromDatabase} from '../../../services/sponsorater.service';
 import SponsoratCard from "./sponsoratCard";
 import DropdownButton from 'react-bootstrap/DropdownButton'
