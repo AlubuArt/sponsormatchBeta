@@ -12,11 +12,7 @@ const Signin = ({ history }) => {
     
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    
-
-    const [value, setValue] = useState(
-        localStorage.getItem('profileURL' || man)
-    );
+    const [value, setValue] = useState(localStorage.getItem('profileURL' || man));
 
     useEffect(() => {
 
@@ -28,15 +24,7 @@ const Signin = ({ history }) => {
         
     }, [value]);
 
-    
 
-    const handleKeyPress = (e) => {
-        
-   if(e.charCode === 13 || e.keyCode === 13)
-            loginAuth();
-        
-    }
- 
     const loginAuth = async () => {
         try {
             const currentUser = await firebase_app.auth().signInWithEmailAndPassword(email, password);
@@ -53,7 +41,14 @@ const Signin = ({ history }) => {
         }
     }
 
-    
+
+
+    const handleKeyPress = (e) => {
+        
+        if(e.charCode === 13 || e.keyCode === 13)
+            loginAuth();
+        
+    }
 
     return (
         <div>
