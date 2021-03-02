@@ -27,6 +27,7 @@ const Sidebar = (props) => {
     const [currentUser] =  useState(localStorage.getItem('userID'));
     const [logo, setLogo] = useState('')
     const [foreningName, setForeningName] = useState('')
+    var userRef = db.collection('users/').doc(currentUser);
 
     const getForeningNameAndLogo = async () => {
 
@@ -40,10 +41,10 @@ const Sidebar = (props) => {
     //this should be moved to the service file... But how?
     function testListen () {
     
-        var userRef = db.collection('users/').doc(currentUser);
         userRef.onSnapshot((doc) => {
             console.log('new logo uploaded');
-            setLogo(doc.data().logo)  
+            setLogo(doc.data().logo)
+            setForeningName(doc.data().foreningName);  
         })
     
     }

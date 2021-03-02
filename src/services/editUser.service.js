@@ -43,7 +43,7 @@ export const uploadFileToStorage = async (currentUser, fileToUpload, key) => {
   // Upload file to the foolder 'profileImages/'
    var uploadTask = storageRef.child('clubLogoes/' + fileToUpload.name).put(fileToUpload);
 
-   await uploadTask.on('state_changed', async (snapshot) => {
+   uploadTask.on('state_changed', async (snapshot) => {
      // Observe state change events such as progress, pause, and resume
      // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
      var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
@@ -72,7 +72,6 @@ export const uploadFileToStorage = async (currentUser, fileToUpload, key) => {
  );
  return;
 }
-
 
 const addFileToUserProfile = (currentUser, key, URLToFile) => {
   var ref = coll.doc(currentUser);
