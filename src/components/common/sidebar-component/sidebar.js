@@ -7,8 +7,8 @@ import { MENUITEMS } from '../../../components/common/sidebar-component/menu';
 import { Link } from 'react-router-dom';
 import { translate } from 'react-switch-lang';
 import configDB from '../../../data/customizer/config';
-import { dbRef, firebase_app } from '../../../data/config';
-import {getForeningLogoFromDatabase, getForeningNameFromDatabase, testListener} from '../../../services/sidebar.service'
+import { firebase_app } from '../../../data/config';
+import {getForeningLogoFromDatabase, getForeningNameFromDatabase} from '../../../services/sidebar.service'
 
 
 const db = firebase_app.firestore();
