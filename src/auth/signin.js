@@ -4,7 +4,6 @@ import man from '../assets/images/dashboard/user.png';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { withRouter } from "react-router";
-import  {firebase_app, Jwt_token } from "../data/config";
 import { Login,LOGIN,YourName,Password,RememberMe, loginError} from '../constant';
 import {loginUser} from '../services/signin.service';
 
@@ -103,7 +102,7 @@ const Signin = ({ history }) => {
                         </div>
                     </div>
                     <ToastContainer />
-                    {/* <!-- login page end--> */}
+                
                 </div>
             </div>
         </div>

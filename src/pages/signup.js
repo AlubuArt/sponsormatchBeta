@@ -11,8 +11,6 @@ import { toast, ToastContainer } from 'react-toastify';
 
 const Signup = ({ history }) => {
     
-    
-   
     const [password, setPassword] = useState("");
     const [value, setValue] = useReducer((value, newValue) => ({...value, ...newValue}), {
         foreningName: ' ',
@@ -30,7 +28,7 @@ const Signup = ({ history }) => {
     const handleButtonClickLoginIn = (e) => {
         e.preventDefault()
         signUp();
-        //signUpAndMakeDatabase()
+        
     }
 
     const signUp = async () => {
