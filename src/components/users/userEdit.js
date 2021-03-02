@@ -1,6 +1,6 @@
 import React, { Fragment,useState,useEffect, useReducer } from 'react';
 import { Sponsoransvarlig, Phone, Website, EditProfile,Forening, UpdateProfile,FirstName,LastName,Address,EmailAddress,PostalCode,City, OmForeningen} from '../../constant'
-import { uploadUserProfilePicture, getUserFromDatabase, updateUserDataInDatabase } from '../../services/editUser.service'
+import { uploadUserProfilePictureToStorage, uploadFileToStorage, getUserFromDatabase, updateUserDataInDatabase } from '../../services/editUser.service'
 
 
 const UserEdit = () => {
@@ -32,10 +32,11 @@ const UserEdit = () => {
         catch {}
     }
     
-    const updateUserData = () => {
+    const updateUserData = async () => {
         try {
             const dataToupdate = userInfo;
-            updateUserDataInDatabase(currentUser, dataToupdate)  
+            await updateUserDataInDatabase(currentUser, dataToupdate)  
+            getUserData();
         }
         catch {}
     }
@@ -49,12 +50,15 @@ const UserEdit = () => {
         setProfilePicture(selectedFile)
     }
 
-    const updateProfilePicture = (e) => {
+    const updateProfilePicture = async (e) => {
         e.preventDefault();
-        uploadUserProfilePicture(currentUser, profilePicture)
+        await uploadFileToStorage(currentUser, profilePicture, 'userProfilePicture')
+        getUserData()
+        //would like to remove this timer
         const timer = setTimeout(() => {
           getUserData()  
-        }, 1000);
+          
+        }, 2000);/*  */
         return  () => clearTimeout(timer);
     }
 

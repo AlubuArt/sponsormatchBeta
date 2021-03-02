@@ -13,6 +13,6 @@ export const getProfilePictureFromDatabase = async (currentUser) => {
             profilePictureURL = doc.data().userProfilePicture; 
         }
     })
-    console.log(profilePictureURL)
+    
     return profilePictureURL;
 }  
