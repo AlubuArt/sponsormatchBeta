@@ -26,7 +26,6 @@ const Sidebar = (props) => {
     const [logo, setLogo] = useState('')
     const [foreningName, setForeningName] = useState('')
 
-   
     const getForeningNameAndLogo = async () => {
 
         const name = await getForeningNameFromDatabase(currentUser);
@@ -35,64 +34,6 @@ const Sidebar = (props) => {
         setLogo(logo)
     }
 
-    
-
-    useEffect(() => {
-
-        
-        getForeningNameAndLogo()
-        
-        window.addEventListener('resize', handleResize)
-        handleResize();
-
-        var currentUrl = window.location.pathname;
-       
-        mainmenu.filter(items => {
-            if (items.path === currentUrl)
-                setNavActive(items)
-            if (!items.children) return false
-            
-            items.children.filter(subItems => {
-                if (subItems.path === currentUrl)
-                    setNavActive(subItems)
-                if (!subItems.children) return false
-        
-                subItems.children.filter(subSubItems => {
-                    if (subSubItems.path === currentUrl) {
-                        setNavActive(subSubItems)
-                        return true
-                    }
-                    else{
-                        return false
-                    }
-                })
-                return subItems
-            })
-            return items
-        })
-
-        const timeout = setTimeout(() => {
-            const elmnt = document.getElementById("myDIV");
-            const menuWidth = elmnt.offsetWidth;
-            if (menuWidth > window.innerWidth) {
-                setHideRightArrow(false);
-                setHideLeftArrowRTL(false);
-            } else {
-                setHideRightArrow(true);
-                setHideLeftArrowRTL(true);
-            }
-            
-        }, 500)
-
-        return () => {
-            window.removeEventListener('resize', handleResize)
-            clearTimeout(timeout)
-        }
-        
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [currentUser]);
-
-    
 
     const handleResize = () => {
         setWidth(window.innerWidth - 310);
@@ -199,6 +140,61 @@ const Sidebar = (props) => {
             setHideLeftArrowRTL(false);
         }
     }
+
+    useEffect(() => {
+
+        
+        getForeningNameAndLogo()
+        
+        window.addEventListener('resize', handleResize)
+        handleResize();
+
+        var currentUrl = window.location.pathname;
+       
+        mainmenu.filter(items => {
+            if (items.path === currentUrl)
+                setNavActive(items)
+            if (!items.children) return false
+            
+            items.children.filter(subItems => {
+                if (subItems.path === currentUrl)
+                    setNavActive(subItems)
+                if (!subItems.children) return false
+        
+                subItems.children.filter(subSubItems => {
+                    if (subSubItems.path === currentUrl) {
+                        setNavActive(subSubItems)
+                        return true
+                    }
+                    else{
+                        return false
+                    }
+                })
+                return subItems
+            })
+            return items
+        })
+
+        const timeout = setTimeout(() => {
+            const elmnt = document.getElementById("myDIV");
+            const menuWidth = elmnt.offsetWidth;
+            if (menuWidth > window.innerWidth) {
+                setHideRightArrow(false);
+                setHideLeftArrowRTL(false);
+            } else {
+                setHideRightArrow(true);
+                setHideLeftArrowRTL(true);
+            }
+            
+        }, 500)
+
+        return () => {
+            window.removeEventListener('resize', handleResize)
+            clearTimeout(timeout)
+        }
+        
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [currentUser]);
 
     return (
         <Fragment>
