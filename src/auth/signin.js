@@ -4,20 +4,35 @@ import man from '../assets/images/dashboard/user.png';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { withRouter } from "react-router";
-import  {firebase_app, Jwt_token } from "../data/config";
-import { Login,LOGIN,YourName,Password,RememberMe} from '../constant';
-import {setFirebaseUser, getSponsorsFromDatabase}from '../services/firebase-model';
+import { Login,LOGIN,YourName,Password,RememberMe, loginError} from '../constant';
+import {loginUser} from '../services/signin.service';
 
 const Signin = ({ history }) => {
 
     
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    
+    const [value, setValue] = useState(localStorage.getItem('profileURL' || man));
 
-    const [value, setValue] = useState(
-        localStorage.getItem('profileURL' || man)
-    );
+    const handleLoginAuth = async () => {
+        try{
+            await loginUser(email, password);
+            setValue(man);
+            history.push(`${process.env.PUBLIC_URL}/forside`);
+
+        } catch (error) {
+            setTimeout(() => {
+                toast.error(loginError);
+            }, 200);
+        }
+    }
+
+    const handleKeyPress = (e) => {
+        
+        if(e.charCode === 13 || e.keyCode === 13) {
+            handleLoginAuth();
+        }  
+    }
 
     useEffect(() => {
 
@@ -28,35 +43,6 @@ const Signin = ({ history }) => {
 
         
     }, [value]);
-
-    
-
-    const handleKeyPress = (e) => {
-        
-            console.log("pressed");
-            loginAuth();
-        
-    }
- 
-    const loginAuth = async () => {
-        try {
-            const currentUser = await firebase_app.auth().signInWithEmailAndPassword(email, password);
-            const uid = await currentUser.user.uid;
-            setValue(man);
-            setFirebaseUser(currentUser);
-            getSponsorsFromDatabase();
-            localStorage.setItem('userID', uid)
-            localStorage.setItem('token', Jwt_token);
-            history.push(`${process.env.PUBLIC_URL}/forside`);
-
-        } catch (error) {
-            setTimeout(() => {
-                toast.error("Hov! Det ser ud til at koden ikke er korrekt, eller at brugeren ikke har et kodeord.");
-            }, 200);
-        }
-    }
-
-    
 
     return (
         <div>
@@ -104,7 +90,7 @@ const Signin = ({ history }) => {
                                                             id="login-button" 
                                                             className="btn btn-primary btn-block" 
                                                             type="button" 
-                                                            onClick={() => loginAuth()}
+                                                            onClick={() => handleLoginAuth()}
                                                             onKeyPress={handleKeyPress} >{Login}</button>
                                                     </div>
                                                 </form>
@@ -116,7 +102,7 @@ const Signin = ({ history }) => {
                         </div>
                     </div>
                     <ToastContainer />
-                    {/* <!-- login page end--> */}
+                
                 </div>
             </div>
         </div>

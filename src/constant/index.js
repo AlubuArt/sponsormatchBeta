@@ -1,3 +1,6 @@
+//toast
+export const loginError = "Hov! Det ser ud til at koden ikke er korrekt, eller at brugeren ikke har et kodeord.";
+
 // dashboard
 export const TotalVisits = "Total Visits"
 export const TotalSale = "Total Sale"

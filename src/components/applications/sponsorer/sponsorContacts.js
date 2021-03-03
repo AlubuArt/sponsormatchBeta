@@ -1,22 +1,18 @@
-
 import React, { Fragment, useState, useEffect, useRef, useReducer } from 'react';
-import Breadcrumb from '../../common/breadcrumb'
-import {firebase_app} from '../../../data/config';
-import { Container, Row, Col, Card, CardHeader, CardBody, Nav, NavItem, NavLink, TabContent, TabPane, Modal, ModalHeader, ModalBody, Label, Input, FormGroup, Form, Button } from 'reactstrap'
-import defaultuser from '../../../assets/images/user/user.png';
-import { createSponsor, deletedUser, editUser } from '../../../services/contact.service'
+import Breadcrumb from '../../common/breadcrumb';
+import { Container, Row, Col, Card, CardHeader, CardBody, Nav, NavItem, NavLink, TabContent, TabPane, Modal, ModalHeader, ModalBody, Label, Input, FormGroup, Form, Button } from 'reactstrap';
+import { createSponsor, deletedUser, editUser, getContactsFromDatabase } from '../../../services/contact.service';
 import search from '../../../assets/images/search-not-found.png';
 import { useForm } from 'react-hook-form';
-import SweetAlert from 'sweetalert2'
+import SweetAlert from 'sweetalert2';
 import ReactToPrint from "react-to-print";
 import PrintPreview from './printpreview'
-import {Sponsordatabase,NewContacts,AddContacts,Views,FrontName, Email, LastName, City, PostalCode, Name, FirstName, Mobile,EmailAddress,FollowUp,History,ContactHistory,Edit,Delete,Print,Save,Cancel,PrintViews, ContactCreated, Virksomhed, CVR, DiverseKontakter, Adresse, Submit} from '../../../constant'
+import {Sponsordatabase,NewContacts,AddContacts,Views,FrontName, Email, LastName, City, PostalCode, Name, FirstName, Mobile,EmailAddress,FollowUp,History,ContactHistory,Edit,Delete,Print,Save,Cancel,PrintViews, ContactCreated, Virksomhed, CVR, DiverseKontakter, Adresse} from '../../../constant'
 
 
 const Newcontact = () => {
 
-  const [addurl,setAddurl] = useState(defaultuser)
-  const [editurl,setEditurl] = useState()
+ 
   const [activeTab, setActiveTab] = useState('1');
   const [dynamictab, setDynamicTab] = useState('0')
   const {register, handleSubmit, errors } = useForm(); // initialise the hook
@@ -39,7 +35,6 @@ const Newcontact = () => {
   }); 
   const [editing, setEditing] = useState(false)
   const [selectedContact, setselectedContact] = useState({})
-  const db = firebase_app.firestore();
   const [printmodal, setprintModal] = useState(false);
   const [modal, setModal] = useState(false);
   const toggle = () => setModal(!modal);
@@ -62,56 +57,55 @@ const Newcontact = () => {
     
 })
   
-  useEffect(() => {
-    db.collection('sponsorDatabase/' + currentUser + '/newSponsor' ).onSnapshot((snapshot) => {
-      const getSponsors = snapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data()
-      }))
-      setSponsors(getSponsors)
-      setselectedContact(getSponsors[0])
-    })
-    db.collection('sponsorDatabase/' + currentUser + '/followUp' ).onSnapshot((snapshot) => {
-      const getFollowUp = snapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data()
-      }))
-      setFollowUp(getFollowUp)
-      setselectedContact(getFollowUp[0])
-    })
-    db.collection('sponsorDatabase/' + currentUser + '/diverse' ).onSnapshot((snapshot) => {
-      const getDiverseKontakter = snapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data()
-      }))
-      setDiverseKontakter(getDiverseKontakter)
-      setselectedContact(getDiverseKontakter[0])
-    }) 
-  }, [db, currentUser]);
+  useEffect( () => {
+    
+    getContacts()
+    
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
+  const getContacts = async () => {
+      const sponsors = await getContactsFromDatabase(currentUser, '/sponsorer');
+      const diverseKontakter = await getContactsFromDatabase(currentUser, '/diverseKontakter');
+      const followUp = await getContactsFromDatabase(currentUser, '/potentielleSponsorer')
+      setSponsors(sponsors)
+      setDiverseKontakter(diverseKontakter)
+      setFollowUp(followUp);
+    
+  }
+
+ 
   const AddContact = () => {
 
     var setToList;
+    // eslint-disable-next-line no-unused-vars
     var listName;
+    // eslint-disable-next-line no-unused-vars
+    var setList;
     // eslint-disable-next-line default-case
     switch (activeTab) {
       case '1': 
-       setToList = 'newSponsor';
+       setToList = 'sponsorer';
        listName = "Vores Sponsorer"
+       setList = sponsors[0]
        break;
       case '2': 
-       setToList = 'diverse';
-       listName = "Diverse kontakter"
+       setToList = 'diverseKontakter';
+       listName = "Diverse kontakter";
+       setList = diverseKontakter[0]
        break;
       case '3': 
-       setToList = 'followUp';
-       listName = 'Til opfølgning'
+       setToList = 'potentielleSponsorer';
+       listName = 'Til opfølgning';
+       setList = followUp[0]
        break;
     }
       
     if (newContact !== '') {
       alert('En ny kontakt:  ' + newContact.firstName + ' blev tilføjet listen ' + setToList )
-      createSponsor(newContact, setToList, currentUser);
+      createSponsor(newContact, setToList, currentUser, newContact.virksomhed);
+      getContacts()
+      setselectedContact(newContact);
       setNewContact({
         virksomhed: '',
         firstName: '',
@@ -133,18 +127,18 @@ const Newcontact = () => {
   };
 
   const UpdateContact = () => {
-    console.log('1')
+    
     var setToList;
     // eslint-disable-next-line default-case
     switch (activeTab) {
       case '1': 
-       setToList = 'newSponsor';
+       setToList = 'sponsorer';
        break;
       case '2': 
-       setToList = 'diverse';
+       setToList = 'diverseKontakter';
        break;
       case '3': 
-       setToList = 'followUp';
+       setToList = 'potentielleSponsorer';
        break;
     }
     if (editdata !== '') {
@@ -166,16 +160,20 @@ const Newcontact = () => {
   const deleteUser = () => {
 
     var setToList;
+    var setSelected;
     // eslint-disable-next-line default-case
     switch (activeTab) {
       case '1': 
-       setToList = 'newSponsor';
+       setToList = 'sponsorer';
+       setSelected = sponsors[0]
        break;
       case '2': 
-       setToList = 'diverse';
+       setToList = 'diverseKontakter';
+       setSelected = diverseKontakter[0]
        break;
       case '3': 
-       setToList = 'followUp';
+       setToList = 'potentielleSponsorer';
+       setSelected =  followUp[0]
        break;
     }
 
@@ -189,14 +187,16 @@ const Newcontact = () => {
       reverseButtons: true
     }).then((result) => {
       if (result.value) {
-        console.log(selectedContact.id)
-        deletedUser(currentUser, setToList, selectedContact.id );
+        deletedUser(currentUser, setToList, selectedContact.virksomhed)
+        setselectedContact(setSelected)
+        getContacts()
         SweetAlert.fire(
           'Slettet!',
           'Sponsoren er slettet',
           'success'
         )
       }
+      
       else {
         SweetAlert.fire(
           ':Sponsoren er ikke blevet slettet'
@@ -214,7 +214,13 @@ const Newcontact = () => {
   }
 
   const ContactDetails = (sponsor) => {
-      setselectedContact({ firstName: sponsor.firstName, lastName: sponsor.lastName, phone:sponsor.phone, email: sponsor.email, virksomhed: sponsor.virksomhed, cvrnr: sponsor.cvrnr })
+      setselectedContact({ firstName: sponsor.firstName,
+                           lastName: sponsor.lastName, 
+                           phone:sponsor.phone, 
+                           email: sponsor.email, 
+                           virksomhed: sponsor.virksomhed, 
+                           cvrnr: sponsor.cvrnr 
+                          })
   }
   
   return (

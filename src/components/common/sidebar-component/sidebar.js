@@ -7,11 +7,14 @@ import { MENUITEMS } from '../../../components/common/sidebar-component/menu';
 import { Link } from 'react-router-dom';
 import { translate } from 'react-switch-lang';
 import configDB from '../../../data/customizer/config';
-import { dbRef } from '../../../data/config';
+import { firebase_app } from '../../../data/config';
+import {getForeningLogoFromDatabase, getForeningNameFromDatabase} from '../../../services/sidebar.service'
+
+
+const db = firebase_app.firestore();
 
 const Sidebar = (props) => {
 
-    
     const [margin, setMargin] = useState(0);
     const [width, setWidth] = useState(0);
     const [hideLeftArrowRTL, setHideLeftArrowRTL] = useState(true);
@@ -24,74 +27,27 @@ const Sidebar = (props) => {
     const [currentUser] =  useState(localStorage.getItem('userID'));
     const [logo, setLogo] = useState('')
     const [foreningName, setForeningName] = useState('')
+    var userRef = db.collection('users/').doc(currentUser);
 
-   
+    const getForeningNameAndLogo = async () => {
 
-    useEffect(() => {
+        const name = await getForeningNameFromDatabase(currentUser);
+        const logo = await getForeningLogoFromDatabase(currentUser);        
+        setForeningName(name);
+        setLogo(logo)
+        testListen()
+    }
 
-        const getCurrentUser = () => {
-            
-            dbRef.ref('/sponsormatchUsers/' +  currentUser + '/profil/forening/foreningName' ).on('value', snapshot =>  {
-            const val =  snapshot.val();
-            setForeningName(val)
-            })
-            dbRef.ref('/sponsormatchUsers/' +  currentUser + '/profil/forening/logo' ).on('value', snapshot =>  {
-            const val =  snapshot.val();
-            setLogo(val)
-            })
-        }
-        
-        window.addEventListener('resize', handleResize)
-        handleResize();
-
-        var currentUrl = window.location.pathname;
-       
-        mainmenu.filter(items => {
-            if (items.path === currentUrl)
-                setNavActive(items)
-            if (!items.children) return false
-            
-            items.children.filter(subItems => {
-                if (subItems.path === currentUrl)
-                    setNavActive(subItems)
-                if (!subItems.children) return false
-        
-                subItems.children.filter(subSubItems => {
-                    if (subSubItems.path === currentUrl) {
-                        setNavActive(subSubItems)
-                        return true
-                    }
-                    else{
-                        return false
-                    }
-                })
-                return subItems
-            })
-            return items
-        })
-
-        const timeout = setTimeout(() => {
-            const elmnt = document.getElementById("myDIV");
-            const menuWidth = elmnt.offsetWidth;
-            if (menuWidth > window.innerWidth) {
-                setHideRightArrow(false);
-                setHideLeftArrowRTL(false);
-            } else {
-                setHideRightArrow(true);
-                setHideLeftArrowRTL(true);
-            }
-            getCurrentUser()
-        }, 500)
-
-        return () => {
-            window.removeEventListener('resize', handleResize)
-            clearTimeout(timeout)
-        }
-        
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [currentUser]);
-
+    //this should be moved to the service file... But how?
+    function testListen () {
     
+        userRef.onSnapshot((doc) => {
+            console.log('new logo uploaded');
+            setLogo(doc.data().logo)
+            setForeningName(doc.data().foreningName);  
+        })
+    
+    }
 
     const handleResize = () => {
         setWidth(window.innerWidth - 310);
@@ -198,6 +154,61 @@ const Sidebar = (props) => {
             setHideLeftArrowRTL(false);
         }
     }
+
+    useEffect(() => {
+
+        
+        getForeningNameAndLogo()
+        
+        window.addEventListener('resize', handleResize)
+        handleResize();
+
+        var currentUrl = window.location.pathname;
+       
+        mainmenu.filter(items => {
+            if (items.path === currentUrl)
+                setNavActive(items)
+            if (!items.children) return false
+            
+            items.children.filter(subItems => {
+                if (subItems.path === currentUrl)
+                    setNavActive(subItems)
+                if (!subItems.children) return false
+        
+                subItems.children.filter(subSubItems => {
+                    if (subSubItems.path === currentUrl) {
+                        setNavActive(subSubItems)
+                        return true
+                    }
+                    else{
+                        return false
+                    }
+                })
+                return subItems
+            })
+            return items
+        })
+
+        const timeout = setTimeout(() => {
+            const elmnt = document.getElementById("myDIV");
+            const menuWidth = elmnt.offsetWidth;
+            if (menuWidth > window.innerWidth) {
+                setHideRightArrow(false);
+                setHideLeftArrowRTL(false);
+            } else {
+                setHideRightArrow(true);
+                setHideLeftArrowRTL(true);
+            }
+            
+        }, 500)
+
+        return () => {
+            window.removeEventListener('resize', handleResize)
+            clearTimeout(timeout)
+        }
+        
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [currentUser]);
 
     return (
         <Fragment>

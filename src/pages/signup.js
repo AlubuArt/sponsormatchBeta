@@ -4,14 +4,13 @@
 import React, { Fragment, useState, useReducer} from 'react';
 import sponsormatchLogo from '../assets/images/sponsormatch-logo_farver_login.png';
 import { FirstName, LastName,Login,Password,SignUp, EmailAddress, Forening, errorMessageInvalidEmail, errorMesssageInvalidPassword, errorMessageUndefined } from '../constant';
-import {firebase_app, dbRef, Jwt_token} from "../data/config";
+import {firebase_app} from "../data/config";
+import {signupUserInDatabase} from '../services/signup.service';
 import { toast, ToastContainer } from 'react-toastify';
 
 
 const Signup = ({ history }) => {
     
-    
-   
     const [password, setPassword] = useState("");
     const [value, setValue] = useReducer((value, newValue) => ({...value, ...newValue}), {
         foreningName: ' ',
@@ -26,21 +25,16 @@ const Signup = ({ history }) => {
         logo: ''
     })
     
-
     const handleButtonClickLoginIn = (e) => {
         e.preventDefault()
-        signUpAndMakeDatabase()
+        signUp();
+        
     }
-    
-    const signUpAndMakeDatabase = async () => {
-        try {
-            const userObject = await firebase_app.auth().createUserWithEmailAndPassword(value.email, password)
-            const user = userObject.user
-            const userID = user.uid
-            const setUidInDatabase = {[ `/sponsormatchUsers/${userID}/profil/forening`]: value}     
-            await dbRef.ref().update(setUidInDatabase);
-            localStorage.setItem('userID', userID)
-            localStorage.setItem('token', Jwt_token);
+
+    const signUp = async () => {
+        try{
+         await signupUserInDatabase(value.email, password);
+          
         } catch (error) {
             switch(error.code) {
                 case "auth/invalid-email":
@@ -48,9 +42,11 @@ const Signup = ({ history }) => {
                 case "auth/weak-password":
                     toast.error(errorMesssageInvalidPassword);
                 }
-            }
-            redirectToProfilePageAfterSucces()
+        }
+        redirectToProfilePageAfterSucces() 
+        
     }
+    
 
     const redirectToProfilePageAfterSucces = async () => {
         try {
