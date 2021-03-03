@@ -25,7 +25,18 @@ const Signin = ({ history }) => {
             localStorage.setItem('profileURL', value);
         else
             localStorage.setItem('profileURL', man);
+
+        
     }, [value]);
+
+    
+
+    const handleKeyPress = (e) => {
+        
+            console.log("pressed");
+            loginAuth();
+        
+    }
  
     const loginAuth = async () => {
         try {
@@ -44,6 +55,8 @@ const Signin = ({ history }) => {
             }, 200);
         }
     }
+
+    
 
     return (
         <div>
@@ -69,7 +82,8 @@ const Signin = ({ history }) => {
                                                         <input className="form-control" type="email" name="email"
                                                             value={email}
                                                             onChange={e => setEmail(e.target.value)}
-                                                            placeholder="Email address"
+                                                            onKeyPress={handleKeyPress}
+                                                            
                                                         />
                                                        
                                                     </div>
@@ -77,7 +91,8 @@ const Signin = ({ history }) => {
                                                         <label className="col-form-label">{Password}</label>
                                                         <input className="form-control" type="password" name="password"
                                                             value={password}
-                                                            onChange={e => setPassword(e.target.value)} />
+                                                            onChange={e => setPassword(e.target.value)} 
+                                                            onKeyPress={handleKeyPress}/>
                                                         
                                                     </div>
                                                     <div className="checkbox p-0">
@@ -85,7 +100,12 @@ const Signin = ({ history }) => {
                                                         <label htmlFor="checkbox1">{RememberMe}</label>
                                                     </div>
                                                     <div className="form-group form-row mt-3 mb-0">
-                                                        <button className="btn btn-primary btn-block" type="button" onClick={() => loginAuth()} >{Login}</button>
+                                                        <button 
+                                                            id="login-button" 
+                                                            className="btn btn-primary btn-block" 
+                                                            type="button" 
+                                                            onClick={() => loginAuth()}
+                                                            onKeyPress={handleKeyPress} >{Login}</button>
                                                     </div>
                                                 </form>
                                             </div>
