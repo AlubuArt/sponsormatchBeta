@@ -4,7 +4,10 @@
 // Base styles
 //
 
+
+
 .btn {
+  
   display: inline-block;
   font-weight: $btn-font-weight;
   text-align: center;
@@ -47,8 +50,14 @@
       @include box-shadow($btn-focus-box-shadow, $btn-active-box-shadow);
     }
   }
-}
 
+  
+
+  }
+  
+.sponsorat-button {
+    margin: 10px;
+}
 // Future-proof disabling of clicks on `<a>` elements
 a.btn.disabled,
 fieldset:disabled a.btn {
@@ -141,4 +150,9 @@ input[type="button"] {
   &.btn-block {
     width: 100%;
   }
+}
+
+.sponsorat-drowpdown {
+  margin-bottom: 10px;
+  padding-bottom: 10px;
 }

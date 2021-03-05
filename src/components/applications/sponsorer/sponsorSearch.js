@@ -92,8 +92,7 @@ const addSponsorToList = (input) => {
                                 onClickAddToList={() => addSponsorToList(matches)}
                                 onClickMakeSponsorDeal={() => makeSponsorDeal(matches.sponsorname)}
                                 isAdded={false}
-                                
-                               
+                         
                 />  
                         </div>
                         

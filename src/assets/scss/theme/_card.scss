@@ -232,6 +232,57 @@
     }
   }
 }
+
+.card-sponsorat {
+  margin-bottom: 5px;
+  border: $card-border-width;
+  transition: all 0.3s ease;
+  letter-spacing: 0.5px;
+  border-radius: $card-border-radious;
+  box-shadow: $card-box-shadow;
+  background-color: white;
+  
+  align-items: center;
+ 
+
+  p {
+    margin-block-end: 0px;
+  }
+
+  h5 {
+    font-weight: 500;
+  }
+
+  .sponsorat-button{
+    float: right;
+  }
+  
+}
+
+.card-sponsorat-header {
+  margin: 0px;
+  margin-bottom: 5px;
+  background-color: rgb(235, 235, 235);
+  font-weight: bold;
+  text-align: center;
+  align-items: center;
+  
+  p {
+    margin-block-end: 0px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+  }
+  
+
+  .col-md-2 {
+    //padding-left: 30px;
+    padding-left: 25px;
+    text-align: left;
+    
+  }
+
+  
+}
 /**=====================
     03. Card CSS End
 ==========================**/

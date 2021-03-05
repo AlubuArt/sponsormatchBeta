@@ -28,6 +28,17 @@ export const getFilteredSponsoraterFromDatabase = async (currentUser, filter ) =
     return result;
 }
 
+export const deleteSponsoratFromDatabase = () => {
+
+}
+
+export const editSponsorat = () => {
+
+}
+
+export const getSponsoratFromDatabase = () => {
+    
+}
 
 
 
