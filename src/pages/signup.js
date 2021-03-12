@@ -33,7 +33,7 @@ const Signup = ({ history }) => {
 
     const signUp = async () => {
         try{
-         await signupUserInDatabase(value.email, password);
+         await signupUserInDatabase(value, password);
           
         } catch (error) {
             switch(error.code) {

@@ -5,14 +5,7 @@ import SponsoratCard from "./sponsoratCard";
 import {Row, Col, Button} from 'react-bootstrap';
 import DropdownButton from 'react-bootstrap/DropdownButton'
 import Dropdown from 'react-bootstrap/Dropdown'
-import {
-  UsersTableTitle,
-  UsersTableHeader,
-  Update,
-  Edit,
-  Delete,
-  SeSponsorat
-} from "../../../constant";
+
 
 
 
