@@ -1,1 +1,3 @@
 node_modules/
+src/data/app_config.json
+src/data/config.js

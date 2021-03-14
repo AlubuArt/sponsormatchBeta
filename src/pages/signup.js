@@ -33,7 +33,7 @@ const Signup = ({ history }) => {
 
     const signUp = async () => {
         try{
-         await signupUserInDatabase(value.email, password);
+         await signupUserInDatabase(value, password);
           
         } catch (error) {
             switch(error.code) {
@@ -95,7 +95,7 @@ const Signup = ({ history }) => {
                                                 </div>
                                                 <div className="form-group">
                                                     <label className="col-form-label">{EmailAddress}</label>
-                                                    <input className="form-control" type="text" placeholder="eksemple@klub.dk" onChange={((e) => setValue({email: e.target.value}))}/>
+                                                    <input className="form-control" type="text" placeholder="eksemple@klub.dk" input="email" onChange={((e) => setValue({email: e.target.value}))}/>
                                                 </div>
                                                 <div className="form-group">
                                                     <label className="col-form-label">{Password}</label>

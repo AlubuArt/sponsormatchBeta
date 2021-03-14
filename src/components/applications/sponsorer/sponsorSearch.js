@@ -3,6 +3,7 @@ import Breadcrumb from "../../common/breadcrumb";
 import { SponsorSearchTitle } from "../../../constant";
 import SponsorMatchCard from "./sponsorMatchCard";
 import { createSponsor } from "../../../services/contact.service";
+import {testVirk }from '../../../services/virk.service'
 
 const SponsorSearch = () => {
 
@@ -53,9 +54,12 @@ const SponsorSearch = () => {
  
 })
 
+const handleClick = () => {
+  testVirk();
+}
+
 const addSponsorToList = (input) => {
     createSponsor(input, 'followUp', currentUser, newSponsorMatches.virksomhed);
-    console.log(input, 'followUp', currentUser)
     alert(input.sponsorname + ' blev tilføjet listen over mulige sponsorer')
   }
 
@@ -102,6 +106,8 @@ const addSponsorToList = (input) => {
           </div>
         </div>
       </div>
+
+      <button onClick={handleClick}>Try Me</button>
     </Fragment>
   );
 };
