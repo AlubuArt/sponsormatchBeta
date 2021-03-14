@@ -4,11 +4,6 @@ const virkPassword = '8eaeb6ef-24ee-4aaf-8933-899a7ebd667d';
 const url = 'http://distribution.virk.dk/cvr-permanent/virksomhed/_search'
 const endPoint = '/cvr-permanent/virksomhed/_search'
 
-
-
-
-
-
 export const testVirk = () => {
     axios(config)
 .then(function (response) {
@@ -19,13 +14,6 @@ export const testVirk = () => {
 });
     
 }
-
-
-
-
-
-
-
 
 var data = JSON.stringify({"_source":["Vrvirksomhed.virksomhedMetadata.nyesteNavn.navn"],"query":{"term":{"Vrvirksomhed.cvrNummer":"33301022"}}});
 

@@ -2,7 +2,7 @@ import {firebase_app,} from '../data/config';
 
 const db = firebase_app.firestore();
 
-export const createSponsor= (value, list, userID, contactID) => {
+export const createSponsor = (value, list, userID, contactID) => {
     db.collection('users/' + userID + '/' + list).doc(contactID).set({
         firstName: value.firstName,
         lastName: value.lastName,

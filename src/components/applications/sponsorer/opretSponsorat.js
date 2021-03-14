@@ -27,8 +27,8 @@ const OpretSponsorat =() => {
     const DownloadLink = () => {
         return (
             <PDFDownloadLink document={<CreatePDF />} fileName="somename.pdf">
-    {({ blob, url, loading, error }) => (loading ? 'Loading document...' : 'Download sponsorat')}
-    </PDFDownloadLink>
+                {({ blob, url, loading, error }) => (loading ? 'Loading document...' : 'Download sponsorat')}
+            </PDFDownloadLink>
         )
     }
 

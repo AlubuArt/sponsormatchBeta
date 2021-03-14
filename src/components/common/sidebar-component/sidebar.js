@@ -42,7 +42,6 @@ const Sidebar = (props) => {
     function testListen () {
     
         userRef.onSnapshot((doc) => {
-            console.log('new logo uploaded');
             setLogo(doc.data().logo)
             setForeningName(doc.data().foreningName);  
         })

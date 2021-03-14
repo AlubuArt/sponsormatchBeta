@@ -7,6 +7,7 @@ const storageRef = storage.ref();
 const db = firebase_app.firestore();
 const coll = db.collection('users/');
 
+
 export const getUserFromDatabase = async (currentUser) => {
   var data;
   var ref = coll.doc(currentUser);

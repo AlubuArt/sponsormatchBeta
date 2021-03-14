@@ -60,7 +60,6 @@ const handleClick = () => {
 
 const addSponsorToList = (input) => {
     createSponsor(input, 'followUp', currentUser, newSponsorMatches.virksomhed);
-    console.log(input, 'followUp', currentUser)
     alert(input.sponsorname + ' blev tilføjet listen over mulige sponsorer')
   }
 

@@ -142,7 +142,6 @@ const Newcontact = () => {
        break;
     }
     if (editdata !== '') {
-      console.log(selectedContact)
       editUser(editdata, setToList, currentUser, selectedContact.id);
       setEditing(false)
     } else {

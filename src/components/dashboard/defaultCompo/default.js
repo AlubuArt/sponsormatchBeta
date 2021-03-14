@@ -13,7 +13,6 @@ const Default = () => {
 
     const getUser = async () => {
         const userData = await getUserFromDatabase(currentUser);
-        console.log(userData.fname)
         setUserData(userData.fname)
             
     }
