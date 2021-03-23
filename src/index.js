@@ -117,14 +117,14 @@ const Root = () => {
                                     
                                     
                                     {/* Learning App */}
-                                    <Route path={`${process.env.PUBLIC_URL}/kursus/kursus-samling`} component={LearningList} />
-                                    <Route path={`${process.env.PUBLIC_URL}/kursus/kursus-detaljer`} component={LearningDeatil} />
+                                    <Route path={`${process.env.PUBLIC_URL}/kursus-samling`} component={LearningList} />
+                                    <Route path={`${process.env.PUBLIC_URL}/kursus-detaljer`} component={LearningDeatil} />
 
-                                    {/* Sponsor page */}
-                                    <Route path={`${process.env.PUBLIC_URL}/sponsorer/vores-sponsorer`} component={SponsorContacts} />
-                                    <Route path={`${process.env.PUBLIC_URL}/sponsorer/sponsorater`} component={Sponsorater} />
-                                    <Route path={`${process.env.PUBLIC_URL}/sponsorer/soeg-sponsor`} component={SponsorSearch} />
-                                    <Route path={`${process.env.PUBLIC_URL}/sponsorer/opret-sponsorat`} component={OpretSponsorat} />
+                                    {/* Sponsor pages */}
+                                    <Route path={`${process.env.PUBLIC_URL}/vores-sponsorer`} component={SponsorContacts} />
+                                    <Route path={`${process.env.PUBLIC_URL}/sponsorater`} component={Sponsorater} />
+                                    <Route path={`${process.env.PUBLIC_URL}/soeg-sponsor`} component={SponsorSearch} />
+                                    <Route path={`${process.env.PUBLIC_URL}/opret-sponsorat`} component={OpretSponsorat} />
 
                                     {/* Sample page */}
                                     <Route path={`${process.env.PUBLIC_URL}/feedback/feedbackpage`} component={Samplepage} />

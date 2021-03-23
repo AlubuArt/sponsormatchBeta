@@ -48,27 +48,17 @@ const Header = () => {
         <div className="main-header-right row">
           <div className="main-header-left d-lg-none">
             <div className="logo-wrapper">
-              <Link to={`${process.env.PUBLIC_URL}/dashboard/default`}>
+              <Link to={`${process.env.PUBLIC_URL}/forside`}>
                 <img className="img-fluid" src={sponsormatchLogo} alt="" />
               </Link>
             </div>
           </div>
-          <div className="mobile-sidebar d-block">
-            <div className="media-body text-right switch-sm">
-              <label className="switch">
-                <a href="#javascript" onClick={() => openCloseSidebar()}>
-                  <AlignLeft />
-                </a>
-              </label>
-            </div>
-          </div>
+          
           <div className="nav-right col p-0">
             <ul className={`nav-menus ${headerbar ? '' : 'open'}`}>
               
               <li>
-                <a onClick={goFull} className="text-dark" href="#!">
-                  <Maximize />
-                </a>
+                
               </li>
             
               <UserMenu />
