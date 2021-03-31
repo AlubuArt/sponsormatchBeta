@@ -17,6 +17,7 @@ const Signin = ({ history }) => {
     const handleLoginAuth = async () => {
         try{
             await loginUser(email, password);
+            
             setValue(man);
             history.push(`${process.env.PUBLIC_URL}/forside`);
 

@@ -18,7 +18,7 @@ export const signupUserInDatabase = async (value, pass) => {
                 email: value.email})
         
         localStorage.setItem('userID', userID)
-        localStorage.setItem('token', Jwt_token);
+        //localStorage.setItem('token', Jwt_token);
 
 }
 

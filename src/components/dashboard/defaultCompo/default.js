@@ -33,7 +33,7 @@ const Default = () => {
                         <div className="col-xl-8 xl-100">
                         <div className="card">
                             <div className="card-header bg-warning" >
-                                    <h5 className="text-white">Velkommen til din SponsorMatch platformen {userData}</h5>
+                                    <h5 className="text-white">Velkommen til din SponsorMatch platform {userData}</h5>
                                     
                             </div>
                             <div className="card-body" >

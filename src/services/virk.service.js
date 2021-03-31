@@ -1,41 +1,37 @@
-import axios from 'axios';
-const virkUserID = 'JC_VisuelDesign_CVR_I_SKYEN';
-const virkPassword = '8eaeb6ef-24ee-4aaf-8933-899a7ebd667d';
-const url = 'http://distribution.virk.dk/cvr-permanent/virksomhed/_search'
-const endPoint = '/cvr-permanent/virksomhed/_search'
-
-export const testVirk = () => {
-    axios(config)
-.then(function (response) {
-  console.log(JSON.stringify(response.data));
-})
-.catch(function (error) {
-  console.log(error);
+const axios = require('axios');
+let data = JSON.stringify({
+  "_source": [
+    "Vrvirksomhed.virksomhedMetadata.nyesteNavn.navn"
+  ],
+  "query": {
+    "term": {
+      "Vrvirksomhed.cvrNummer": "33301022"
+    }
+  }
 });
-    
-}
 
-var data = JSON.stringify({"_source":["Vrvirksomhed.virksomhedMetadata.nyesteNavn.navn"],"query":{"term":{"Vrvirksomhed.cvrNummer":"33301022"}}});
-
-var config = {
+let config = {
   method: 'get',
-  url: 'http://distribution.virk.dk/cvr-permanent/virksomhed/_search',
+  url: 'http://distribution.virk.dk/cvr-permanent/virksomhed/_search\n',
   headers: { 
     'Authorization': 'Basic SkNfVmlzdWVsRGVzaWduX0NWUl9JX1NLWUVOOjhlYWViNmVmLTI0ZWUtNGFhZi04OTMzLTg5OWE3ZWJkNjY3ZA==', 
     'Content-Type': 'application/json',
-    'Access-Control-Allow-Credentials': true
+    
   },
   data : data
 };
 
-axios(config)
-.then(function (response) {
+export const testVirk = () => {
+console.log(config)
+let obbb = 1;
+axios(config).then((response) => {
+  obbb = JSON.stringify(response.data)
+  window.console.log(obbb)
   console.log(JSON.stringify(response.data));
 })
-.catch(function (error) {
+.catch((error) => {
   console.log(error);
 });
 
-
-
+}
 
