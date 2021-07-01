@@ -4,7 +4,6 @@ import Breadcrumb from "../../common/breadcrumb";
 import { SponsorSearchTitle } from "../../../constant";
 import SponsorMatchCard from "./sponsorMatchCard";
 import { createSponsor } from "../../../services/contact.service";
-import {testVirk }from '../../../services/virk.service'
 const axios = require('axios');
 
 const SponsorSearch = () => {
@@ -83,7 +82,7 @@ const SponsorSearch = () => {
         } 
       });
       handleResponse(await response);
-      console.log(apiResponse.nyesteNavn.navn)
+      console.log(apiResponse)
   }
   
 
