@@ -1,4 +1,5 @@
 const axios = require('axios');
+
 let data = JSON.stringify({
   "_source": [
     "Vrvirksomhed.virksomhedMetadata.nyesteNavn.navn"
@@ -11,27 +12,30 @@ let data = JSON.stringify({
 });
 
 let config = {
-  method: 'get',
-  url: 'http://distribution.virk.dk/cvr-permanent/virksomhed/_search\n',
+  method: 'POST',
+  url: 'http://distribution.virk.dk/cvr-permanent/virksomhed/_search',
+ 
   headers: { 
-    'Authorization': 'Basic SkNfVmlzdWVsRGVzaWduX0NWUl9JX1NLWUVOOjhlYWViNmVmLTI0ZWUtNGFhZi04OTMzLTg5OWE3ZWJkNjY3ZA==', 
-    'Content-Type': 'application/json',
-    
+    "Authorization": 'Basic SkNfVmlzdWVsRGVzaWduX0NWUl9JX1NLWUVOOjhlYWViNmVmLTI0ZWUtNGFhZi04OTMzLTg5OWE3ZWJkNjY3ZA==',
+    "Content-Type": 'application/json; charset=UTF-8',
+
   },
   data : data
 };
 
 export const testVirk = () => {
-console.log(config)
-let obbb = 1;
-axios(config).then((response) => {
-  obbb = JSON.stringify(response.data)
-  window.console.log(obbb)
+
+axios(config).then(function async (response)  {
+
   console.log(JSON.stringify(response.data));
+  console.log("2")
 })
 .catch((error) => {
   console.log(error);
 });
 
 }
+
+
+
 

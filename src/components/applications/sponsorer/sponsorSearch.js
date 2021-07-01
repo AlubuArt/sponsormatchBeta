@@ -1,9 +1,11 @@
+/* eslint-disable default-case */
 import React, { Fragment, useState,  useReducer } from "react";
 import Breadcrumb from "../../common/breadcrumb";
 import { SponsorSearchTitle } from "../../../constant";
 import SponsorMatchCard from "./sponsorMatchCard";
 import { createSponsor } from "../../../services/contact.service";
 import {testVirk }from '../../../services/virk.service'
+const axios = require('axios');
 
 const SponsorSearch = () => {
 
@@ -54,10 +56,51 @@ const SponsorSearch = () => {
  
 })
 
-const handleClick = () => {
-  console.log("virk")
-  testVirk();
+  const [apiResponse, setApiResponse] = useState("No result - try again");
+  const [input, setInput] = useState();
+  const [searchType, setSearchType] = useState();
+
+  const apiCall = async () => {
+
+    let url = "https://cvrapi.herokuapp.com/cvrnr";
+
+    switch (searchType) {
+      case "CVRnr":
+          url = "https://cvrapi.herokuapp.com/cvrnr"
+          break;
+      case "Virksomhedsnavn":
+          url = "http://localhost:9000/virksomhedsnavn"
+          break;
+      case "postnummer":
+          url = "http://localhost:9000/postnummer"
+          break;
+    }
+  
+  
+    const response = await axios.get(url, { 
+        params: {
+        cvr: 33301022,
+        } 
+      });
+      handleResponse(await response);
+      console.log(apiResponse.nyesteNavn.navn)
+  }
+  
+
+  const handleResponse = (resp) => {
+
+    if ( resp.data.hits.total >= 1) {
+      setApiResponse(resp.data.hits.hits[0]._source.Vrvirksomhed.virksomhedMetadata)
+    } else {
+      setApiResponse("No result - try again")
+    }
+  }
+
+const handleClick = async () => {
+  
+  await apiCall();
 }
+
 
 const addSponsorToList = (input) => {
     createSponsor(input, 'followUp', currentUser, newSponsorMatches.virksomhed);
@@ -85,7 +128,7 @@ const addSponsorToList = (input) => {
                 Object.values(newSponsorMatches).map((matches, i ) => (
                     <div className="card" key={i}>
                         <div className="card-header">
-                <SponsorMatchCard 
+                          <SponsorMatchCard 
                                 contactName={matches.contactName}
                                 sponsorname={matches.sponsorname}
                                 phone={matches.phone}
@@ -96,19 +139,16 @@ const addSponsorToList = (input) => {
                                 cvrnr={matches.cvrnr}
                                 onClickAddToList={() => addSponsorToList(matches)}
                                 onClickMakeSponsorDeal={() => makeSponsorDeal(matches.sponsorname)}
-                                isAdded={false}
-                         
-                />  
+                                isAdded={false} />  
                         </div>
-                        
                     </div>
                 ))
             }
           </div>
         </div>
       </div>
-
-      <button onClick={handleClick}>Try Me</button>
+        <button onClick={handleClick}>Try Me1</button>
+     
     </Fragment>
   );
 };
