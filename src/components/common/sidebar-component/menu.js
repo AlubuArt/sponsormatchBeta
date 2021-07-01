@@ -21,6 +21,10 @@ export const MENUITEMS = [
     {
         title: 'Søg Sponsorer', icon: UserPlus, type: 'link', path: '/soeg-sponsor', active: false
     },
+    {
+        title: 'Se SponsorMatches', icon: UserPlus, type: 'link', path: '/sponsor-matches', active: false
+
+    },  
     
     {
         title: 'Vores Sponsorer', icon: Users, type: 'link', path: '/vores-sponsorer', active: false

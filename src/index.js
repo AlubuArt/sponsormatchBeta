@@ -49,6 +49,7 @@ import Samplepage from './components/feedback/feedbackpage';
 import configDB from './data/customizer/config'
 
 import Callback from './auth/callback'
+import SponsorMatches from './components/applications/sponsorer/sponsorMatches';
 
 // setup fake backend
 configureFakeBackend();
@@ -124,6 +125,7 @@ const Root = () => {
                                     <Route path={`${process.env.PUBLIC_URL}/sponsorater`} component={Sponsorater} />
                                     <Route path={`${process.env.PUBLIC_URL}/soeg-sponsor`} component={SponsorSearch} />
                                     <Route path={`${process.env.PUBLIC_URL}/opret-sponsorat`} component={OpretSponsorat} />
+                                    <Route path={`${process.env.PUBLIC_URL}/sponsor-matches`} component={SponsorMatches} />
 
                                     {/* Sample page */}
                                     <Route path={`${process.env.PUBLIC_URL}/feedback/feedbackpage`} component={Samplepage} />
