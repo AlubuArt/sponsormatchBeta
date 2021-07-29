@@ -29,14 +29,16 @@ const SearchComponent = ({apiResponse, setApiResponse, searchInput, setSearchInp
     return response;
   }
 
+  
   const handleResponse = (res) => {
 
     if ( res.data.hits.total >= 1) {
       setApiResponse(res.data.hits.hits[0]._source.Vrvirksomhed.virksomhedMetadata)
     } else {
-      setApiResponse("No result - try again")
+      setApiResponse("No result")
     }
   }
+
 
   const handleClick = async () => {
     const response = await apiCall();
