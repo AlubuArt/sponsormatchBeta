@@ -1,7 +1,7 @@
 /* eslint-disable no-fallthrough */
 /* eslint-disable default-case */
 
-import React, { Fragment, useState, useReducer, useContext} from 'react';
+import React, { Fragment, useState, useContext} from 'react';
 import sponsormatchLogo from '../assets/images/sponsormatch-logo_farver_login.png';
 import { FirstName, LastName,Login,Password,SignUp, EmailAddress, Forening, errorMessageInvalidEmail, errorMesssageInvalidPassword, errorMessageUndefined } from '../constant';
 import {firebase_app} from "../data/config";
@@ -15,8 +15,7 @@ const Signup = ({ history }) => {
     
     const [password, setPassword] = useState("");
     const {setUser} = useContext(UserContext);
-    //TODO: Change useReducer
-    const [value, setValue] = useReducer((value, newValue) => ({...value, ...newValue}), {
+    const [userInput, setUserInput] = useState({
         foreningName: ' ',
         fname: '',
         lname: '',
@@ -27,7 +26,8 @@ const Signup = ({ history }) => {
         email: '',
         clubDescription: '',
         logo: ''
-    })
+    }) 
+    
     
     const handleButtonClickLoginIn = (e) => {
         e.preventDefault()
@@ -35,9 +35,16 @@ const Signup = ({ history }) => {
         
     }
 
+    const inputGroupHandler = e => {
+        setUserInput({
+            ...userInput,
+            [e.target.name]: e.target.value
+        })
+    }
+
     const signUp = async () => {
         try{
-         const user = await signupUserInDatabase(value, password);
+         const user = await signupUserInDatabase(userInput, password);
          setUser(user);
           
         } catch (error) {
@@ -55,7 +62,7 @@ const Signup = ({ history }) => {
 
     const redirectToProfilePageAfterSucces = async () => {
         try {
-            await firebase_app.auth().signInWithEmailAndPassword(value.email, password);
+            await firebase_app.auth().signInWithEmailAndPassword(userInput.email, password);
             history.push(`${process.env.PUBLIC_URL}/forside`);
         } catch (error) {
             setTimeout(() => {
@@ -84,23 +91,23 @@ const Signup = ({ history }) => {
                                                     <div className="col-md-6">
                                                         <div className="form-group">
                                                             <label className="col-form-label">{FirstName}</label>
-                                                            <input className="form-control" type="text" placeholder="Dit fornavn"  onChange={((e) => setValue({fname: e.target.value}))}/>
+                                                            <input className="form-control"  type="text" name="fname" value={userInput.fname} placeholder="Dit fornavn"  onChange={inputGroupHandler}/>
                                                         </div>
                                                     </div>
                                                     <div className="col-md-6">
                                                         <div className="form-group">
                                                             <label className="col-form-label">{LastName}</label>
-                                                            <input className="form-control" type="text" placeholder="Dit efternavn"  onChange={((e) => setValue({lname: e.target.value}))}/>
+                                                            <input className="form-control" type="text" name="lname" value={userInput.lname} placeholder="Dit efternavn"  onChange={inputGroupHandler}/>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div className="form-group">
                                                     <label className="col-form-label">{Forening}</label>
-                                                    <input className="form-control" type="text" placeholder="Din forenings navn" onChange={((e) => setValue({foreningName: e.target.value}))}/>
+                                                    <input className="form-control" type="text" name="foreningName" value={userInput.foreningName}placeholder="Din forenings navn" onChange={inputGroupHandler}/>
                                                 </div>
                                                 <div className="form-group">
                                                     <label className="col-form-label">{EmailAddress}</label>
-                                                    <input className="form-control" type="text" placeholder="eksemple@klub.dk" input="email" onChange={((e) => setValue({email: e.target.value}))}/>
+                                                    <input className="form-control" type="text" name="email" value={userInput.email} placeholder="eksemple@klub.dk" input="email" onChange={inputGroupHandler}/>
                                                 </div>
                                                 <div className="form-group">
                                                     <label className="col-form-label">{Password}</label>
