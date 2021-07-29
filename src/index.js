@@ -1,10 +1,9 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useContext } from 'react';
 import ReactDOM from 'react-dom';
 import './index.scss';
 import { configureFakeBackend} from "./services/fack.backend";
 import { BrowserRouter, Switch, Route,Redirect } from 'react-router-dom';
 import * as serviceWorker from './serviceWorker';
-import {firebase_app} from './data/config'
 
 // ** Import custom components for redux **
 import { Provider } from 'react-redux';
@@ -79,7 +78,6 @@ const Root = () => {
          
     }, []);
 
-    
     
 
     return (
