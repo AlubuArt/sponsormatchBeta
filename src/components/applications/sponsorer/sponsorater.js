@@ -1,24 +1,25 @@
-import React, { Fragment, useState, useEffect } from "react";
+import React, { Fragment, useState, useEffect, useContext } from "react";
 import Breadcrumb from "../../common/breadcrumb";
 import {getAllSponsoraterFromDatabase, getFilteredSponsoraterFromDatabase} from '../../../services/sponsorater.service';
 import SponsoratCard from "./sponsoratCard";
 import {Row, Col, Button} from 'react-bootstrap';
 import DropdownButton from 'react-bootstrap/DropdownButton'
 import Dropdown from 'react-bootstrap/Dropdown'
+import { UserContext } from "../../../auth/context/userContext";
 
 
 
 
 const Sponsorater = () => {
 
-  const [currentUser] = useState(localStorage.getItem('userID'))
+  const {userID} = useContext(UserContext);
   const [selectedSponsorater, setSelectedSponsorater] = useState([])
   const [buttonText, setButtonText] = useState('Filtrér')
 
 const getSponsorater = async () => {
   try {
     
-    const sponsorater = await getAllSponsoraterFromDatabase(currentUser);
+    const sponsorater = await getAllSponsoraterFromDatabase(userID);
     setSelectedSponsorater(sponsorater);
     
   } catch {}
@@ -27,7 +28,7 @@ const getSponsorater = async () => {
 
 const toggle = async (eventKey) => {
  try{
-    const sponsorater = await getFilteredSponsoraterFromDatabase(currentUser, eventKey);
+    const sponsorater = await getFilteredSponsoraterFromDatabase(userID, eventKey);
     setSelectedSponsorater(sponsorater); 
     setButtonText(eventKey)
  } catch {}

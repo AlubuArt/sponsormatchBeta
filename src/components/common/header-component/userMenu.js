@@ -1,36 +1,31 @@
-import React, { Fragment, useState, useEffect } from 'react';
+import React, { Fragment, useState, useEffect, useContext } from 'react';
 import { User, LogOut } from 'react-feather';
 import {firebase_app} from "../../../data/config";
 import { Link } from 'react-router-dom';
 import { withRouter } from 'react-router';
-import {useAuth0} from '@auth0/auth0-react'
 import {EditProfile} from '../../../constant'
 import {getProfilePictureFromDatabase} from '../../../services/headerMenu.service';
+import { UserContext} from '../../../auth/context/userContext';
 
 const UserMenu = ({ history }) => {
 
     
     const [logo, setLogo] = useState('');
-    const [currentUser] =  useState(localStorage.getItem('userID'));
-    //const {logout} = useAuth0()
-    //const authenticated = JSON.parse(localStorage.getItem("authenticated"))
+    const { userID} = useContext(UserContext);
     
     useEffect(() => {
- 
+        const profilePicture = async () => {
+            const data = await getProfilePictureFromDatabase(userID);
+            setLogo(data)
+         }
        profilePicture()
    
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
+    }, [userID])
 
-    const profilePicture = async () => {
-        const data = await getProfilePictureFromDatabase(currentUser);
-        setLogo(data)
-     }
-
+    
     const Logout_From_Firebase = () => {
         localStorage.removeItem('profileURL')
         localStorage.removeItem('userID')
-        //localStorage.removeItem('token');
         firebase_app.auth().signOut()
 
         history.push(`${process.env.PUBLIC_URL}/login`)

@@ -1,13 +1,13 @@
-import React, { Fragment,useState,useEffect, useReducer } from 'react';
+import React, { Fragment,useState,useEffect, useReducer, useContext } from 'react';
 import { Sponsoransvarlig, Phone, Website, EditProfile,Forening, Email, Mobile,Location, UpdateProfile,FirstName,LastName,Address,EmailAddress,PostalCode,City, OmForeningen} from '../../constant'
 import {  uploadFileToStorage, getUserFromDatabase, updateUserDataInDatabase } from '../../services/editUser.service'
 import Breadcrumb from '../common/breadcrumb';
-
+import {UserContext} from '../../auth/context/userContext';
 
 const UserProfile = () => {
-    
-    const [currentUser] =  useState(localStorage.getItem('userID'));
+    const {userID} = useContext(UserContext);
     const [profilePicture, setProfilePicture] = useState();
+    //TODO: Change all "userReducer"
     const [userInfo, setUserInfo] = useReducer((value, newValue) => ({...value, ...newValue}), {
         foreningName: '',
         fname: '',
@@ -25,7 +25,7 @@ const UserProfile = () => {
 
     const getUserData = async () => {
         try {
-            const userData = await getUserFromDatabase(currentUser);
+            const userData = await getUserFromDatabase(userID);
             for (let [key, val] of Object.entries(userData)) {
                 setUserInfo({[key]: val})
             }   
@@ -36,7 +36,7 @@ const UserProfile = () => {
     const updateUserData = async () => {
         try {
             const dataToupdate = userInfo;
-            await updateUserDataInDatabase(currentUser, dataToupdate)  
+            await updateUserDataInDatabase(userID, dataToupdate)  
             getUserData();
         }
         catch {}
@@ -53,7 +53,7 @@ const UserProfile = () => {
 
     const getClubLogoFileSelectedFileToUpload = async () => {
         const selectedFile = await document.getElementById('logo-input').files[0];
-        await uploadFileToStorage(currentUser, selectedFile, 'logo')
+        await uploadFileToStorage(userID, selectedFile, 'logo')
         const timer = setTimeout(() => {
             getUserData()  
             
@@ -63,7 +63,7 @@ const UserProfile = () => {
 
     const updateProfilePicture = async (e) => {
         e.preventDefault();
-        await uploadFileToStorage(currentUser, profilePicture, 'userProfilePicture')
+        await uploadFileToStorage(userID, profilePicture, 'userProfilePicture')
         
         //would like to remove this timer
         const timer = setTimeout(() => {
@@ -77,7 +77,7 @@ const UserProfile = () => {
      useEffect(() => {
         const getData = async () => {
             try {
-                const userData = await getUserFromDatabase(currentUser);
+                const userData = await getUserFromDatabase(userID);
                 for (let [key, val] of Object.entries(userData)) {
                     setUserInfo({[key]: val})
                 }   
@@ -85,7 +85,7 @@ const UserProfile = () => {
             catch {}
         }
         getData();
-    }, [currentUser])
+    }, [userID])
     
     return (
         <Fragment>

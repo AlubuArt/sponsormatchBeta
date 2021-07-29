@@ -9,7 +9,7 @@ import { translate } from 'react-switch-lang';
 import configDB from '../../../data/customizer/config';
 import { firebase_app } from '../../../data/config';
 import {getForeningLogoFromDatabase, getForeningNameFromDatabase} from '../../../services/sidebar.service';
-import {userID, UserContext} from '../../../auth/context/userContext';
+import {UserContext} from '../../../auth/context/userContext';
 
 
 

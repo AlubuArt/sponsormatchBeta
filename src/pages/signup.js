@@ -15,6 +15,7 @@ const Signup = ({ history }) => {
     
     const [password, setPassword] = useState("");
     const {setUser} = useContext(UserContext);
+    //TODO: Change useReducer
     const [value, setValue] = useReducer((value, newValue) => ({...value, ...newValue}), {
         foreningName: ' ',
         fname: '',

@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect, useRef, useReducer } from 'react';
+import React, { Fragment, useState, useEffect, useRef, useReducer, useContext } from 'react';
 import Breadcrumb from '../../common/breadcrumb';
 import { Container, Row, Col, Card, CardHeader, CardBody, Nav, NavItem, NavLink, TabContent, TabPane, Modal, ModalHeader, ModalBody, Label, Input, FormGroup, Form, Button } from 'reactstrap';
 import { createSponsor, deletedUser, editUser, getContactsFromDatabase } from '../../../services/contact.service';
@@ -8,7 +8,7 @@ import SweetAlert from 'sweetalert2';
 import ReactToPrint from "react-to-print";
 import PrintPreview from './printpreview'
 import {Sponsordatabase,NewContacts,AddContacts,Views,FrontName, Email, LastName, City, PostalCode, Name, FirstName, Mobile,EmailAddress,FollowUp,History,ContactHistory,Edit,Delete,Print,Save,Cancel,PrintViews, ContactCreated, Virksomhed, CVR, DiverseKontakter, Adresse} from '../../../constant'
-
+import { UserContext } from "../../../auth/context/userContext";
 
 const Newcontact = () => {
 
@@ -40,7 +40,7 @@ const Newcontact = () => {
   const toggle = () => setModal(!modal);
   const printModalToggle = () => setprintModal(!printmodal);
   const componentRef = useRef();
-  const [currentUser] =  useState(localStorage.getItem('userID'));
+  const {userID} = useContext(UserContext);
   const [selectedList, setSelectedList] = useState('Vores Sponsorer')
   const [newContact, setNewContact] = useReducer((value, newValue) => ({...value, ...newValue}), {
     virksomhed: '',
@@ -65,9 +65,9 @@ const Newcontact = () => {
   }, []);
 
   const getContacts = async () => {
-      const sponsors = await getContactsFromDatabase(currentUser, '/sponsorer');
-      const diverseKontakter = await getContactsFromDatabase(currentUser, '/diverseKontakter');
-      const followUp = await getContactsFromDatabase(currentUser, '/potentielleSponsorer')
+      const sponsors = await getContactsFromDatabase(userID, '/sponsorer');
+      const diverseKontakter = await getContactsFromDatabase(userID, '/diverseKontakter');
+      const followUp = await getContactsFromDatabase(userID, '/potentielleSponsorer')
       setSponsors(sponsors)
       setDiverseKontakter(diverseKontakter)
       setFollowUp(followUp);
@@ -103,7 +103,7 @@ const Newcontact = () => {
       
     if (newContact !== '') {
       alert('En ny kontakt:  ' + newContact.firstName + ' blev tilføjet listen ' + setToList )
-      createSponsor(newContact, setToList, currentUser, newContact.virksomhed);
+      createSponsor(newContact, setToList, userID, newContact.virksomhed);
       getContacts()
       setselectedContact(newContact);
       setNewContact({
@@ -142,7 +142,7 @@ const Newcontact = () => {
        break;
     }
     if (editdata !== '') {
-      editUser(editdata, setToList, currentUser, selectedContact.id);
+      editUser(editdata, setToList, userID, selectedContact.id);
       setEditing(false)
     } else {
       errors.showMessages();
@@ -186,7 +186,7 @@ const Newcontact = () => {
       reverseButtons: true
     }).then((result) => {
       if (result.value) {
-        deletedUser(currentUser, setToList, selectedContact.virksomhed)
+        deletedUser(userID, setToList, selectedContact.virksomhed)
         setselectedContact(setSelected)
         getContacts()
         SweetAlert.fire(
