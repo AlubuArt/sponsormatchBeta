@@ -58,13 +58,7 @@ const Newcontact = () => {
 })
   
   useEffect( () => {
-    
-    getContacts()
-    
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  const getContacts = async () => {
+    const getContacts = async () => {
       const sponsors = await getContactsFromDatabase(userID, '/sponsorer');
       const diverseKontakter = await getContactsFromDatabase(userID, '/diverseKontakter');
       const followUp = await getContactsFromDatabase(userID, '/potentielleSponsorer')
@@ -73,7 +67,21 @@ const Newcontact = () => {
       setFollowUp(followUp);
     
   }
+    getContacts()
+    
+  
+  }, [userID]);
 
+  
+  const getContacts = async () => {
+    const sponsors = await getContactsFromDatabase(userID, '/sponsorer');
+    const diverseKontakter = await getContactsFromDatabase(userID, '/diverseKontakter');
+    const followUp = await getContactsFromDatabase(userID, '/potentielleSponsorer')
+    setSponsors(sponsors)
+    setDiverseKontakter(diverseKontakter)
+    setFollowUp(followUp);
+  
+}
  
   const AddContact = () => {
 
