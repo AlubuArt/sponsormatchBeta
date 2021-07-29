@@ -1,11 +1,9 @@
 /* eslint-disable default-case */
-import React, { Fragment, useState, useEffect } from "react";
+import React, { Fragment } from "react";
 const axios = require('axios');
 
 const SearchComponent = ({apiResponse, setApiResponse, searchInput, setSearchInput, searchType, setSearchType}) => {
 
-  
-  
   const apiCall = async () => {
     let url = "https://cvrapi.herokuapp.com/cvrnr";
 
@@ -30,9 +28,6 @@ const SearchComponent = ({apiResponse, setApiResponse, searchInput, setSearchInp
 
     return response;
   }
-
-  
-  
 
   const handleResponse = (res) => {
 
