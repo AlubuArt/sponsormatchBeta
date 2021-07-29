@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useContext } from 'react';
 import ReactDOM from 'react-dom';
 import './index.scss';
-import {firebase_app,auth0} from './data/config';
-import { configureFakeBackend ,authHeader, handleResponse } from "./services/fack.backend";
+import { configureFakeBackend} from "./services/fack.backend";
 import { BrowserRouter, Switch, Route,Redirect } from 'react-router-dom';
 import * as serviceWorker from './serviceWorker';
 
@@ -40,40 +39,39 @@ import SponsorContacts from './components/applications/sponsorer/sponsorContacts
 import Sponsorater from './components/applications/sponsorer/sponsorater';
 import SponsorSearch from './components/applications/sponsorer/sponsorSearch';
 import OpretSponsorat from './components/applications/sponsorer/opretSponsorat';
-
-
 // sample page
 import Samplepage from './components/feedback/feedbackpage';
 
 //config data
 import configDB from './data/customizer/config'
-
 import Callback from './auth/callback'
 import SponsorMatches from './components/applications/sponsorer/sponsorMatches';
+
+//context provider
+import { UserProvider, UserContext } from './auth/context/userContext';
 
 // setup fake backend
 configureFakeBackend();
 
 const Root = () => {
     
-    const [currentUser, setCurrentUser] = useState(localStorage.getItem('userID')); //TODO: måske er det her jeg skal lede
-   // const [authenticated,setAuthenticated] = useState(false)
-   // const jwt_token = localStorage.getItem('token');
+   
+    const {userID, setUser} = useContext(UserContext)
+   
+    useEffect(() => {
+        setUser(localStorage.getItem('userID'))
+    }, [setUser])
 
     useEffect(() => {
 
         const abortController = new AbortController();
-        //const requestOptions = { method: 'GET', headers: authHeader() };
-        //fetch('/users', requestOptions).then(handleResponse)
         const color = localStorage.getItem('color')
         const layout = configDB.data.color.layout_version
-        //firebase_app.auth().onAuthStateChanged(setCurrentUser);
-        //setAuthenticated(JSON.parse(localStorage.getItem("authenticated")))
         document.body.classList.add(layout);
         console.ignoredYellowBox = ['Warning: Each', 'Warning: Failed'];
         console.disableYellowBox = true;
         document.getElementById("color").setAttribute("href", `${process.env.PUBLIC_URL}/assets/css/${color}.css`);
-
+        
         return function cleanup() {
             abortController.abort();
         }
@@ -101,7 +99,7 @@ const Root = () => {
                             <Route path={`${process.env.PUBLIC_URL}/pages/errors/error503`} component={Error503} />
                             <Route  path={`${process.env.PUBLIC_URL}/callback`} render={() => <Callback/>} />
                             
-                            {currentUser !== null ?
+                            {userID !== null ?
                             
                                 <App>
                                     {/* dashboard menu */}
@@ -110,7 +108,7 @@ const Root = () => {
                                     }} />
                                     
                                     {/* passing the user as a prop to the component or getting the user from local storage? */ }
-                                    <Route path={`${process.env.PUBLIC_URL}/forside`} render={() => <Default us={currentUser}/>} />
+                                    <Route path={`${process.env.PUBLIC_URL}/forside`} render={() => <Default us={userID}/>} />
 
                                     {/* Users */}
                                     <Route path={`${process.env.PUBLIC_URL}/profil`} component={UserProfile} />
@@ -142,6 +140,13 @@ const Root = () => {
     );
 }
 
-ReactDOM.render(<Root />, document.getElementById('root'));
+ReactDOM.render(
+    <UserProvider>
+        <Root />
+    </UserProvider>
+    , 
+    
+    document.getElementById('root')
+);
 
 serviceWorker.unregister();

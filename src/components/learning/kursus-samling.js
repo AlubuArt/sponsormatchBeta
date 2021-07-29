@@ -4,7 +4,7 @@ import axios from 'axios'
 
 const LearningList = (props) => {
     
-    const [kursusData,setLearningData] = useState([])
+    const [kursusData, setLearningData] = useState([])
 
     useEffect(() => {
         axios.get(`${process.env.PUBLIC_URL}/api/learning.json`).then(res => setLearningData(res.data))

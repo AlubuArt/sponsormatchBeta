@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect } from 'react';
+import React, { Fragment, useState, useEffect, useContext } from 'react';
 import { useSelector } from 'react-redux';
 import sponsormatchLogo from '../../../assets/images/logo_med_tekst_hvid_200px.png';
 import logo_compact from '../../../assets/images/logo/compact-logo.png';
@@ -8,7 +8,9 @@ import { Link } from 'react-router-dom';
 import { translate } from 'react-switch-lang';
 import configDB from '../../../data/customizer/config';
 import { firebase_app } from '../../../data/config';
-import {getForeningLogoFromDatabase, getForeningNameFromDatabase} from '../../../services/sidebar.service'
+import {getForeningLogoFromDatabase, getForeningNameFromDatabase} from '../../../services/sidebar.service';
+import {UserContext} from '../../../auth/context/userContext';
+
 
 
 const db = firebase_app.firestore();
@@ -25,6 +27,7 @@ const Sidebar = (props) => {
     const wrapper = configDB.data.settings.sidebar.wrapper;
     const layout = useSelector(content => content.Customizer.layout);
     const [currentUser] =  useState(localStorage.getItem('userID'));
+    const {userID} = useContext(UserContext);
     const [logo, setLogo] = useState('')
     const [foreningName, setForeningName] = useState('')
     var userRef = db.collection('users/').doc(currentUser);
@@ -39,7 +42,7 @@ const Sidebar = (props) => {
     }
 
     //this should be moved to the service file... But how?
-    function testListen () {
+    const testListen = () => {
     
         userRef.onSnapshot((doc) => {
             setLogo(doc.data().logo)

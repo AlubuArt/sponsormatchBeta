@@ -20,7 +20,7 @@ const LearningDeatil = (props) => {
         
     }, [id]);
 
-    console.log(singleData)
+   
 
     return (
         <Fragment>

@@ -1,14 +1,16 @@
 /* eslint-disable default-case */
-import React, { Fragment, useState,  useReducer } from "react";
+import React, { Fragment, useState,  useReducer, useContext } from "react";
 import Breadcrumb from "../../common/breadcrumb";
 import { SponsorSearchTitle } from "../../../constant";
 import SponsorMatchCard from "./sponsorMatchCard";
 import { createSponsor } from "../../../services/contact.service";
-const axios = require('axios');
+import { UserContext } from "../../../auth/context/userContext";
+
+
 
 const SponsorMatches = () => {
 
-  const [currentUser] = useState(localStorage.getItem('userID'))
+  const {userID} = useContext(UserContext);
   const [newSponsorMatches] = useReducer((value, newValue) => ({...value, ...newValue}), {
     
         match1: {
@@ -57,7 +59,7 @@ const SponsorMatches = () => {
 
   
 const addSponsorToList = (input) => {
-    createSponsor(input, 'followUp', currentUser, newSponsorMatches.virksomhed);
+    createSponsor(input, 'followUp', userID, newSponsorMatches.virksomhed);
     alert(input.sponsorname + ' blev tilføjet listen over mulige sponsorer')
   }
 

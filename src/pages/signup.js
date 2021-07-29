@@ -1,17 +1,21 @@
 /* eslint-disable no-fallthrough */
 /* eslint-disable default-case */
 
-import React, { Fragment, useState, useReducer} from 'react';
+import React, { Fragment, useState, useReducer, useContext} from 'react';
 import sponsormatchLogo from '../assets/images/sponsormatch-logo_farver_login.png';
 import { FirstName, LastName,Login,Password,SignUp, EmailAddress, Forening, errorMessageInvalidEmail, errorMesssageInvalidPassword, errorMessageUndefined } from '../constant';
 import {firebase_app} from "../data/config";
 import {signupUserInDatabase} from '../services/signup.service';
 import { toast, ToastContainer } from 'react-toastify';
+import {UserContext} from '../auth/context/userContext';
+
 
 
 const Signup = ({ history }) => {
     
     const [password, setPassword] = useState("");
+    const {setUser} = useContext(UserContext);
+    //TODO: Change useReducer
     const [value, setValue] = useReducer((value, newValue) => ({...value, ...newValue}), {
         foreningName: ' ',
         fname: '',
@@ -33,7 +37,8 @@ const Signup = ({ history }) => {
 
     const signUp = async () => {
         try{
-         await signupUserInDatabase(value, password);
+         const user = await signupUserInDatabase(value, password);
+         setUser(user);
           
         } catch (error) {
             switch(error.code) {
