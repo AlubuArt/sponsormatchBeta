@@ -22,22 +22,22 @@ const SearchComponent = ({apiResponse, setApiResponse, searchInput, setSearchInp
       }
 
 
-      let response = await axios.get(url, { 
+    let response = await axios.get(url, { 
         params: {
         cvr: searchInput,
         } 
-      });
+    });
 
-      return response;
+    return response;
   }
 
   
   
 
-  const handleResponse = (resp) => {
+  const handleResponse = (res) => {
 
-    if ( resp.data.hits.total >= 1) {
-      setApiResponse(resp.data.hits.hits[0]._source.Vrvirksomhed.virksomhedMetadata)
+    if ( res.data.hits.total >= 1) {
+      setApiResponse(res.data.hits.hits[0]._source.Vrvirksomhed.virksomhedMetadata)
     } else {
       setApiResponse("No result - try again")
     }
