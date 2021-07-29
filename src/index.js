@@ -10,7 +10,6 @@ import * as serviceWorker from './serviceWorker';
 import { Provider } from 'react-redux';
 import store from './store';
 import App from "./components/app";
-import { Auth0Provider } from '@auth0/auth0-react'
 
 // Import custom Components 
 import Default from './components/dashboard/defaultCompo/default';
@@ -50,25 +49,26 @@ import Samplepage from './components/feedback/feedbackpage';
 import configDB from './data/customizer/config'
 
 import Callback from './auth/callback'
+import SponsorMatches from './components/applications/sponsorer/sponsorMatches';
 
 // setup fake backend
 configureFakeBackend();
 
 const Root = () => {
     
-    const [currentUser, setCurrentUser] = useState(false);
-    const [authenticated,setAuthenticated] = useState(false)
-    const jwt_token = localStorage.getItem('token');
+    const [currentUser, setCurrentUser] = useState(localStorage.getItem('userID')); //TODO: måske er det her jeg skal lede
+   // const [authenticated,setAuthenticated] = useState(false)
+   // const jwt_token = localStorage.getItem('token');
 
     useEffect(() => {
 
         const abortController = new AbortController();
-        const requestOptions = { method: 'GET', headers: authHeader() };
-        fetch('/users', requestOptions).then(handleResponse)
+        //const requestOptions = { method: 'GET', headers: authHeader() };
+        //fetch('/users', requestOptions).then(handleResponse)
         const color = localStorage.getItem('color')
         const layout = configDB.data.color.layout_version
-        firebase_app.auth().onAuthStateChanged(setCurrentUser);
-        setAuthenticated(JSON.parse(localStorage.getItem("authenticated")))
+        //firebase_app.auth().onAuthStateChanged(setCurrentUser);
+        //setAuthenticated(JSON.parse(localStorage.getItem("authenticated")))
         document.body.classList.add(layout);
         console.ignoredYellowBox = ['Warning: Each', 'Warning: Failed'];
         console.disableYellowBox = true;
@@ -84,7 +84,7 @@ const Root = () => {
 
     return (
         <div className="App">
-            <Auth0Provider domain={auth0.domain} clientId={auth0.clientId} redirectUri={auth0.redirectUri}>
+            
             <Provider store={store}>
                 <BrowserRouter basename={`/`}>
                         <Switch>
@@ -101,7 +101,7 @@ const Root = () => {
                             <Route path={`${process.env.PUBLIC_URL}/pages/errors/error503`} component={Error503} />
                             <Route  path={`${process.env.PUBLIC_URL}/callback`} render={() => <Callback/>} />
                             
-                            {currentUser !== null || authenticated || jwt_token ?
+                            {currentUser !== null ?
                             
                                 <App>
                                     {/* dashboard menu */}
@@ -117,14 +117,15 @@ const Root = () => {
                                     
                                     
                                     {/* Learning App */}
-                                    <Route path={`${process.env.PUBLIC_URL}/kursus/kursus-samling`} component={LearningList} />
-                                    <Route path={`${process.env.PUBLIC_URL}/kursus/kursus-detaljer`} component={LearningDeatil} />
+                                    <Route path={`${process.env.PUBLIC_URL}/kursus-samling`} component={LearningList} />
+                                    <Route path={`${process.env.PUBLIC_URL}/kursus-detaljer`} component={LearningDeatil} />
 
-                                    {/* Sponsor page */}
-                                    <Route path={`${process.env.PUBLIC_URL}/sponsorer/vores-sponsorer`} component={SponsorContacts} />
-                                    <Route path={`${process.env.PUBLIC_URL}/sponsorer/sponsorater`} component={Sponsorater} />
-                                    <Route path={`${process.env.PUBLIC_URL}/sponsorer/soeg-sponsor`} component={SponsorSearch} />
-                                    <Route path={`${process.env.PUBLIC_URL}/sponsorer/opret-sponsorat`} component={OpretSponsorat} />
+                                    {/* Sponsor pages */}
+                                    <Route path={`${process.env.PUBLIC_URL}/vores-sponsorer`} component={SponsorContacts} />
+                                    <Route path={`${process.env.PUBLIC_URL}/sponsorater`} component={Sponsorater} />
+                                    <Route path={`${process.env.PUBLIC_URL}/soeg-sponsor`} component={SponsorSearch} />
+                                    <Route path={`${process.env.PUBLIC_URL}/opret-sponsorat`} component={OpretSponsorat} />
+                                    <Route path={`${process.env.PUBLIC_URL}/sponsor-matches`} component={SponsorMatches} />
 
                                     {/* Sample page */}
                                     <Route path={`${process.env.PUBLIC_URL}/feedback/feedbackpage`} component={Samplepage} />
@@ -136,7 +137,7 @@ const Root = () => {
                         </Switch>
                 </BrowserRouter>
             </Provider>
-            </Auth0Provider>
+        
         </div>
     );
 }

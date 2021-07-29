@@ -12,8 +12,8 @@ const UserMenu = ({ history }) => {
     
     const [logo, setLogo] = useState('');
     const [currentUser] =  useState(localStorage.getItem('userID'));
-    const {logout} = useAuth0()
-    const authenticated = JSON.parse(localStorage.getItem("authenticated"))
+    //const {logout} = useAuth0()
+    //const authenticated = JSON.parse(localStorage.getItem("authenticated"))
     
     useEffect(() => {
  
@@ -24,22 +24,19 @@ const UserMenu = ({ history }) => {
 
     const profilePicture = async () => {
         const data = await getProfilePictureFromDatabase(currentUser);
-         setLogo(data)
+        setLogo(data)
      }
 
     const Logout_From_Firebase = () => {
         localStorage.removeItem('profileURL')
-        localStorage.removeItem('token');
+        localStorage.removeItem('userID')
+        //localStorage.removeItem('token');
         firebase_app.auth().signOut()
+
         history.push(`${process.env.PUBLIC_URL}/login`)
     }
 
-    const  Logout_From_Auth0 = () =>  {
-        localStorage.removeItem("auth0_profile")
-        localStorage.setItem("authenticated",false)
-        history.push(`${process.env.PUBLIC_URL}/login`)
-        logout()
-    }
+    
 
     return (
         <Fragment>
@@ -52,8 +49,8 @@ const UserMenu = ({ history }) => {
                     </div>
                 </div>
                 <ul className="profile-dropdown onhover-show-div p-20 profile-dropdown-hover">
-                    <li><Link to={`${process.env.PUBLIC_URL}/users/userEdit`}><User />{EditProfile}</Link></li>
-                    <li><a onClick={authenticated ? Logout_From_Auth0 : Logout_From_Firebase} href="#javascript" ><LogOut /> {"Log ud"}</a></li>
+                    <li><Link to={`${process.env.PUBLIC_URL}/profil`}><User />{EditProfile}</Link></li>
+                    <li><a onClick={Logout_From_Firebase} href="#javascript" ><LogOut /> {"Log ud"}</a></li>
                 </ul>
             </li>
         </Fragment>

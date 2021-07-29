@@ -6,7 +6,8 @@ export const loginUser = async (email, pass) => {
         const currentUser = await firebase_app.auth().signInWithEmailAndPassword(email, pass);
             const uid =  currentUser.user.uid;
             localStorage.setItem('userID', uid)
-            localStorage.setItem('token', Jwt_token);
+            return uid;
+           // localStorage.setItem('token', Jwt_token);
 
 }
 

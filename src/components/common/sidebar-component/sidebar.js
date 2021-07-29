@@ -214,14 +214,17 @@ const Sidebar = (props) => {
             <div className="page-sidebar">
                 <div className="main-header-left d-none d-lg-block">
                     <div className="logo-wrapper compactLogo">
-                        <Link to={`${process.env.PUBLIC_URL}/dashboard/default`}>
+                        <Link to={`${process.env.PUBLIC_URL}/forside`}>
                             <img className="blur-up lazyloaded" src={logo_compact} alt="" />
                             <img className="blur-up lazyloaded" src={sponsormatchLogo} alt="" />
                         </Link>
                     </div>
                 </div>
                 <div className="sidebar custom-scrollbar">
-                    <UserPanel logo={logo} foreningName={foreningName}/>
+                    <Link to={`${process.env.PUBLIC_URL}/profil`}>
+                       <UserPanel logo={logo} foreningName={foreningName}/> 
+                    </Link>
+                    
                     <ul
                         className="sidebar-menu"
                         id="myDIV"
