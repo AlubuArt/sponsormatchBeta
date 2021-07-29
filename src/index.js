@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import ReactDOM from 'react-dom';
 import './index.scss';
-import {firebase_app,auth0} from './data/config';
-import { configureFakeBackend ,authHeader, handleResponse } from "./services/fack.backend";
+import { configureFakeBackend} from "./services/fack.backend";
 import { BrowserRouter, Switch, Route,Redirect } from 'react-router-dom';
 import * as serviceWorker from './serviceWorker';
 
@@ -40,16 +39,16 @@ import SponsorContacts from './components/applications/sponsorer/sponsorContacts
 import Sponsorater from './components/applications/sponsorer/sponsorater';
 import SponsorSearch from './components/applications/sponsorer/sponsorSearch';
 import OpretSponsorat from './components/applications/sponsorer/opretSponsorat';
-
-
 // sample page
 import Samplepage from './components/feedback/feedbackpage';
 
 //config data
 import configDB from './data/customizer/config'
-
 import Callback from './auth/callback'
 import SponsorMatches from './components/applications/sponsorer/sponsorMatches';
+
+//context provider
+import { UserProvider, UserContext } from './auth/context/userContext';
 
 // setup fake backend
 configureFakeBackend();
@@ -57,6 +56,7 @@ configureFakeBackend();
 const Root = () => {
     
     const [currentUser, setCurrentUser] = useState(localStorage.getItem('userID')); //TODO: måske er det her jeg skal lede
+    const {userID, setUserID} = useContext(UserContext)
    // const [authenticated,setAuthenticated] = useState(false)
    // const jwt_token = localStorage.getItem('token');
 
@@ -80,7 +80,7 @@ const Root = () => {
          
     }, []);
 
-    
+    console.log(userID)
 
     return (
         <div className="App">
@@ -101,7 +101,7 @@ const Root = () => {
                             <Route path={`${process.env.PUBLIC_URL}/pages/errors/error503`} component={Error503} />
                             <Route  path={`${process.env.PUBLIC_URL}/callback`} render={() => <Callback/>} />
                             
-                            {currentUser !== null ?
+                            {userID !== null ?
                             
                                 <App>
                                     {/* dashboard menu */}
@@ -142,6 +142,13 @@ const Root = () => {
     );
 }
 
-ReactDOM.render(<Root />, document.getElementById('root'));
+ReactDOM.render(
+    <UserProvider>
+        <Root />
+    </UserProvider>
+    , 
+    
+    document.getElementById('root')
+);
 
 serviceWorker.unregister();

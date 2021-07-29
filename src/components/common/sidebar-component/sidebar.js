@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect } from 'react';
+import React, { Fragment, useState, useEffect, useContext } from 'react';
 import { useSelector } from 'react-redux';
 import sponsormatchLogo from '../../../assets/images/logo_med_tekst_hvid_200px.png';
 import logo_compact from '../../../assets/images/logo/compact-logo.png';
@@ -8,7 +8,9 @@ import { Link } from 'react-router-dom';
 import { translate } from 'react-switch-lang';
 import configDB from '../../../data/customizer/config';
 import { firebase_app } from '../../../data/config';
-import {getForeningLogoFromDatabase, getForeningNameFromDatabase} from '../../../services/sidebar.service'
+import {getForeningLogoFromDatabase, getForeningNameFromDatabase} from '../../../services/sidebar.service';
+import {userID, UserContext} from '../../../auth/context/userContext';
+
 
 
 const db = firebase_app.firestore();
@@ -25,14 +27,15 @@ const Sidebar = (props) => {
     const wrapper = configDB.data.settings.sidebar.wrapper;
     const layout = useSelector(content => content.Customizer.layout);
     const [currentUser] =  useState(localStorage.getItem('userID'));
+    const {userID} = useContext(UserContext);
     const [logo, setLogo] = useState('')
     const [foreningName, setForeningName] = useState('')
     var userRef = db.collection('users/').doc(currentUser);
 
     const getForeningNameAndLogo = async () => {
 
-        const name = await getForeningNameFromDatabase(currentUser);
-        const logo = await getForeningLogoFromDatabase(currentUser);        
+        const name = await getForeningNameFromDatabase(userID);
+        const logo = await getForeningLogoFromDatabase(userID);        
         setForeningName(name);
         setLogo(logo)
         testListen()
