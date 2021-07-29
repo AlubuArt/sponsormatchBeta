@@ -6,5 +6,8 @@ export const loginUser = async (email, pass) => {
     .auth()
     .signInWithEmailAndPassword(email, pass);
   const uid = currentUser.user.uid;
+  localStorage.setItem("userID", uid);
+
+
   return uid;
 };

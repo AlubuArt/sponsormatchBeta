@@ -34,15 +34,15 @@ const Sidebar = (props) => {
 
     const getForeningNameAndLogo = async () => {
 
-        const name = await getForeningNameFromDatabase(userID);
-        const logo = await getForeningLogoFromDatabase(userID);        
+        const name = await getForeningNameFromDatabase(currentUser);
+        const logo = await getForeningLogoFromDatabase(currentUser);        
         setForeningName(name);
         setLogo(logo)
         testListen()
     }
 
     //this should be moved to the service file... But how?
-    function testListen () {
+    const testListen = () => {
     
         userRef.onSnapshot((doc) => {
             setLogo(doc.data().logo)

@@ -1,28 +1,26 @@
-import React ,{useEffect , Fragment, useState} from 'react';
+import React ,{useEffect , Fragment, useState, useContext} from 'react';
 import Breadcrumb from '../../common/breadcrumb';
 import {  MessageCircle } from 'react-feather';
 import {News} from '../../../constant';
 import {getUserFromDatabase} from '../../../services/editUser.service';
+import { UserContext } from '../../../auth/context/userContext';
 
 
 
 const Default = () => {
 
-    const [currentUser] =  useState(localStorage.getItem('userID'));
-    const [userData, setUserData] = useState('');
-
-    const getUser = async () => {
-        const userData = await getUserFromDatabase(currentUser);
-        setUserData(userData.fname)
-            
-    }
+    const {userID} = useContext(UserContext);    
+    const [userData, setUserData] = useState('')
 
     useEffect( () => {
 
-       getUser() 
+        const getUser = async () => {
+            const userData = await getUserFromDatabase(userID);
+            setUserData(userData.fname)    
+        }
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    },[]);
+        getUser();    
+    },[userID]);
     
     
     return (

@@ -4,6 +4,7 @@ import './index.scss';
 import { configureFakeBackend} from "./services/fack.backend";
 import { BrowserRouter, Switch, Route,Redirect } from 'react-router-dom';
 import * as serviceWorker from './serviceWorker';
+import {firebase_app} from './data/config'
 
 // ** Import custom components for redux **
 import { Provider } from 'react-redux';
@@ -56,8 +57,11 @@ configureFakeBackend();
 const Root = () => {
     
    
-    const {userID, setUserID} = useContext(UserContext)
+    const {userID, setUser} = useContext(UserContext)
    
+    useEffect(() => {
+        setUser(localStorage.getItem('userID'))
+    }, [setUser])
 
     useEffect(() => {
 
@@ -68,14 +72,15 @@ const Root = () => {
         console.ignoredYellowBox = ['Warning: Each', 'Warning: Failed'];
         console.disableYellowBox = true;
         document.getElementById("color").setAttribute("href", `${process.env.PUBLIC_URL}/assets/css/${color}.css`);
-
+        
         return function cleanup() {
             abortController.abort();
         }
          
     }, []);
 
-    console.log(userID)
+    
+    
 
     return (
         <div className="App">
