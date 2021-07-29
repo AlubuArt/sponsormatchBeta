@@ -12,9 +12,9 @@ const SponsorSearch = () => {
   const [searchInput, setSearchInput] = useState();
   const [searchType, setSearchType] = useState("CVRnr");
 
-  /* useEffect( () => {
+  useEffect( () => {
     console.log(apiResponse);
-  }, [apiResponse]); */
+  }, [apiResponse]); 
 
 
   return (

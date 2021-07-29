@@ -48,12 +48,6 @@ const SearchComponent = ({apiResponse, setApiResponse, searchInput, setSearchInp
     handleResponse(response)
   }
 
-
-  useEffect( () => {
-    console.log(apiResponse);
-  }, [apiResponse]);
-
-
   return (
     <Fragment>
       <div className="container-fluid">
