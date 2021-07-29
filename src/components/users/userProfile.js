@@ -75,10 +75,17 @@ const UserProfile = () => {
 
 
      useEffect(() => {
-        //getUserDataFromDatabase()
-        getUserData()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
+        const getData = async () => {
+            try {
+                const userData = await getUserFromDatabase(currentUser);
+                for (let [key, val] of Object.entries(userData)) {
+                    setUserInfo({[key]: val})
+                }   
+            }
+            catch {}
+        }
+        getData();
+    }, [currentUser])
     
     return (
         <Fragment>

@@ -67,7 +67,7 @@ const addSponsorToList = (input) => {
 
   return (
     <Fragment>
-      <Breadcrumb title="Se jeres SponsorMatch" parent="Sponsorer" />
+      <Breadcrumb title="Se SponsorMatch" parent="Sponsorer" />
       <div className="container-fluid">
         <div className="row">
           <div className="col-md-12">
