@@ -1,5 +1,5 @@
 /* eslint-disable default-case */
-import React, { Fragment, useState,  useReducer, useContext } from "react";
+import React, { Fragment, useReducer, useContext } from "react";
 import Breadcrumb from "../../common/breadcrumb";
 import { SponsorSearchTitle } from "../../../constant";
 import SponsorMatchCard from "./sponsorMatchCard";
@@ -11,6 +11,7 @@ import { UserContext } from "../../../auth/context/userContext";
 const SponsorMatches = () => {
 
   const {userID} = useContext(UserContext);
+  //TODO: remove useReducer
   const [newSponsorMatches] = useReducer((value, newValue) => ({...value, ...newValue}), {
     
         match1: {
