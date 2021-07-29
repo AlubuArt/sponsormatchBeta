@@ -55,20 +55,15 @@ configureFakeBackend();
 
 const Root = () => {
     
-    const [currentUser, setCurrentUser] = useState(localStorage.getItem('userID')); //TODO: måske er det her jeg skal lede
+   
     const {userID, setUserID} = useContext(UserContext)
-   // const [authenticated,setAuthenticated] = useState(false)
-   // const jwt_token = localStorage.getItem('token');
+   
 
     useEffect(() => {
 
         const abortController = new AbortController();
-        //const requestOptions = { method: 'GET', headers: authHeader() };
-        //fetch('/users', requestOptions).then(handleResponse)
         const color = localStorage.getItem('color')
         const layout = configDB.data.color.layout_version
-        //firebase_app.auth().onAuthStateChanged(setCurrentUser);
-        //setAuthenticated(JSON.parse(localStorage.getItem("authenticated")))
         document.body.classList.add(layout);
         console.ignoredYellowBox = ['Warning: Each', 'Warning: Failed'];
         console.disableYellowBox = true;
@@ -110,7 +105,7 @@ const Root = () => {
                                     }} />
                                     
                                     {/* passing the user as a prop to the component or getting the user from local storage? */ }
-                                    <Route path={`${process.env.PUBLIC_URL}/forside`} render={() => <Default us={currentUser}/>} />
+                                    <Route path={`${process.env.PUBLIC_URL}/forside`} render={() => <Default us={userID}/>} />
 
                                     {/* Users */}
                                     <Route path={`${process.env.PUBLIC_URL}/profil`} component={UserProfile} />
