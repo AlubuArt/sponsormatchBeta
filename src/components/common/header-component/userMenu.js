@@ -11,7 +11,7 @@ const UserMenu = ({ history }) => {
 
     
     const [logo, setLogo] = useState('');
-    const { userID} = useContext(UserContext);
+    const { userID } = useContext(UserContext);
     
     useEffect(() => {
         const profilePicture = async () => {
