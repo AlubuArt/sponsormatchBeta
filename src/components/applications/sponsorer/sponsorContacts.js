@@ -226,7 +226,11 @@ const Newcontact = () => {
                            phone:sponsor.phone, 
                            email: sponsor.email, 
                            virksomhed: sponsor.virksomhed, 
-                           cvrnr: sponsor.cvrnr 
+                           cvrnr: sponsor.cvrnr,
+                           adresse: sponsor.adresse,
+                           city: sponsor.city,
+                           postnr: sponsor.postnr,
+
                           })
   }
   
@@ -461,7 +465,7 @@ const Newcontact = () => {
                                         <Row>
                                           <Col sm="12">
                                             <Label>{Adresse}</Label>
-                                            <Input className="form-control" type="text" name="email" value={editdata.adresse} onChange={((e) => setEditData({adresse: e.target.value}))} />
+                                            <Input className="form-control" type="text" name="adresse" value={editdata.adresse} onChange={((e) => setEditData({adresse: e.target.value}))} />
                                             
                                           </Col>
                                         </Row>

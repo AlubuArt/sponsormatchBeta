@@ -14,7 +14,6 @@ export const createSponsor = (value, list, userID, contactID) => {
         city: value.city,
         postnr: value.postnr,
         adresse: value.adresse,
-        branche: value.branche,
          
     })
 }

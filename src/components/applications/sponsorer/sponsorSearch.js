@@ -1,26 +1,62 @@
 /* eslint-disable default-case */
-import React, { Fragment, useState, useEffect } from "react";
+import React, { Fragment, useState, useEffect, useContext } from "react";
 import Breadcrumb from "../../common/breadcrumb";
 import { SponsorSearchTitle } from "../../../constant";
 import SearchComponent from "./searchComponent";
 import SponsorMatchCard from "./sponsorMatchCard";
+import { createSponsor } from '../../../services/contact.service';
+import { UserContext } from '../../../auth/context/userContext';
 
 
 const SponsorSearch = () => {
 
-  
+  const { userID } = useContext(UserContext);
   const [apiResponse, setApiResponse] = useState("No result");
   const [searchInput, setSearchInput] = useState();
   const [searchType, setSearchType] = useState("CVRnr");
 
-  const addSponsorToList = (input) => {
-    //createSponsor(input, 'followUp', currentUser, newSponsorMatches.virksomhed);
+  const addSponsorToList = async () => {
+    let input = await createSponsorObject();
+    createSponsor(input, 'potentielleSponsorer', userID, searchInput);
     alert(input.sponsorname + " blev tilføjet listen over mulige sponsorer");
   };
 
   const makeSponsorDeal = (input) => {
     alert("Et nyt sponsortilbud til " + input + " blev oprettet");
   };
+
+  function checkForValues (input) {
+          if (input ==  undefined) {
+            input = 'ikke oplyst'
+          }
+          return input
+    }
+
+
+  const createSponsorObject = async () => {
+
+    
+    
+
+    let sponsorObject = 
+      {
+        virksomhed: checkForValues(apiResponse.nyesteNavn.navn),
+        contactName:  checkForValues(apiResponse.nyesteNavn.navn),
+        cvrnr: checkForValues(searchInput),
+        city: checkForValues(apiResponse.nyesteBeliggenhedsadresse.postdistrikt),
+        postnr: checkForValues(apiResponse.nyesteBeliggenhedsadresse.postnummer),
+        adresse: checkForValues(apiResponse.nyesteBeliggenhedsadresse.vejnavn),
+        phone: checkForValues(apiResponse.nyesteKontaktoplysninger[0]),
+        email: checkForValues(apiResponse.nyesteKontaktoplysninger[1]),
+        sponsorname: checkForValues(apiResponse.nyesteNavn.navn),
+        firstName: '',
+        lastName: ''
+      }
+      
+    return sponsorObject;
+  }
+
+  
 
   useEffect(() => {
     console.log(apiResponse);
@@ -73,7 +109,7 @@ const SponsorSearch = () => {
                         postnr={apiResponse.nyesteBeliggenhedsadresse.postnummer}
                         city={apiResponse.nyesteBeliggenhedsadresse.postdistrikt}
                         cvrnr={searchInput}
-                        onClickAddToList={() => addSponsorToList(apiResponse)}
+                        onClickAddToList={() => addSponsorToList()}
                         onClickMakeSponsorDeal={() => makeSponsorDeal(apiResponse)}
                         isAdded={false}
                       />

@@ -55,8 +55,8 @@ const SearchComponent = ({apiResponse, setApiResponse, searchInput, setSearchInp
                
               <select onChange={(e) => setSearchType(e.target.value)} name="search query" >
                 <option value="CVRnr">CVRnr.</option>
-                <option value="Virksomhedsnavn">Virksomhedsnavn</option>
-                <option value="postnummer">Postnummer</option>
+                {/* <option value="Virksomhedsnavn">Virksomhedsnavn</option>
+                <option value="postnummer">Postnummer</option> */}
               </select>
             </div>
             <div className="row">
