@@ -11,7 +11,7 @@ import { UserContext } from '../../../auth/context/userContext';
 const SponsorSearch = () => {
 
   const { userID } = useContext(UserContext);
-  const [apiResponse, setApiResponse] = useState("No result");
+  const [apiResponse, setApiResponse] = useState("No input");
   const [searchInput, setSearchInput] = useState();
   const [searchType, setSearchType] = useState("CVRnr");
 
@@ -74,7 +74,7 @@ const SponsorSearch = () => {
                 <br></br>
                 <p>
                   {
-                    "Her kan du bruge søgefunktionen til at søge efter virksomheder. Du kan søge på cvrnr, virksomhedens navn, eller på postnummer."
+                    "Her kan du bruge søgefunktionen til at søge efter virksomheder på deres CVRnr."
                   }
                 </p>
               </div>
@@ -98,7 +98,24 @@ const SponsorSearch = () => {
               <div className="col-md-12">
                 <div className="card"></div>
 
-                {apiResponse !== "No result" ? (
+                { apiResponse === "No input" ? (
+                  <div>
+                    <p></p>
+                    </div>
+                )
+                
+                : apiResponse === "No result" ? (
+                  <div className="row">
+                    <div className="col-md-12">
+                      <div className="card">
+                        <p>Intet resultat - prøv igen</p>
+                      </div>
+                    </div>
+                  </div>
+
+                 
+                ) : 
+                 (
                   <div className="card">
                     <div className="card-header">
                       <SponsorMatchCard
@@ -115,11 +132,9 @@ const SponsorSearch = () => {
                       />
                     </div>
                   </div>
-                ) : (
-                  <div>
-                    <p>Intet resultat</p>
-                  </div>
-                )}
+                )
+                
+                }
               </div>
             </div>
           </div>
