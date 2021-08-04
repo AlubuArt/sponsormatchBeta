@@ -38,7 +38,9 @@ import Signin from './auth/signin';
 import SponsorContacts from './components/applications/sponsorer/sponsorContacts';
 import Sponsorater from './components/applications/sponsorer/sponsorater';
 import SponsorSearch from './components/applications/sponsorer/sponsorSearch';
-import OpretSponsorat from './components/applications/sponsorer/opretSponsorat';
+
+//opret sponsorat page
+import OpretSponsorat from './components/applications/opretSponsorat/opretSponsorat';
 // sample page
 import Samplepage from './components/feedback/feedbackpage';
 
