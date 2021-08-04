@@ -18,11 +18,11 @@ export const createSponsor = (value, list, userID, contactID) => {
     })
 }
 
-export const deletedUser = (userID, list, contactID) => {
+export const deleteContactFromDatabase = (userID, list, contactID) => {
     db.collection('users/' + userID + '/' + list).doc(contactID).delete();
 }
 
-export const editUser = (value, list, userID, contactID) => {
+export const editContactInDatabase = (value, list, userID, contactID) => {
     db.collection('users/' + userID + '/' + list).doc(contactID).set({
         adresse: value.adresse,
         firstName: value.firstName,
