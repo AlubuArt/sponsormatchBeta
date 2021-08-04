@@ -35,9 +35,6 @@ const SponsorSearch = () => {
 
   const createSponsorObject = async () => {
 
-    
-    
-
     let sponsorObject = 
       {
         virksomhed: checkForValues(apiResponse.nyesteNavn.navn),
@@ -55,12 +52,6 @@ const SponsorSearch = () => {
       
     return sponsorObject;
   }
-
-  
-
-  useEffect(() => {
-    console.log(apiResponse);
-  }, [apiResponse]);
 
   return (
     <Fragment>
@@ -81,7 +72,7 @@ const SponsorSearch = () => {
             </div>
             <div className="row">
               <div className="col-md-12">
-                <div className="card">
+                
                   <SearchComponent
                     apiResponse={apiResponse}
                     setApiResponse={setApiResponse}
@@ -90,7 +81,7 @@ const SponsorSearch = () => {
                     searchType={searchType}
                     setSearchType={setSearchType}
                   />
-                </div>
+               
               </div>
             </div>
 
