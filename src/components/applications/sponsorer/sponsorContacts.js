@@ -184,7 +184,7 @@ const Newcontact = () => {
           " blev tilføjet listen " +
           setToList
       );
-      createSponsor(newContact, setToList, userID, newContact.virksomhed);
+      createSponsor(newContact, setToList, userID, newContact.cvrnr);
       getContacts();
       setselectedContact(newContact);
       setNewContact({
