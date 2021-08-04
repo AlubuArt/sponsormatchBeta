@@ -17,7 +17,7 @@ const SponsorSearch = () => {
 
   const addSponsorToList = async () => {
     let input = await createSponsorObject();
-    createSponsor(input, 'potentielleSponsorer', userID, searchInput);
+    createSponsor(input, 'potentielleSponsorer', userID, input.cvrnr);
     alert(input.sponsorname + " blev tilføjet listen over mulige sponsorer");
   };
 

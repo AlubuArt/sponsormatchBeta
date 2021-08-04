@@ -110,9 +110,9 @@ const Newcontact = () => {
     }
       
     if (newContact !== '') {
-      alert('En ny kontakt:  ' + newContact.firstName + ' blev tilføjet listen ' + setToList )
+      alert('En ny kontakt:  ' + newContact.firstName + ' blev tilføjet listen ' + setToList );
       createSponsor(newContact, setToList, userID, newContact.virksomhed);
-      getContacts()
+      getContacts();
       setselectedContact(newContact);
       setNewContact({
         virksomhed: '',
@@ -126,8 +126,8 @@ const Newcontact = () => {
         cvrnr: '',
         contactName: '',
         branche: '',
-      })
-      setModal(false)
+      });
+      setModal(false);
 
     } else {
       errors.showMessages();
