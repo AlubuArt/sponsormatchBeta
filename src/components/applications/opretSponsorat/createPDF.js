@@ -1,10 +1,15 @@
 import React, { Fragment,   useState} from "react";
 import { Page, Text, View, Document, StyleSheet } from '@react-pdf/renderer';
+import  HeaderComponent from './PDFcomponents/headerComponent';
+import PartnersComponent from './PDFcomponents/partnersComponent';
+import ConditionsComponent from './PDFcomponents/conditionsComponent';
+import SignatureComponent from './PDFcomponents/signatureComponent';
+
 
 const styles = StyleSheet.create({
     page: {
-      flexDirection: 'row',
-      backgroundColor: '#E4E4E4'
+      display: 'inline-block',
+      flexDirection: 'row'
     },
     section: {
       margin: 10,
@@ -22,12 +27,15 @@ const CreatePDF = (props) => {
     return (
         <Document>
             <Page size="A4" style={styles.page}>
-            <View style={styles.section}>
-                <Text style={styles.header}>{props.header}</Text>
-            </View>
-            <View style={styles.section}>
-                <Text>Hej {props.sponsorName}</Text>
-            </View>
+              
+                <HeaderComponent />
+              
+                <PartnersComponent />
+
+                <ConditionsComponent />
+              
+                <SignatureComponent />
+            
             </Page>
     </Document>
     )
