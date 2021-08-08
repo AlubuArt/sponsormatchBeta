@@ -1,5 +1,5 @@
 import React, { Fragment,   useState} from "react";
-import { PDFDownloadLink } from '@react-pdf/renderer';
+import { PDFDownloadLink, PDFViewer } from '@react-pdf/renderer';
 import CreatePDF from "./createPDF";
 import Breadcrumb from "../../common/breadcrumb";
 
@@ -54,9 +54,12 @@ const OpretSponsorat = () => {
                         </div>
                         <div className="col-md-8">
                             <div className="card">
-                                <CreatePDF
-                                    header={sponsoratOverskrift}
-                                    sponsorName={sponsorName} />
+                                <PDFViewer showToolbar={false} height={800} >
+35
+                                    <CreatePDF
+                                        header={sponsoratOverskrift}
+                                        sponsorName={sponsorName} />
+                                </PDFViewer>
                                 
                             </div>
                         </div>
