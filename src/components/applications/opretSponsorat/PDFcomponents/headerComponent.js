@@ -9,8 +9,6 @@ const styles = StyleSheet.create({
     section: {
         display: 'flex',
         flexDirection: 'row',
-
-       
     },
     headerTitle: {
         fontSize: 54,
@@ -19,9 +17,7 @@ const styles = StyleSheet.create({
     },
     headerLogo: {
         width: 80,
-        margin: 20,
-        
-
+        margin: 20
     }   
     
 })

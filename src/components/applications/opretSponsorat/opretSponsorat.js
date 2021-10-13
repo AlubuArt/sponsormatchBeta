@@ -39,6 +39,10 @@ const OpretSponsorat = () => {
                                 <div className="card-body">
                                     <div className="row">
                                         <div >
+                                        <div className="form-group">
+                                                <label className="form-label">Indsæt overskrift</label>
+                                                <input className="form-control" type="text" name="overskrift" value={sponsoratOverskrift} onChange={((e) => setSponsoratOverskrift(e.target.value))} ></input> 
+                                            </div>
                                             <div className="form-group">
                                                 <label className="form-label">Indsæt overskrift</label>
                                                 <input className="form-control" type="text" name="overskrift" value={sponsoratOverskrift} onChange={((e) => setSponsoratOverskrift(e.target.value))} ></input> 
