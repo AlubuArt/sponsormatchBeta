@@ -19,6 +19,7 @@ export const getAllSponsoraterFromDatabase = async (currentUser) => {
 export const getFilteredSponsoraterFromDatabase = async (currentUser, filter ) => {
 
     var result = [];
+    
     var userRef = db.collection('users/' + currentUser + '/sponsorater' ).where('status', '==', filter)
     await userRef.get().then((querySnapshot) => {
         querySnapshot.forEach((doc) => {

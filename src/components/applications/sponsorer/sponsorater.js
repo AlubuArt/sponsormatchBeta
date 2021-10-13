@@ -5,7 +5,7 @@ import {
   getFilteredSponsoraterFromDatabase,
 } from "../../../services/sponsorater.service";
 import SponsoratCard from "./sponsoratCard";
-import { Row, Col, Button } from "react-bootstrap";
+import { Row, Col } from "react-bootstrap";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import Dropdown from "react-bootstrap/Dropdown";
 import { UserContext } from "../../../auth/context/userContext";
@@ -13,17 +13,26 @@ import { UserContext } from "../../../auth/context/userContext";
 const Sponsorater = () => {
   const { userID } = useContext(UserContext);
   const [selectedSponsorater, setSelectedSponsorater] = useState([]);
-  const [buttonText, setButtonText] = useState("Filtrér");
+  const [buttonText, setButtonText] = useState("Alle");
 
-  const toggle = async (eventKey) => {
-    try {
-      const sponsorater = await getFilteredSponsoraterFromDatabase(
-        userID,
-        eventKey
-      );
+  const toggleFilter = async (eventKey) => {
+
+    if (eventKey === 'all') {
+      const sponsorater = await getAllSponsoraterFromDatabase(userID);
       setSelectedSponsorater(sponsorater);
-      setButtonText(eventKey);
-    } catch {}
+    } else {
+
+      try {
+        const sponsorater = await getFilteredSponsoraterFromDatabase(
+          userID,
+          eventKey
+        );
+        setSelectedSponsorater(sponsorater);
+        setButtonText(eventKey);
+      } catch (error) {
+        console.log(error)
+      }
+    }
   };
 
   const openSponsorat = () => {
@@ -74,12 +83,13 @@ const Sponsorater = () => {
               className="sponsorat-dropdown"
               id="dropdown-basic-button"
               title={buttonText}
-              onSelect={toggle}
+              onSelect={toggleFilter}
             >
-              <Dropdown.Item eventKey="aktiv" value="Aktive">
-                Aktive
+              <Dropdown.Item eventKey="all">Alle</Dropdown.Item>
+              <Dropdown.Item eventKey="Aktiv" >
+                Aktiv
               </Dropdown.Item>
-              <Dropdown.Item eventKey="inaktiv">Ikke aktive</Dropdown.Item>
+              <Dropdown.Item eventKey="Inaktiv">Inaktiv</Dropdown.Item>
             </DropdownButton>
 
             <Row className="card-sponsorat-header">

@@ -1418,6 +1418,9 @@ export const  ToDo  = "To-Do"
 export const  AddNewTask  = "Add new task"
 export const  Close  = "Close"
 
+//Sponsorater
+
+
 // Users
 export const MarekjecnoMailId =  "Marekjecno@yahoo.com"
 export const Bio =  "Bio"
