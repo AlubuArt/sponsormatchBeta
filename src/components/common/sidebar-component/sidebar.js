@@ -5,7 +5,6 @@ import logo_compact from "../../../assets/images/logo/compact-logo.png";
 import UserPanel from "./userPanel";
 import { MENUITEMS } from "../../../components/common/sidebar-component/menu";
 import { Link } from "react-router-dom";
-import { translate } from "react-switch-lang";
 import configDB from "../../../data/customizer/config";
 import { firebase_app } from "../../../data/config";
 import {
@@ -270,7 +269,7 @@ const Sidebar = (props) => {
                     onClick={() => toggletNavActive(menuItem)}
                   >
                     <menuItem.icon />
-                    <span>{props.t(menuItem.title)}</span>
+                    <span>{(menuItem.title)}</span>
                     {menuItem.children ? (
                       <i className="fa fa-angle-right pull-right"></i>
                     ) : (
@@ -322,7 +321,7 @@ const Sidebar = (props) => {
                             onClick={() => toggletNavActive(childrenItem)}
                           >
                             <i className="fa fa-circle"></i>
-                            {props.t(childrenItem.title)}{" "}
+                            {(childrenItem.title)}{" "}
                           </Link>
                         ) : (
                           ""
@@ -352,7 +351,7 @@ const Sidebar = (props) => {
                                       }
                                     >
                                       <i className="fa fa-circle"></i>
-                                      {props.t(childrenSubItem.title)}
+                                      {(childrenSubItem.title)}
                                     </Link>
                                   ) : (
                                     ""
@@ -397,4 +396,4 @@ const Sidebar = (props) => {
   );
 };
 
-export default translate(Sidebar);
+export default Sidebar;
