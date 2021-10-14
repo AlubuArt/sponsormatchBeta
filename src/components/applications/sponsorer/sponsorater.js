@@ -16,12 +16,10 @@ const Sponsorater = () => {
   const [buttonText, setButtonText] = useState("Alle");
 
   const toggleFilter = async (eventKey) => {
-
-    if (eventKey === 'all') {
+    if (eventKey === "all") {
       const sponsorater = await getAllSponsoraterFromDatabase(userID);
       setSelectedSponsorater(sponsorater);
     } else {
-
       try {
         const sponsorater = await getFilteredSponsoraterFromDatabase(
           userID,
@@ -30,7 +28,7 @@ const Sponsorater = () => {
         setSelectedSponsorater(sponsorater);
         setButtonText(eventKey);
       } catch (error) {
-        console.log(error)
+        console.log(error);
       }
     }
   };
@@ -48,17 +46,15 @@ const Sponsorater = () => {
   };
 
   useEffect(() => {
-    
     const getSponsorater = async () => {
       try {
         const sponsorater = await getAllSponsoraterFromDatabase(userID);
         setSelectedSponsorater(sponsorater);
       } catch {
-        console.log("couldnt get sponsors from the database")
+        console.log("couldnt get sponsors from the database");
       }
     };
     getSponsorater();
-    
   }, [userID]);
 
   return (
@@ -86,9 +82,7 @@ const Sponsorater = () => {
               onSelect={toggleFilter}
             >
               <Dropdown.Item eventKey="all">Alle</Dropdown.Item>
-              <Dropdown.Item eventKey="Aktiv" >
-                Aktiv
-              </Dropdown.Item>
+              <Dropdown.Item eventKey="Aktiv">Aktiv</Dropdown.Item>
               <Dropdown.Item eventKey="Inaktiv">Inaktiv</Dropdown.Item>
             </DropdownButton>
 
