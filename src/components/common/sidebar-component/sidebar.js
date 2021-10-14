@@ -25,15 +25,13 @@ const Sidebar = (props) => {
   const [mainmenu, setMainMenu] = useState([MENUITEMS]);
   const wrapper = configDB.data.settings.sidebar.wrapper;
   const layout = useSelector((content) => content.Customizer.layout);
-  const [currentUser] = useState(localStorage.getItem("userID"));
   const { userID } = useContext(UserContext);
   const [logo, setLogo] = useState("");
   const [foreningName, setForeningName] = useState("");
-  var userRef = db.collection("users/").doc(currentUser);
 
   //TODO: this should be moved to the service file... But how?
   const testListen = () => {
-    userRef.onSnapshot((doc) => {
+    userID.onSnapshot((doc) => {
       setLogo(doc.data().logo);
       setForeningName(doc.data().foreningName);
     });
@@ -179,12 +177,12 @@ const Sidebar = (props) => {
       clearTimeout(timeout);
     };
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentUser]);
+  }, []);
 
   useEffect(() => {
     const getForeningNameAndLogo = async () => {
-      const name = await getForeningNameFromDatabase(currentUser);
-      const logo = await getForeningLogoFromDatabase(currentUser);
+      const name = await getForeningNameFromDatabase(userID);
+      const logo = await getForeningLogoFromDatabase(userID);
       setForeningName(name);
       setLogo(logo);
       testListen();
