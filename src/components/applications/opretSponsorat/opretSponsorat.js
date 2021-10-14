@@ -1,5 +1,5 @@
 import React, { Fragment,   useState} from "react";
-import { PDFDownloadLink } from '@react-pdf/renderer';
+import { PDFDownloadLink, PDFViewer } from '@react-pdf/renderer';
 import CreatePDF from "./createPDF";
 import Breadcrumb from "../../common/breadcrumb";
 
@@ -39,6 +39,10 @@ const OpretSponsorat = () => {
                                 <div className="card-body">
                                     <div className="row">
                                         <div >
+                                        <div className="form-group">
+                                                <label className="form-label">Indsæt overskrift</label>
+                                                <input className="form-control" type="text" name="overskrift" value={sponsoratOverskrift} onChange={((e) => setSponsoratOverskrift(e.target.value))} ></input> 
+                                            </div>
                                             <div className="form-group">
                                                 <label className="form-label">Indsæt overskrift</label>
                                                 <input className="form-control" type="text" name="overskrift" value={sponsoratOverskrift} onChange={((e) => setSponsoratOverskrift(e.target.value))} ></input> 
@@ -54,9 +58,12 @@ const OpretSponsorat = () => {
                         </div>
                         <div className="col-md-8">
                             <div className="card">
-                                <CreatePDF
-                                    header={sponsoratOverskrift}
-                                    sponsorName={sponsorName} />
+                                <PDFViewer showToolbar={false} height={800} >
+35
+                                    <CreatePDF
+                                        header={sponsoratOverskrift}
+                                        sponsorName={sponsorName} />
+                                </PDFViewer>
                                 
                             </div>
                         </div>
