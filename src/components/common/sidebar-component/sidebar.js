@@ -178,7 +178,8 @@ const Sidebar = (props) => {
       window.removeEventListener("resize", handleResize);
       clearTimeout(timeout);
     };
-  }, [currentUser, mainmenu]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentUser]);
 
   useEffect(() => {
     const getForeningNameAndLogo = async () => {
