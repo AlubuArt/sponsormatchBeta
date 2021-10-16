@@ -2,6 +2,7 @@ import React, { Fragment , useState , useEffect } from 'react';
 
 const Loader = () => {
     const [show, setShow] = useState(true);
+    
     useEffect(() => {
         const timeout = setTimeout(() => {
             setShow(false)

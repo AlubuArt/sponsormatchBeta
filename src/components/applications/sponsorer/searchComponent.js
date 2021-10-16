@@ -1,8 +1,7 @@
 /* eslint-disable default-case */
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import Dropdown from "react-bootstrap/Dropdown";
-import { Col, Button } from "react-bootstrap";
 const axios = require("axios");
 
 const SearchComponent = ({
@@ -14,6 +13,8 @@ const SearchComponent = ({
   setSearchType,
 }) => {
   const [buttonText, setButtonText] = useState("CVRnr");
+  const [isLoading, setIsLoading] = useState(false);
+  
 
   const apiCall = async () => {
     let url = "https://cvrapi.herokuapp.com/cvrnr";
@@ -34,7 +35,9 @@ const SearchComponent = ({
       params: {
         cvr: searchInput,
       },
+      
     });
+    setIsLoading(false)
 
     return response;
   };
@@ -57,9 +60,15 @@ const SearchComponent = ({
   };
 
   const handleClick = async () => {
+    setIsLoading(true)
     const response = await apiCall();
+    
     handleResponse(response);
   };
+
+  useEffect(() => {
+    console.log(isLoading)
+  }, [isLoading])
 
   return (
     <Fragment>
