@@ -1,11 +1,9 @@
 import React, { Fragment, useState, useEffect, useContext } from "react";
-import { useSelector } from "react-redux";
 import sponsormatchLogo from "../../../assets/images/logo_med_tekst_hvid_200px.png";
 import logo_compact from "../../../assets/images/logo/compact-logo.png";
 import UserPanel from "./userPanel";
 import { MENUITEMS } from "../../../components/common/sidebar-component/menu";
 import { Link } from "react-router-dom";
-import configDB from "../../../data/customizer/config";
 import { firebase_app } from "../../../data/config";
 import {
   getForeningLogoFromDatabase,
@@ -23,8 +21,8 @@ const Sidebar = (props) => {
   const [hideRightArrow, setHideRightArrow] = useState(true);
   const [hideLeftArrow, setHideLeftArrow] = useState(true);
   const [mainmenu, setMainMenu] = useState([MENUITEMS]);
-  const wrapper = configDB.data.settings.sidebar.wrapper;
-  const layout = useSelector((content) => content.Customizer.layout);
+  const wrapper = 'default';
+  const layout = 'ltr';
   const { userID } = useContext(UserContext);
   const [logo, setLogo] = useState("");
   const [foreningName, setForeningName] = useState("");

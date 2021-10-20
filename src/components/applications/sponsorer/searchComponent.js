@@ -62,7 +62,7 @@ const SearchComponent = ({
   const handleClick = async () => {
     setIsLoading(true)
     const response = await apiCall();
-    
+    console.log(apiResponse)
     handleResponse(response);
   };
 

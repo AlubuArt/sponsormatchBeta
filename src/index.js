@@ -6,10 +6,7 @@ import { BrowserRouter, Switch, Route,Redirect } from 'react-router-dom';
 import * as serviceWorker from './serviceWorker';
 
 // ** Import custom components for redux **
-import { Provider } from 'react-redux';
-import store from './store';
 import App from "./components/app";
-
 // Import custom Components 
 import Default from './components/dashboard/defaultCompo/default';
 
@@ -45,7 +42,6 @@ import OpretSponsorat from './components/applications/opretSponsorat/opretSponso
 import Samplepage from './components/feedback/feedbackpage';
 
 //config data
-import configDB from './data/customizer/config'
 import Callback from './auth/callback'
 import SponsorMatches from './components/applications/sponsorer/sponsorMatches';
 
@@ -67,9 +63,7 @@ const Root = () => {
     useEffect(() => {
 
         const abortController = new AbortController();
-        const color = localStorage.getItem('color')
-        const layout = configDB.data.color.layout_version
-        document.body.classList.add(layout);
+        const color = localStorage.getItem('color');
         console.ignoredYellowBox = ['Warning: Each', 'Warning: Failed'];
         console.disableYellowBox = true;
         document.getElementById("color").setAttribute("href", `${process.env.PUBLIC_URL}/assets/css/${color}.css`);
@@ -85,7 +79,7 @@ const Root = () => {
     return (
         <div className="App">
             
-            <Provider store={store}>
+            
                 <BrowserRouter basename={`/`}>
                         <Switch>
                             <Route path={`${process.env.PUBLIC_URL}/login`} component={Signin} />
@@ -136,8 +130,6 @@ const Root = () => {
                             } 
                         </Switch>
                 </BrowserRouter>
-            </Provider>
-        
         </div>
     );
 }

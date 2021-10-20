@@ -2,7 +2,6 @@ import {
     Home,
     UserPlus,
     Users,
-    File,
      Layers,
      Archive,
      Edit
