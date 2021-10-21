@@ -5,21 +5,14 @@ import Dropdown from "react-bootstrap/Dropdown";
 const axios = require("axios");
 
 const SearchComponent = ({
-  apiResponse,
-  setApiResponse,
-  searchInput,
-  setSearchInput,
-  searchType,
-  setSearchType,
+  ...props
 }) => {
-  const [buttonText, setButtonText] = useState("CVRnr");
-  const [isLoading, setIsLoading] = useState(false);
-  
+  const buttonText = "CVRnr";
 
   const apiCall = async () => {
     let url = "https://cvrapi.herokuapp.com/cvrnr";
 
-    switch (searchType) {
+    switch (props.searchType) {
       case "CVRnr":
         url = "https://cvrapi.herokuapp.com/cvrnr";
         break;
@@ -33,42 +26,39 @@ const SearchComponent = ({
 
     let response = await axios.get(url, {
       params: {
-        cvr: searchInput,
+        cvr: props.searchInput,
       },
       
     });
-    setIsLoading(false)
+    props.setIsLoading(false)
 
     return response;
   };
 
   const handleResponse = (res) => {
     if (res.data.hits.total >= 1) {
-      setApiResponse(
+      props.setApiResponse(
         res.data.hits.hits[0]._source.Vrvirksomhed.virksomhedMetadata
       );
     } else {
-      setApiResponse("No result");
+      props.setApiResponse("No result");
     }
   };
 
   const toggleDropdown = (eventKey) => {
     try {
-      setSearchType(eventKey);
-      setButtonText(eventKey);
+      props.setSearchType(eventKey);
+      props.setButtonText(eventKey);
     } catch {}
   };
 
   const handleClick = async () => {
-    setIsLoading(true)
+    props.setIsLoading(true)
     const response = await apiCall();
-    console.log(apiResponse)
     handleResponse(response);
   };
 
-  useEffect(() => {
-    console.log(isLoading)
-  }, [isLoading])
+
 
   return (
     <Fragment>
@@ -91,7 +81,7 @@ const SearchComponent = ({
           <div className="col-md-12">
             <input
               placeholder="Indtast søgning"
-              onChange={(e) => setSearchInput(e.target.value)}
+              onChange={(e) => props.setSearchInput(e.target.value)}
             ></input>
           </div>
         </div>

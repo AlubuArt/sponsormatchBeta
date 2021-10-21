@@ -6,14 +6,19 @@ import SearchComponent from "./searchComponent";
 import SponsorMatchCard from "./sponsorMatchCard";
 import { createSponsor } from '../../../services/contact.service';
 import { UserContext } from '../../../auth/context/userContext';
+import NoSearchResult  from './noSearchResult';
+import Loader from '../../common/loader'
+import SearchResults from "./searchResults";
+
 
 
 const SponsorSearch = () => {
 
   const { userID } = useContext(UserContext);
-  const [apiResponse, setApiResponse] = useState("No input");
+  const [apiResponse, setApiResponse] = useState(null);
   const [searchInput, setSearchInput] = useState();
   const [searchType, setSearchType] = useState("CVRnr");
+  const [isLoading, setIsLoading] = useState(false);
 
   const addSponsorToList = async () => {
     let input = await createSponsorObject();
@@ -53,6 +58,10 @@ const SponsorSearch = () => {
     return sponsorObject;
   }
 
+  useEffect(() => {
+    console.log(isLoading)
+  }, [isLoading])
+
   return (
     <Fragment>
       <Breadcrumb title="Søg Sponsorer" parent="Sponsorer" />
@@ -72,7 +81,6 @@ const SponsorSearch = () => {
             </div>
             <div className="row">
               <div className="col-md-12">
-                
                   <SearchComponent
                     apiResponse={apiResponse}
                     setApiResponse={setApiResponse}
@@ -80,52 +88,63 @@ const SponsorSearch = () => {
                     setSearchInput={setSearchInput}
                     searchType={searchType}
                     setSearchType={setSearchType}
+                    isLoading={isLoading}
+                    setIsLoading={setIsLoading}
                   />
-               
               </div>
             </div>
-
+            
             <div className="row">
               <div className="col-md-12">
                 <div className="card"></div>
 
-                { apiResponse === "No input" ? (
-                  <div>
-                    <p></p>
-                    </div>
-                )
                 
-                : apiResponse === "No result" ? (
-                  <div className="row">
-                    <div className="col-md-12">
-                      <div className="card">
-                        <p>Intet resultat - prøv igen</p>
-                      </div>
-                    </div>
-                  </div>
 
-                 
-                ) : 
-                 (
-                  <div className="card">
-                    <div className="card-header">
-                      <SponsorMatchCard
-                        sponsorname={apiResponse.nyesteNavn.navn}
-                        phone={apiResponse.nyesteKontaktoplysninger[0]}
-                        email={apiResponse.nyesteKontaktoplysninger[1]}
-                        adresse={apiResponse.nyesteBeliggenhedsadresse.vejnavn}
-                        postnr={apiResponse.nyesteBeliggenhedsadresse.postnummer}
-                        city={apiResponse.nyesteBeliggenhedsadresse.postdistrikt}
-                        cvrnr={searchInput}
-                        onClickAddToList={() => addSponsorToList()}
-                        onClickMakeSponsorDeal={() => makeSponsorDeal(apiResponse)}
-                        isAdded={false}
-                      />
+              { apiResponse === null ? (
+                <div>
+                  <p></p>
+                  </div>
+              ) 
+
+              : isLoading === true ? (
+                <div>
+                <p>Loading</p>
+                </div>
+              )
+              //continue here
+              
+              : apiResponse === "No result" ? (
+                <div className="row">
+                  <div className="col-md-12">
+                    <div className="card">
+                      <NoSearchResult />
                     </div>
                   </div>
-                )
-                
-                }
+                </div>
+
+               
+              ) : 
+               (
+                <div className="card">
+                  <div className="card-header">
+                  <SponsorMatchCard
+                    sponsorname={apiResponse.nyesteNavn.navn}
+                    phone={apiResponse.nyesteKontaktoplysninger[0]}
+                    email={apiResponse.nyesteKontaktoplysninger[1]}
+                    adresse={apiResponse.nyesteBeliggenhedsadresse.vejnavn}
+                    postnr={apiResponse.nyesteBeliggenhedsadresse.postnummer}
+                    city={apiResponse.nyesteBeliggenhedsadresse.postdistrikt}
+                    cvrnr={searchInput}
+                    onClickAddToList={() => addSponsorToList()}
+                    onClickMakeSponsorDeal={() => makeSponsorDeal(apiResponse)}
+                    isAdded={false}
+                  />
+                    
+                  </div>
+                </div>
+              )
+              
+              }
               </div>
             </div>
           </div>
