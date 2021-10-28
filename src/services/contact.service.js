@@ -40,10 +40,10 @@ export const editContactInDatabase = (value, list, userID, contactID) => {
 }
 
 
-export const getContactsFromDatabase = async (currentUser, collection) => {
+export const getContactsFromDatabase = async (userID, collection) => {
 
     var result = [];
-    var ref =  db.collection('users/' + currentUser + collection );
+    var ref =  db.collection('users/' + userID + collection );
     await ref.get().then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
 
