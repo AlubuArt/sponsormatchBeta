@@ -10,14 +10,14 @@ const SearchComponent = ({
   const buttonText = "CVRnr";
 
   const apiCall = async () => {
-    let url = "https://cvrapi.herokuapp.com/cvrnr";
+    let url = "https://cvrapi.herokuapp.com";
 
     switch (props.searchType) {
-      case "CVRnr":
+      case "cvrnr":
         url = "https://cvrapi.herokuapp.com/cvrnr";
         break;
-      case "Virksomhedsnavn":
-        url = "http://localhost:9000/virksomhedsnavn";
+      case "companyName":
+        url = "https://cvrapi.herokuapp.com/companyname";
         break;
       case "postnummer":
         url = "http://localhost:9000/postnummer";
@@ -26,7 +26,7 @@ const SearchComponent = ({
 
     let response = await axios.get(url, {
       params: {
-        cvr: props.searchInput,
+        input: props.searchInput,
       },
       
     });
@@ -71,8 +71,11 @@ const SearchComponent = ({
               title={buttonText}
               onSelect={toggleDropdown}
             >
-              <Dropdown.Item eventKey="CVRnr" value="CVRnr">
+              <Dropdown.Item eventKey="cvrnr" value="CVRnr">
                 CRVnr
+              </Dropdown.Item>
+              <Dropdown.Item eventKey="companyName">
+                Virksomhedsnavn
               </Dropdown.Item>
             </DropdownButton>
           </div>
