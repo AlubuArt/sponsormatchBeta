@@ -7,8 +7,7 @@ import SponsorMatchCard from "./sponsorMatchCard";
 import { createSponsor } from '../../../services/contact.service';
 import { UserContext } from '../../../auth/context/userContext';
 import NoSearchResult  from './noSearchResult';
-import Loader from '../../common/loader'
-import SearchResults from "./searchResults";
+import NewLoader from '../../common/newLoader';
 
 
 
@@ -102,16 +101,13 @@ const SponsorSearch = () => {
 
               { apiResponse === null ? (
                 <div>
-                  <p></p>
+                  <p>Foretag en søgning efter en virksomhed, ved at søge på et CVRnr.</p>
                   </div>
               ) 
 
               : isLoading === true ? (
-                <div>
-                <p>Loading</p>
-                </div>
+                <NewLoader />
               )
-              //continue here
               
               : apiResponse === "No result" ? (
                 <div className="row">
