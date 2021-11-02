@@ -1,5 +1,5 @@
 /* eslint-disable default-case */
-import React, { Fragment, useState, useEffect } from "react";
+import React, { Fragment, useState } from "react";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import Dropdown from "react-bootstrap/Dropdown";
 const axios = require("axios");
@@ -10,31 +10,19 @@ const SearchComponent = ({
   const [buttonText, setButtonText] = useState('Cvrnr');
 
   const apiCall = async () => {
-    let url = "https://sponsormatchcvrapi.herokuapp.com/cvrnr"
+    //construct the URL
+    let baseURL = "http://localhost:9000/";
+    let searchURL = `${baseURL}${props.searchType}`;
 
-    switch (props.searchType) {
-      case "Cvrnr":
-        url = "https://sponsormatchcvrapi.herokuapp.com/cvrnr";
-        //url = "http://localhost:9000/cvrnr";
-        break;
-      case "Firmanavn":
-        //url = "http://localhost:9000/companyname";
-        url = "https://sponsormatchcvrapi.herokuapp.com/companyname";
-        break;
-      case "postnummer":
-        url = "https://sponsormatchcvrapi.herokuapp.com/postnummer";
-        //url = "http://localhost:9000/postnummer";
-        break;
-    }
-
-    let response = await axios(url, {
+    //send the request to the api
+    let response = await axios(searchURL, {
       params: {
         input: props.searchInput,
       },
       
     });
     props.setIsLoading(false)
-    console.log(url)
+    console.log(searchURL)
     return response;
   };
 
@@ -77,7 +65,7 @@ const SearchComponent = ({
               <Dropdown.Item eventKey="Cvrnr">
                 CRVnr
               </Dropdown.Item>
-              <Dropdown.Item eventKey="Firmanavn">
+              <Dropdown.Item eventKey="companyName">
               Firmanavn
               </Dropdown.Item>
             </DropdownButton>
