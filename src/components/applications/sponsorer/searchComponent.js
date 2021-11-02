@@ -7,31 +7,34 @@ const axios = require("axios");
 const SearchComponent = ({
   ...props
 }) => {
-  const buttonText = "CVRnr";
+  const [buttonText, setButtonText] = useState('Cvrnr');
 
   const apiCall = async () => {
-    let url = "https://cvrapi.herokuapp.com";
+    let url = "https://sponsormatchcvrapi.herokuapp.com/cvrnr"
 
     switch (props.searchType) {
-      case "cvrnr":
-        url = "https://cvrapi.herokuapp.com/cvrnr";
+      case "Cvrnr":
+        url = "https://sponsormatchcvrapi.herokuapp.com/cvrnr";
+        //url = "http://localhost:9000/cvrnr";
         break;
-      case "companyName":
-        url = "https://cvrapi.herokuapp.com/companyname";
+      case "Firmanavn":
+        //url = "http://localhost:9000/companyname";
+        url = "https://sponsormatchcvrapi.herokuapp.com/companyname";
         break;
       case "postnummer":
-        url = "http://localhost:9000/postnummer";
+        url = "https://sponsormatchcvrapi.herokuapp.com/postnummer";
+        //url = "http://localhost:9000/postnummer";
         break;
     }
 
-    let response = await axios.get(url, {
+    let response = await axios(url, {
       params: {
         input: props.searchInput,
       },
       
     });
     props.setIsLoading(false)
-
+    console.log(url)
     return response;
   };
 
@@ -48,7 +51,7 @@ const SearchComponent = ({
   const toggleDropdown = (eventKey) => {
     try {
       props.setSearchType(eventKey);
-      props.setButtonText(eventKey);
+      setButtonText(eventKey);
     } catch {}
   };
 
@@ -71,11 +74,11 @@ const SearchComponent = ({
               title={buttonText}
               onSelect={toggleDropdown}
             >
-              <Dropdown.Item eventKey="cvrnr" value="CVRnr">
+              <Dropdown.Item eventKey="Cvrnr">
                 CRVnr
               </Dropdown.Item>
-              <Dropdown.Item eventKey="companyName">
-                Virksomhedsnavn
+              <Dropdown.Item eventKey="Firmanavn">
+              Firmanavn
               </Dropdown.Item>
             </DropdownButton>
           </div>

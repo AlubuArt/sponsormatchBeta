@@ -16,7 +16,7 @@ const SponsorSearch = () => {
   const { userID } = useContext(UserContext);
   const [apiResponse, setApiResponse] = useState(null);
   const [searchInput, setSearchInput] = useState();
-  const [searchType, setSearchType] = useState("CVRnr");
+  const [searchType, setSearchType] = useState("Cvrnr");
   const [isLoading, setIsLoading] = useState(false);
 
   const addSponsorToList = async () => {
