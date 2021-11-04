@@ -12,27 +12,26 @@ const SearchComponent = ({
   const apiCall = async () => {
     //construct the URL
     let baseURL = "http://localhost:9000/";
-    let searchURL = `${baseURL}${props.searchType}`;
+    let fullURL = `${baseURL}${props.searchType}`;
 
     //send the request to the api
-    let response = await axios(searchURL, {
+    let response = await axios(fullURL, {
       params: {
         input: props.searchInput,
       },
       
     });
     props.setIsLoading(false)
-    console.log(searchURL)
     return response;
   };
 
   const handleResponse = (res) => {
     if (res.data.hits.total >= 1) {
-      props.setApiResponse(
-        res.data.hits.hits[0]._source.Vrvirksomhed.virksomhedMetadata
-      );
+      let companyData = res.data.hits.hits[0]._source.Vrvirksomhed.virksomhedMetadata;
+      return companyData
+      
     } else {
-      props.setApiResponse("No result");
+        return "No result"
     }
   };
 
@@ -46,7 +45,7 @@ const SearchComponent = ({
   const handleClick = async () => {
     props.setIsLoading(true)
     const response = await apiCall();
-    handleResponse(response);
+    props.setApiResponse(handleResponse(response));
   };
 
 
