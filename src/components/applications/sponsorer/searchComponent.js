@@ -4,10 +4,8 @@ import DropdownButton from "react-bootstrap/DropdownButton";
 import Dropdown from "react-bootstrap/Dropdown";
 const axios = require("axios");
 
-const SearchComponent = ({
-  ...props
-}) => {
-  const [buttonText, setButtonText] = useState('Cvrnr');
+const SearchComponent = ({ ...props }) => {
+  const [buttonText, setButtonText] = useState("Cvrnr");
 
   const apiCall = async () => {
     //construct the URL
@@ -19,19 +17,18 @@ const SearchComponent = ({
       params: {
         input: props.searchInput,
       },
-      
     });
-    props.setIsLoading(false)
+    props.setIsLoading(false);
     return response;
   };
 
   const handleResponse = (res) => {
     if (res.data.hits.total >= 1) {
-      let companyData = res.data.hits.hits[0]._source.Vrvirksomhed.virksomhedMetadata;
-      return companyData
-      
+      let companyData =
+        res.data.hits.hits[0]._source.Vrvirksomhed.virksomhedMetadata;
+      return companyData;
     } else {
-        return "No result"
+      return "No result";
     }
   };
 
@@ -43,12 +40,10 @@ const SearchComponent = ({
   };
 
   const handleClick = async () => {
-    props.setIsLoading(true)
+    props.setIsLoading(true);
     const response = await apiCall();
     props.setApiResponse(handleResponse(response));
   };
-
-
 
   return (
     <Fragment>
@@ -61,26 +56,18 @@ const SearchComponent = ({
               title={buttonText}
               onSelect={toggleDropdown}
             >
-              <Dropdown.Item eventKey="Cvrnr">
-                CRVnr
-              </Dropdown.Item>
-              <Dropdown.Item eventKey="companyName">
-              Firmanavn
-              </Dropdown.Item>
+              <Dropdown.Item eventKey="Cvrnr">CRVnr</Dropdown.Item>
+              <Dropdown.Item eventKey="companyName">Firmanavn</Dropdown.Item>
             </DropdownButton>
           </div>
-        </div>
-        <div className="row">
-          <div className="col-md-12">
+          <div className="col-md-4">
             <input
+              style={{ width: "100%" }}
               placeholder="Indtast søgning"
               onChange={(e) => props.setSearchInput(e.target.value)}
             ></input>
           </div>
-        </div>
-        <br></br>
-        <div className="row">
-          <div className="col-sm-4">
+          <div className="col-md-2">
             <button
               className="btn btn-primary btn-custom"
               href="javascript"

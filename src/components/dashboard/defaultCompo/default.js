@@ -9,7 +9,7 @@ import { UserContext } from '../../../auth/context/userContext';
 
 const Default = () => {
 
-    const {userID} = useContext(UserContext);    
+    const { userID } = useContext(UserContext);    
     const [userData, setUserData] = useState('')
 
     useEffect( () => {
@@ -18,7 +18,6 @@ const Default = () => {
             const userData = await getUserFromDatabase(userID);
             setUserData(userData.fname)    
         }
-
         getUser();    
     },[userID]);
     

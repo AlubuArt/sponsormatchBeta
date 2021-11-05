@@ -11,6 +11,7 @@ const SponsorMatchCard = (props) => {
         <Fragment>
             <div className='container-fluid'>
                     <div className="col-sm-12">
+                        
                         <div className="header">
                             <h4>{props.sponsorname}</h4>
                             <br></br>
