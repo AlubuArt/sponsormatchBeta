@@ -1,3 +1,2 @@
 # SponsormatchBeta
-
-### Arbejd nemt og effektivt med sponsorater i din breddeforening
+### Gør det nemt og effektiv at tiltrække nye sponsorer til din breddeforening.
