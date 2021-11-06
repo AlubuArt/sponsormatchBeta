@@ -22,7 +22,7 @@ import {Row, Col, Button} from 'react-bootstrap';
                       </div>
                     </Col>
 
-                    <Col md="2">
+                    <Col md="3">
                      <div >
                         <p>jc@jcvisueldesign.dk</p>
                         </div>
@@ -32,14 +32,6 @@ import {Row, Col, Button} from 'react-bootstrap';
                         <p>33301022</p>
                         </div>  
                     </Col>
-                    
-
-                    <Col sm="5" className="sponsorat-buttons" >
-                      <Button className="sponsorat-button btn-danger " onClick={props.delete}>Slet</Button>
-                      <Button className="sponsorat-button btn-sponsormatchGreen" onClick={props.edit}>Redigér</Button>
-                      <Button className="sponsorat-button btn-sponsormatchGreen" onClick={props.open}>Se sponsorat</Button>
-                    </Col>
-
                 </Row>
               </div>
             

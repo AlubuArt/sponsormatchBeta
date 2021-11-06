@@ -61,8 +61,9 @@ const SearchComponent = ({ ...props }) => {
           </div>
           <div className="col-md-4">
             <input
-              style={{ width: "100%", height: "32px" }}
-              placeholder="Indtast søgning"
+
+              style={{ width: "100%", height: "32px", borderRadius: "4px", border: "1px solid #e6e6e6", padding: "8px 12px"}}
+              placeholder="Indtast søgning..."
               onChange={(e) => props.setSearchInput(e.target.value)}
             ></input>
           </div>

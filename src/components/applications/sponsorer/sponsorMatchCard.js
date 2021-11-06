@@ -18,7 +18,7 @@ const SponsorMatchCard = (props) => {
                   <p>Tlf.</p>
                 </div>
               </Col>
-              <Col md="2">
+              <Col md="3">
                 <p>Email</p>
               </Col>
               <Col sm="1">
