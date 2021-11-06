@@ -17,6 +17,8 @@ Mange breddeforeninger er drevet af frivillige, som har passion for foreningen, 
 - Månedlige forslag til nye sponsorer som passer til netop jeres forening.
 - Et stærkt community med andre SponsorMatch foreninger, hvor viden og erfaringer kan deles.
 
+<br>
+
 
 ### Tekniske specifikationer
 
