@@ -48,9 +48,9 @@ const SearchComponent = ({ ...props }) => {
     <Fragment>
       <div className="container-fluid">
         <div className="row">
-          <div className="col-md-2">
+          <div className="col-md-1">
             <DropdownButton
-              className="searchComponent-dropdown"
+              
               id="dropdown-basic-button"
               title={buttonText}
               onSelect={toggleDropdown}
@@ -61,7 +61,7 @@ const SearchComponent = ({ ...props }) => {
           </div>
           <div className="col-md-4">
             <input
-              style={{ width: "100%" }}
+              style={{ width: "100%", height: "32px" }}
               placeholder="Indtast søgning"
               onChange={(e) => props.setSearchInput(e.target.value)}
             ></input>
