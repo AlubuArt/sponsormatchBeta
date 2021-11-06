@@ -25,7 +25,7 @@ const SponsorSearch = () => {
   };
 
   function checkForValues(input) {
-    if (input == undefined) {
+    if (input == undefined || null) {
       input = "ikke oplyst";
     }
     return input;
@@ -80,15 +80,13 @@ const SponsorSearch = () => {
               setIsLoading={setIsLoading}
             />
             {/*Result section*/}
-            {apiResponse === null ? (
-              <p></p>
-            ) : (
-              <SearchResults
-                data={apiResponse}
-                onClickAddToList={() => addSponsorToList()}
-                onClickMakeSponsorDeal={() => makeSponsorDeal(apiResponse)}
-              />
-            )}
+            
+            <SearchResults
+              data={apiResponse}
+              onClickAddToList={() => addSponsorToList()}
+              onClickMakeSponsorDeal={() => makeSponsorDeal(apiResponse)}
+            />
+            
           </div>
         </div>
       </div>

@@ -46,7 +46,7 @@ const SearchComponent = ({ ...props }) => {
 
   return (
     <Fragment>
-      <div className="container-fluid">
+      
         <div className="row">
           <div className="col-md-1">
             <DropdownButton
@@ -76,7 +76,7 @@ const SearchComponent = ({ ...props }) => {
             </button>
           </div>
         </div>
-      </div>
+      
     </Fragment>
   );
 };

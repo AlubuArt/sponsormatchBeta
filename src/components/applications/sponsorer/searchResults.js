@@ -1,11 +1,11 @@
 import React from "react";
 import SponsorMatchCard from "./sponsorMatchCard";
 
-const SearchResults = ( props ) => {
+const SearchResults = (props) => {
   return (
     <div className="row">
       <div className="col-md-12">
-        <div className="card">
+        {props.data !== null ? (
           <SponsorMatchCard
             sponsorname={props.data.nyesteNavn.navn}
             phone={props.data.nyesteKontaktoplysninger[0]}
@@ -15,10 +15,27 @@ const SearchResults = ( props ) => {
             city={props.data.nyesteBeliggenhedsadresse.postdistrikt}
             cvrnr="33301022"
             onClickAddToList={() => props.onClickAddToList()}
-            onClickMakeSponsorDeal={() => props.onClickMakeSponsorDeal(props.data)}
+            onClickMakeSponsorDeal={() =>
+              props.onClickMakeSponsorDeal(props.data)
+            }
             isAdded={false}
           />
-        </div>
+        ) : (
+          <SponsorMatchCard
+            sponsorname={"Jc Visuel Design"}
+            phone={"81612335"}
+            email={"jc@jcvisueldesign.dk"}
+            adresse={"Flydedokken"}
+            postnr={"9000"}
+            city={"Aalborg"}
+            cvrnr="33301022"
+            onClickAddToList={() => console.log("")}
+            onClickMakeSponsorDeal={() =>
+              console.log("f")
+            }
+            isAdded={false}
+          />
+        )}
       </div>
     </div>
   );
