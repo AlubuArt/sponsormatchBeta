@@ -1,4 +1,3 @@
-/* eslint-disable default-case */
 import React, { Fragment, useState } from "react";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import Dropdown from "react-bootstrap/Dropdown";
@@ -56,8 +55,8 @@ const SearchComponent = ({ ...props }) => {
               title={buttonText}
               onSelect={toggleDropdown}
             >
-              <Dropdown.Item eventKey="Cvrnr">CRVnr</Dropdown.Item>
-              <Dropdown.Item eventKey="companyName">Firmanavn</Dropdown.Item>
+              <Dropdown.Item eventKey="Cvrnr">Cvrnr.</Dropdown.Item>
+              <Dropdown.Item eventKey="Firmanavn">Firmanavn</Dropdown.Item>
             </DropdownButton>
           </div>
           <div className="col-md-4">
